@@ -20,9 +20,9 @@ app.set('views', path.join(__dirname, 'views'));
 // } handlebars
 
 // endpoints {
-app.get('/', (req, res) => {
-  res.render('home');
-});
+app.get('/', (req, res) => res.render('home'));
+app.get('/features', (req, res) => res.render('features'));
+app.get('/news', (req, res) => res.render('news'));
 // } endpoints
 
 // export {
