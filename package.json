@@ -1,0 +1,22 @@
+{
+  "name": "lds-project-notes",
+  "version": "1.0.0",
+  "description": "Training project \"Notes\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vdenisov-dev/lds-project-notes.git"
+  },
+  "author": "Vladimir Denisov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
+  },
+  "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
