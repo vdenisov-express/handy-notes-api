@@ -1,5 +1,13 @@
-body {
-  margin: 0 auto;
-  padding: 0;
-  background-color: #eaf0f2;
+a {
+	padding: 0 10px;
+	font-size: 25px;
+	text-decoration: none!important;
 }
+
+#logo { width: 50px; }
+
+.active { font-weight: bold; }
+
+.container { padding-top: 20px; }
+
+.container p { font-size: 20px; }
