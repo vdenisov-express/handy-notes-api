@@ -9,4 +9,4 @@ CREATE TABLE "Notes" (
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE INDEX "Notes_ix_Users_id" ON "Notes" ("Users_id" );
+CREATE INDEX "Notes_ix_Users_id" ON "Notes" ("Users_id");
