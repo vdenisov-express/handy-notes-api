@@ -1,0 +1,13 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "sub project for database",
+  "scripts": {
+    "migrate:up":     "db-migrate up",
+    "migrate:down":   "db-migrate down",
+    "migrate:reset":  "db-migrate reset"
+  },
+  "author": "Vladimir Denisov",
+  "license": "ISC",
+  "dependencies": {}
+}

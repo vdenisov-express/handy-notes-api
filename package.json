@@ -4,7 +4,11 @@
   "description": "Training project \"Notes\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+
+    "migrate:up":     "cd ./db && npm run migrate:up",
+    "migrate:down":   "cd ./db && npm run migrate:down",
+    "migrate:reset":  "cd ./db && npm run migrate:reset"
   },
   "repository": {
     "type": "git",
@@ -17,6 +21,7 @@
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
   "dependencies": {
+    "db-migrate": "^0.11.5",
     "db-migrate-sqlite3": "^0.3.1",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
