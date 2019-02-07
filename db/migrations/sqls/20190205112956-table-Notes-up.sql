@@ -1,4 +1,4 @@
-CREATE TABLE "Notes" (
+CREATE TABLE IF NOT EXISTS "Notes" (
   "id"        INTEGER   PRIMARY KEY,
   "title"     TEXT      NOT NULL,
   "text"      TEXT      NOT NULL,

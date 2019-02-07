@@ -1,5 +1,4 @@
-CREATE TABLE "Likes" (
-  "id"          INTEGER   PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS "Likes" (
   "Notes_id"    INTEGER   NOT NULL,
   "Users_id"    INTEGER   NOT NULL,
 
@@ -13,5 +12,5 @@ CREATE TABLE "Likes" (
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE INDEX Likes_ix_Notes_id ON "Likes" ("Notes_id");
-CREATE INDEX Likes_ix_Users_id ON "Likes" ("Users_id");
+CREATE INDEX IF NOT EXISTS "Likes_ix_ManyToMany"
+  ON "Likes" ("Notes_id", "Users_id");
