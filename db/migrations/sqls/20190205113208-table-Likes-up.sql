@@ -3,6 +3,8 @@ CREATE TABLE "Likes" (
   "Notes_id"    INTEGER   NOT NULL,
   "Users_id"    INTEGER   NOT NULL,
 
+  UNIQUE("Notes_id", "Users_id"),
+
   CONSTRAINT Likes_fk_Notes_id
     FOREIGN KEY ("Notes_id") REFERENCES "Notes" ("id")
       ON UPDATE CASCADE ON DELETE CASCADE,

@@ -3,6 +3,8 @@ CREATE TABLE "NotesTags" (
   "Notes_id"    INTEGER   NOT NULL,
   "Tags_id"     INTEGER   NOT NULL,
 
+  UNIQUE("Notes_id", "Tags_id"),
+
   CONSTRAINT NotesTags_fk_Notes_id
     FOREIGN KEY ("Notes_id") REFERENCES "Notes" ("id")
       ON UPDATE CASCADE ON DELETE CASCADE,
