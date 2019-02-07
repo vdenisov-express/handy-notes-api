@@ -6,9 +6,9 @@
   "scripts": {
     "start": "nodemon index.js",
 
-    "migrate:up":     "cd ./db && npm run migrate:up",
-    "migrate:down":   "cd ./db && npm run migrate:down",
-    "migrate:reset":  "cd ./db && npm run migrate:reset"
+    "migrate:up":     "cd ./db && db-migrate up",
+    "migrate:down":   "cd ./db && db-migrate down",
+    "migrate:reset":  "cd ./db && db-migrate reset"
   },
   "repository": {
     "type": "git",
