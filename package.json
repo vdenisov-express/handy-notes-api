@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "migrate:up": "cd ./db && db-migrate up",
+
+    "migrate:up": "cd ./db && db-migrate up -c 1",
     "migrate:down": "cd ./db && db-migrate down",
-    "migrate:reset": "cd ./db && db-migrate reset"
+    "migrate:reset": "cd ./db && db-migrate reset",
+
+    "db:init": "node ./db/initialize.js"
   },
   "repository": {
     "type": "git",
