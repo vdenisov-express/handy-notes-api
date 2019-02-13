@@ -5,11 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-
-    "migrate:up": "cd ./db && db-migrate up -c 1",
+    "migrate:up": "cd ./db && db-migrate up",
     "migrate:down": "cd ./db && db-migrate down",
     "migrate:reset": "cd ./db && db-migrate reset",
-
     "db:init": "node ./db/initialize.js"
   },
   "repository": {
@@ -24,6 +22,7 @@
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
   "dependencies": {
     "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
     "db-migrate": "^0.11.5",
     "db-migrate-sqlite3": "^0.3.1",
     "express": "^4.16.4",
