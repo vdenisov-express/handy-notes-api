@@ -1,8 +1,12 @@
 // libs {
 const express = require('express');
-const exphbs  = require('express-handlebars');
+const bodyParser = require('body-parser');
+
 const path = require('path');
+const exphbs  = require('express-handlebars');
 // } libs
+
+const { apiV1 } = require('./api/v1.route');
 
 const app = express();
 
@@ -21,8 +25,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'static')));
 // } handlebars
 
+// API v1 {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }) );
+
+app.use('/api/v1', apiV1);
+// } API v1
+
 // endpoints {
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
   res.render('home', { home: true });
 });
 
