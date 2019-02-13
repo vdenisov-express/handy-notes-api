@@ -9,4 +9,5 @@ CREATE TABLE IF NOT EXISTS "Notes" (
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE INDEX "Notes_ix_Users_id" ON "Notes" ("Users_id");
+CREATE INDEX IF NOT EXISTS "Notes_ix_Users_id"
+  ON "Notes" ("Users_id");
