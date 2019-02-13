@@ -17,7 +17,7 @@ PRAGMA foreign_keys = OFF;
 BEGIN TRANSACTION;
 
 -- STEP 3.1
--- RENAME NEW TABLE "Users" to "Users_backup"
+-- RENAME TABLE "Users" to "Users_backup"
 ALTER TABLE "Users" RENAME TO "Users_backup" ;
 
 -- STEP 3.2

@@ -17,7 +17,7 @@ PRAGMA foreign_keys = OFF;
 BEGIN TRANSACTION;
 
 -- STEP 3.1
--- RENAME NEW TABLE "Notes" to "Notes_backup"
+-- RENAME TABLE "Notes" to "Notes_backup"
 ALTER TABLE "Notes" RENAME TO "Notes_backup" ;
 
 -- STEP 3.2
