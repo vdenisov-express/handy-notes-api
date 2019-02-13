@@ -21,4 +21,7 @@ db.serialize(() => {
     if (err) throw err;
     console.log('Default PRAGMA "foreign_keys" switched to', res.foreign_keys);
   });
-})
+});
+
+
+module.exports = { db };
