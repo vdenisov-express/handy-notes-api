@@ -1,9 +1,7 @@
-const { db } = require('./../../db/initialize');
-
-
 class AbstractModel {
 
-  constructor(tableName) {
+  constructor(dbConnection, tableName) {
+    this.database = dbConnection;
     this.tableName = tableName;
   }
 
@@ -23,19 +21,19 @@ class AbstractModel {
 
     const sql = `INSERT INTO ${ this.tableName } (${ creates }) VALUES (${ questions })`;
 
-    return await db.runAsync(sql, ...values);
+    return await this.database.runAsync(sql, ...values);
   }
 
   // READ
 
   async getAll() {
     const sql = `SELECT * FROM ${ this.tableName }`;
-    return await db.allAsync(sql);
+    return await this.database.allAsync(sql);
   }
 
   async getById(id) {
     const sql = `SELECT * FROM ${ this.tableName } WHERE id = ${id}`;
-    return await db.getAsync(sql);
+    return await this.database.getAsync(sql);
   }
 
   // UPDATE
@@ -52,14 +50,14 @@ class AbstractModel {
     const updates = columns.join(', ');
     const sql = `UPDATE ${ this.tableName } SET ${updates} WHERE id = ${id}`;
 
-    return await db.runAsync(sql, ...values);
+    return await this.database.runAsync(sql, ...values);
   }
 
   // DELETE
 
   async deleteById(id) {
     const sql = `DELETE FROM ${ this.tableName } WHERE id = ${id}`;
-    return await db.runAsync(sql);
+    return await this.database.runAsync(sql);
   }
 
 }

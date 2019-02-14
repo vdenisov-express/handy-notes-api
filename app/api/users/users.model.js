@@ -1,10 +1,11 @@
+const { db } = require('./../../../db/initialize');
 const { AbstractModel } = require('./../abstract.model');
 
 
 class UsersModel extends AbstractModel {
 
   constructor() {
-    super('Users');
+    super(db, 'Users');
   }
 
 }
