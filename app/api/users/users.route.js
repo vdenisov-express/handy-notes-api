@@ -23,6 +23,9 @@ usersRoute.post('/:id/likes',   usersController.addLikeToNote);
 // get notes for user
 usersRoute.get('/:id/notes',    usersController.getNotes);
 
+// get notes that user likes
+usersRoute.get('/:id/likes',    usersController.getLikedNotes);
+
 // remove like from note
 usersRoute.delete('/:id/likes', usersController.removeLikeFromNote);
 
