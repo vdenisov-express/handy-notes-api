@@ -1,4 +1,4 @@
-const handlerFor = require('./../handlers');
+const handlerFor = require('./../its-shared/handlers');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('./../notes/notes.model');

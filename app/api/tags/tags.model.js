@@ -1,5 +1,5 @@
 const { db } = require('./../../../db/initialize');
-const { AbstractModel } = require('./../abstract.model');
+const { AbstractModel } = require('./../its-shared/abstract.model');
 
 
 class TagsModel extends AbstractModel {

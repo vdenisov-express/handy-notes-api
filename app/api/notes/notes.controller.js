@@ -1,7 +1,7 @@
-const handlerFor = require('./../handlers');
+const handlerFor = require('./../its-shared/handlers');
 
 const { NotesModel } = require('./notes.model');
-const { NotesTagsModel } = require('./../i-shared/notes-tags.model');
+const { NotesTagsModel } = require('./../its-shared/notes-tags.model');
 
 
 const tableNotes = new NotesModel();

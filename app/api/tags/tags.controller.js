@@ -1,5 +1,6 @@
+const handlerFor = require('./../its-shared/handlers');
+
 const { TagsModel } = require('./tags.model');
-const handlerFor = require('./../handlers');
 
 
 const tableTags = new TagsModel();
