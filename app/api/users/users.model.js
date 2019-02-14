@@ -6,17 +6,22 @@ class Users {
   // CREATE
 
   static async create(data) {
-    const sql = `INSERT INTO Users
-      ( name, email,  phone,  birthdate,  password  ) VALUES
-      ( (?),  (?),    (?),    (?),        (?)       )`;
-    const params = [
-      data.name,
-      data.email,
-      data.phone,
-      data.birthdate,
-      data.password
-    ];
-    return await db.runAsync(sql, params);
+    const columns = [];
+    const values = [];
+
+    for (let field in data) {
+      columns.push( field );
+      values.push( data[field] );
+    }
+
+    const creates = columns.join(', ');
+    const questions = Array.from({length: values.length}, () => `(?)`);
+
+    const sql = `INSERT INTO Users (${creates}) VALUES (${questions})`;
+
+    console.log(sql)
+
+    return await db.runAsync(sql, ...values);
   }
 
   // READ
@@ -39,7 +44,7 @@ class Users {
 
     for (let field in data) {
       columns.push( `${ field } = (?)` );
-      values.push(data[field]);
+      values.push( data[field] );
     }
 
     const updates = columns.join(', ');
