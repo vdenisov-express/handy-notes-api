@@ -72,7 +72,7 @@ module.exports = {
 
   // ##################################################
 
-  // add tag for note
+  // attach tag to note
   attachTag(req, res) {
     const noteId = parseInt(req.params.id);
     const tagId = req.body.tagId;
@@ -84,8 +84,19 @@ module.exports = {
 
     tableNotesTags
       .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is added !'))
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is attached !'))
       .catch(err => handlerFor.ERROR(res, err));
-  }
+  },
+
+  // detach tag from note
+  detachTag(req, res) {
+    const noteId = parseInt(req.params.id);
+    const tagId = req.body.tagId;
+
+    tableNotesTags
+      .deleteByUniquePairOfIds(noteId, tagId)
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is detached !'))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
 
 }

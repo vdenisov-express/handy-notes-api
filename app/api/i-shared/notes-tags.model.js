@@ -8,6 +8,11 @@ class NotesTagsModel extends AbstractModel {
     super(db, 'NotesTags');
   }
 
+  async deleteByUniquePairOfIds(noteId, tagId) {
+    const sql = `DELETE FROM NotesTags WHERE Notes_id = ${noteId} AND Tags_id = ${tagId}`;
+    return await db.runAsync(sql);
+  }
+
 }
 
 
