@@ -1,8 +1,11 @@
-const { NotesModel } = require('./notes.model');
 const handlerFor = require('./../handlers');
+
+const { NotesModel } = require('./notes.model');
+const { NotesTagsModel } = require('./../i-shared/notes-tags.model');
 
 
 const tableNotes = new NotesModel();
+const tableNotesTags = new NotesTagsModel();
 
 
 module.exports = {
@@ -66,5 +69,23 @@ module.exports = {
       .then(() => handlerFor.SUCCESS(res, 200, null, 'note is deleted !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
+
+  // ##################################################
+
+  // add tag for note
+  attachTag(req, res) {
+    const noteId = parseInt(req.params.id);
+    const tagId = req.body.tagId;
+
+    const inputData = {
+      Notes_id: noteId,
+      Tags_id:  tagId,
+    };
+
+    tableNotesTags
+      .create(inputData)
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is added !'))
+      .catch(err => handlerFor.ERROR(res, err));
+  }
 
 }
