@@ -1,4 +1,5 @@
 const { Users } = require('./users.model');
+const handlerFor = require('./../handlers');
 
 
 module.exports = {
@@ -9,17 +10,17 @@ module.exports = {
     const reqBody = req.body;
 
     const inputData = {
-      name:       reqBody.name,
-      email:      reqBody.email,
-      phone:      reqBody.phone || null,
-      birthdate:  reqBody.birthdate || null,
-      password:   reqBody.password,
+      name:       `${ reqBody.name }`,
+      email:      `${ reqBody.email }`,
+      phone:      `${ reqBody.phone }` || null,
+      birthdate:  `${ reqBody.birthdate }` || null,
+      password:   `${ reqBody.password }`,
     };
 
     Users
       .create(inputData)
-      .then(() => handlerSuccess(res, 200, null, 'user is created'))
-      .catch(err => handlerError(res, err));
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created'))
+      .catch(err => handlerFor.ERROR(res, err));
   },
 
   // READ
@@ -27,16 +28,16 @@ module.exports = {
   getAll(req, res) {
     Users
       .getAll()
-      .then(usersList => handlerSuccess(res, 200, usersList))
-      .catch(err => handlerError(res, err));
+      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
+      .catch(err => handlerFor.ERROR(res, err));
   },
 
   getById(req, res) {
     const { id } = req.params;
     Users
       .getById(id)
-      .then(userObj => handlerSuccess(res, 200, userObj))
-      .catch(err => handlerError(res, err));
+      .then(userObj => handlerFor.SUCCESS(res, 200, userObj))
+      .catch(err => handlerFor.ERROR(res, err));
   },
 
   // UPDATE
@@ -49,8 +50,8 @@ module.exports = {
 
     Users
       .updateById(id, inputData)
-      .then(() => handlerSuccess(res, 200, null, 'user is updated !'))
-      .catch(err => handlerError(res, err));
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is updated !'))
+      .catch(err => handlerFor.ERROR(res, err));
   },
 
   // DELETE
@@ -59,29 +60,8 @@ module.exports = {
     const { id } = req.params;
     Users
       .deleteById(id)
-      .then(() => handlerSuccess(res, 200, null, 'user is deleted !'))
-      .catch(err => handlerError(res, err));
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is deleted !'))
+      .catch(err => handlerFor.ERROR(res, err));
   },
 
-}
-
-function handlerSuccess(response, status, data = null, message = null) {
-  const results = {};
-
-  if (data) {
-    results['data'] = data;
-    results['total'] = data.length;
-  }
-
-  if (message) {
-    results['message'] = message;
-  }
-
-  return response
-    .status(status)
-    .json(results);
-}
-
-function handlerError(res, err) {
-  return res.status(500).json(err);
 }
