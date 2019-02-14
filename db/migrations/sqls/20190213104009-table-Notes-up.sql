@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS "Notes" (
   "text"      TEXT      NOT NULL,
   "Users_id"  INTEGER   NOT NULL,
 
+  UNIQUE("title", "Users_id"),
+
   CONSTRAINT "Notes_fk_Users_id"
     FOREIGN KEY ("Users_id") REFERENCES "Users" ("id")
       ON UPDATE CASCADE ON DELETE CASCADE
