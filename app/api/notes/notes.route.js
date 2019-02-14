@@ -27,6 +27,9 @@ notesRoute.post('/:id/tags',    notesController.attachTag);
 // get tags for note
 notesRoute.get('/:id/tags',     notesController.getTags);
 
+// filter notes by tag
+notesRoute.get('/filter/by',    notesController.filterByTagId);
+
 // detach tag from note
 notesRoute.delete('/:id/tags',  notesController.detachTag);
 

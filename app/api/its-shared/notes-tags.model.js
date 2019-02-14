@@ -15,6 +15,13 @@ class NotesTagsModel extends AbstractModel {
     return await db.allAsync(sql);
   }
 
+  async filterNotesByTagId(tagId) {
+    const sql =  `SELECT Notes.* FROM NotesTags
+                  INNER JOIN Notes ON NotesTags.Notes_id = Notes.id
+                  WHERE NotesTags.Tags_id = ${tagId}`;
+    return await db.allAsync(sql);
+  }
+
   async deleteByUniquePairOfIds(noteId, tagId) {
     const sql = `DELETE FROM NotesTags WHERE Notes_id = ${noteId} AND Tags_id = ${tagId}`;
     return await db.runAsync(sql);
