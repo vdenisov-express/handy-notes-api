@@ -1,8 +1,11 @@
-const { UsersModel } = require('./users.model');
 const handlerFor = require('./../handlers');
+
+const { UsersModel } = require('./users.model');
+const { NotesModel } = require('./../notes/notes.model');
 
 
 const tableUsers = new UsersModel();
+const tableNotes = new NotesModel();
 
 
 module.exports = {
@@ -68,5 +71,19 @@ module.exports = {
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is deleted !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
+
+  // ##################################################
+
+  // USER: NOTES
+
+  getNotes(req, res) {
+    const { id } = req.params;
+
+    tableNotes
+      .filterByUserId(id)
+      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
+      .catch(err => handlerFor.ERROR(res, err));
+
+  }
 
 }
