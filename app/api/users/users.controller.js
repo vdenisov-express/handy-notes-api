@@ -1,5 +1,8 @@
-const { Users } = require('./users.model');
+const { UsersModel } = require('./users.model');
 const handlerFor = require('./../handlers');
+
+
+const tableUsers = new UsersModel();
 
 
 module.exports = {
@@ -17,7 +20,7 @@ module.exports = {
       password:   `${ reqBody.password }`,
     };
 
-    Users
+    tableUsers
       .create(inputData)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created'))
       .catch(err => handlerFor.ERROR(res, err));
@@ -26,7 +29,7 @@ module.exports = {
   // READ
 
   getAll(req, res) {
-    Users
+    tableUsers
       .getAll()
       .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
       .catch(err => handlerFor.ERROR(res, err));
@@ -34,7 +37,8 @@ module.exports = {
 
   getById(req, res) {
     const { id } = req.params;
-    Users
+
+    tableUsers
       .getById(id)
       .then(userObj => handlerFor.SUCCESS(res, 200, userObj))
       .catch(err => handlerFor.ERROR(res, err));
@@ -48,7 +52,7 @@ module.exports = {
 
     const inputData = reqBody;
 
-    Users
+    tableUsers
       .updateById(id, inputData)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is updated !'))
       .catch(err => handlerFor.ERROR(res, err));
@@ -58,7 +62,8 @@ module.exports = {
 
   deleteById(req, res) {
     const { id } = req.params;
-    Users
+
+    tableUsers
       .deleteById(id)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is deleted !'))
       .catch(err => handlerFor.ERROR(res, err));
