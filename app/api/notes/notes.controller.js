@@ -88,6 +88,16 @@ module.exports = {
       .catch(err => handlerFor.ERROR(res, err));
   },
 
+  // get tags for note
+  getTags(req, res) {
+    const noteId = parseInt(req.params.id);
+
+    tableNotesTags
+      .filterTagsByNoteId(noteId)
+      .then(tagsList => handlerFor.SUCCESS(res, 200, tagsList))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
+
   // detach tag from note
   detachTag(req, res) {
     const noteId = parseInt(req.params.id);

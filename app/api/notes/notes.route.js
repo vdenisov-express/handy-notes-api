@@ -24,8 +24,13 @@ notesRoute.delete('/:id', notesController.deleteById);
 // attach tag to note
 notesRoute.post('/:id/tags',    notesController.attachTag);
 
+// get tags for note
+notesRoute.get('/:id/tags',     notesController.getTags);
+
 // detach tag from note
 notesRoute.delete('/:id/tags',  notesController.detachTag);
+
+// ##################################################
 
 
 module.exports = { notesRoute };
