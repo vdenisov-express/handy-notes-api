@@ -17,8 +17,14 @@ usersRoute.delete('/:id', usersController.deleteById);
 
 /* ADDITIONAL FUNCTIONALITY */
 
-// get user's notes
-usersRoute.get('/:id/notes',  usersController.getNotes)
+// add like to note
+usersRoute.post('/:id/likes',   usersController.addLikeToNote);
+
+// get notes for user
+usersRoute.get('/:id/notes',    usersController.getNotes);
+
+// remove like from note
+usersRoute.delete('/:id/likes', usersController.removeLikeFromNote);
 
 
 module.exports = { usersRoute };

@@ -2,10 +2,12 @@ const handlerFor = require('./../its-shared/handlers');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('./../notes/notes.model');
+const { LikesModel } = require('./../its-shared/likes.model');
 
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
+const tableLikes = new LikesModel();
 
 
 module.exports = {
@@ -74,8 +76,22 @@ module.exports = {
 
   // ##################################################
 
-  // USER: NOTES
+  addLikeToNote(req, res) {
+    const userId = parseInt(req.params.id);
+    const noteId = req.body.noteId;
 
+    const inputData = {
+      Users_id: userId,
+      Notes_id: noteId,
+    };
+
+    tableLikes
+      .create(inputData)
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'like is added !'))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
+
+  // get notes for user
   getNotes(req, res) {
     const { id } = req.params;
 
@@ -84,6 +100,17 @@ module.exports = {
       .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
       .catch(err => handlerFor.ERROR(res, err));
 
-  }
+  },
+
+  // remove like from note
+  removeLikeFromNote(req, res) {
+    const userId = parseInt(req.params.id);
+    const noteId = req.body.noteId;
+
+    tableLikes
+      .deleteByUniquePairOfIds(userId, noteId)
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'like is removed !'))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
 
 }
