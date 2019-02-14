@@ -21,4 +21,8 @@ module.exports = {
     return res.status(500).json(err);
   },
 
+  STOPPER(res) {
+    return res.status(200).send('All is okay ;)');
+  },
+
 }
