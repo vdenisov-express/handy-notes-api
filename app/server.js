@@ -10,6 +10,9 @@ const { apiV1 } = require('./api/v1.route');
 
 const app = express();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./api/swagger.json');
+
 // handlebars {
 const hbsConfig = exphbs.create({
   layoutsDir: path.join(__dirname, 'views/layouts/'),
@@ -29,7 +32,8 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }) );
 
-app.use('/api/v1', apiV1);
+app.use('/api-v1', apiV1);
+app.use('/api-v1-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // } API v1
 
 // endpoints {

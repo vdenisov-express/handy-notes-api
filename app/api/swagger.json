@@ -1,0 +1,919 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "lds-project-notes",
+    "description": "TODO: Add Description",
+    "contact": {}
+  },
+  "host": "example.com",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "",
+        "summary": "USERS => new",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "UsersPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/USERS=>newRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "USERS => list",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "UsersGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/1": {
+      "get": {
+        "description": "",
+        "summary": "USERS => findOne (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Users1Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "USERS => update (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Users1Patch",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/USERS=>update(id)Request"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/2": {
+      "delete": {
+        "description": "",
+        "summary": "USERS => delete (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Users2Delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes": {
+      "post": {
+        "description": "",
+        "summary": "NOTES => new",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "NotesPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NOTES=>newRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "NOTES => list",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "NotesGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/1": {
+      "get": {
+        "description": "",
+        "summary": "NOTES => findOne (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Notes1Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "NOTES => update (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Notes1Patch",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NOTES=>update(id)Request"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/2": {
+      "delete": {
+        "description": "",
+        "summary": "NOTES => delete (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Notes2Delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags": {
+      "post": {
+        "description": "",
+        "summary": "TAGS => new",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "TagsPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TAGS=>newRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "TAGS => list",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "TagsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags/1": {
+      "get": {
+        "description": "",
+        "summary": "TAGS => findOne (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Tags1Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "TAGS => update (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Tags1Patch",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TAGS=>update(id)Request"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags/7": {
+      "delete": {
+        "description": "",
+        "summary": "TAGS => delete (id)",
+        "tags": [
+          "base CRUD"
+        ],
+        "operationId": "Tags7Delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/1/likes": {
+      "post": {
+        "description": "",
+        "summary": "USERS => like (noteId)",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users1LikesPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/USERS=>like(noteId)Request"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "USERS => liked notes (userId)",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users1LikesGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "USERS => dislike (noteId)",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users1LikesDelete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/USERS=>dislike(noteId)Request"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/1/notes": {
+      "get": {
+        "description": "",
+        "summary": "USERS => notes (userId)",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users1NotesGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/filter/by/liked": {
+      "get": {
+        "description": "",
+        "summary": "USERS => filter liked (noteId)",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "UsersFilterByLikedGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/4/tags": {
+      "post": {
+        "description": "",
+        "summary": "NOTES => attach tag",
+        "tags": [
+          "Notes"
+        ],
+        "operationId": "Notes4TagsPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NOTES=>attachtagRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "NOTES => tags (noteId)",
+        "tags": [
+          "Notes"
+        ],
+        "operationId": "Notes4TagsGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/filter/by": {
+      "get": {
+        "description": "",
+        "summary": "NOTES => filter (tagId)",
+        "tags": [
+          "Notes"
+        ],
+        "operationId": "NotesFilterByGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tagId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/1/tags": {
+      "delete": {
+        "description": "",
+        "summary": "NOTES => detach tag",
+        "tags": [
+          "Notes"
+        ],
+        "operationId": "Notes1TagsDelete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NOTES=>detachtagRequest"
+            }
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "",
+        "summary": "welcome message",
+        "operationId": "UnnammedEndpointGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "USERS=>newRequest": {
+      "title": "USERS=>newRequest",
+      "example": {
+        "name": "Evgeny Kuizhev",
+        "email": "ekuizhev@gmail.com",
+        "birthdate": "11.11.1996",
+        "password": "idontknow",
+        "phone": "+7-123-456-78-90"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "birthdate",
+        "password",
+        "phone"
+      ]
+    },
+    "USERS=>update(id)Request": {
+      "title": "USERS=>update(id)Request",
+      "example": {
+        "name": "Vladimir Denisov"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "USERS=>like(noteId)Request": {
+      "title": "USERS=>like(noteId)Request",
+      "example": {
+        "noteId": 1
+      },
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "noteId"
+      ]
+    },
+    "USERS=>dislike(noteId)Request": {
+      "title": "USERS=>dislike(noteId)Request",
+      "example": {
+        "noteId": 1
+      },
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "noteId"
+      ]
+    },
+    "NOTES=>newRequest": {
+      "title": "NOTES=>newRequest",
+      "example": {
+        "title": "tommorrow",
+        "text": "lazy day",
+        "userId": 2
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "title",
+        "text",
+        "userId"
+      ]
+    },
+    "NOTES=>update(id)Request": {
+      "title": "NOTES=>update(id)Request",
+      "example": {
+        "text": "q, w, e, r, t, y"
+      },
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    "NOTES=>attachtagRequest": {
+      "title": "NOTES=>attachtagRequest",
+      "example": {
+        "tagId": 7
+      },
+      "type": "object",
+      "properties": {
+        "tagId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "tagId"
+      ]
+    },
+    "NOTES=>detachtagRequest": {
+      "title": "NOTES=>detachtagRequest",
+      "example": {
+        "tagId": 1
+      },
+      "type": "object",
+      "properties": {
+        "tagId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "tagId"
+      ]
+    },
+    "TAGS=>newRequest": {
+      "title": "TAGS=>newRequest",
+      "example": {
+        "value": "shazam"
+      },
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "TAGS=>update(id)Request": {
+      "title": "TAGS=>update(id)Request",
+      "example": {
+        "value": "sport"
+      },
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "base CRUD",
+      "description": ""
+    },
+    {
+      "name": "Users",
+      "description": ""
+    },
+    {
+      "name": "Notes",
+      "description": ""
+    },
+    {
+      "name": "Tags",
+      "description": ""
+    }
+  ]
+}
