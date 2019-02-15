@@ -1,15 +1,63 @@
 {
+  ">>> PART #1 <<<": "========================= BASIC INFO =========================",
   "name": "lds-project-notes",
   "version": "1.0.0",
-  "description": "Training project \"Notes\"",
+  "description": "Training project Notes",
   "main": "index.js",
+  ">>> PART #2 <<<": "========================= SCRIPTS =========================",
   "scripts": {
     "start": "nodemon index.js",
     "migrate:up": "cd ./db && db-migrate up",
     "migrate:down": "cd ./db && db-migrate down",
-    "migrate:reset": "cd ./db && db-migrate reset",
-    "db:init": "node ./db/initialize.js"
+    "migrate:reset": "cd ./db && db-migrate reset"
   },
+  "scripts:COMMENTS": {
+    "start": "Run server",
+    "migrate:up": "Execute all migrations",
+    "migrate:down": "Cancel one migrations",
+    "migrate:reset": "Cancel all migrations"
+  },
+  ">>> PART #3 <<<": "========================= DEPENDENCIES =========================",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "colors": "^1.3.3",
+    "db-migrate": "^0.11.5",
+    "db-migrate-sqlite3": "^0.3.1",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "sqlite3": "^4.0.6",
+    "swagger-ui-express": "^4.0.2"
+  },
+  "dependencies:COMMENTS": {
+    "bluebird": "########## BLUEBIRD ##########",
+    "bluebird:about": "Bluebird is a fully featured promise library with focus on innovative features and performance",
+    "bluebird:npm": "https://www.npmjs.com/package/bluebird",
+    "bluebird:docs": "http://bluebirdjs.com/docs/why-bluebird.html",
+    "body-parser": "########## BODY-PARSER ##########",
+    "body-parser:about": "Node.js body parsing middleware",
+    "body-parser:npm": "https://www.npmjs.com/package/body-parser",
+    "db-migrate": "########## DB-MIGRATE ##########",
+    "db-migrate:about": "Database migration framework for node.js",
+    "db-migrate:npm": "https://www.npmjs.com/package/db-migrate",
+    "db-migrate:docs": "https://db-migrate.readthedocs.io/en/latest",
+    "db-migrate-sqlite3": "########## DB-MIGRATE-SQLITE-3 ##########",
+    "db-migrate-sqlite3:about": "Sqlite driver for db-migrate",
+    "db-migrate-sqlite3:npm": "https://www.npmjs.com/package/db-migrate-sqlite3",
+
+    "express": "???",
+    "express-handlebars": "???",
+    "sqlite3": "???",
+    "swagger-ui-express": "???"
+  },
+  ">>> #4 <<<": "========================= DEV-DEPENDENCIES =========================",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
+  "devDependencies:COMMENTS": {
+    "nodemon": "???"
+  },
+  ">>> #5 <<<": "========================= EXTRA INFO =========================",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vdenisov-dev/lds-project-notes.git"
@@ -20,17 +68,5 @@
     "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
-  "dependencies": {
-    "bluebird": "^3.5.3",
-    "body-parser": "^1.18.3",
-    "db-migrate": "^0.11.5",
-    "db-migrate-sqlite3": "^0.3.1",
-    "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
-    "sqlite3": "^4.0.6",
-    "swagger-ui-express": "^4.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "^1.18.9"
-  }
+  ">>> #6 <<<": "========================= THE END ========================="
 }
