@@ -32,8 +32,12 @@
   "Tags": {
     "id": 1,
 
-    "dataForCreating": {},
+    "dataForCreating": {
+      "value": "work"
+    },
 
-    "dataForUpdating": {}
+    "dataForUpdating": {
+      "value": "home"
+    }
   }
 }

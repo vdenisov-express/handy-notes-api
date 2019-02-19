@@ -2,27 +2,27 @@ const chai = require('chai');
 const supertest = require('supertest');
 
 
-const mockUsers = require('./mock.json').Users;
+const mockTags = require('./mock.json').Tags;
 const apiLink = supertest('http://localhost:3000/api/v1');
 
 
-describe('Users:basic', () => {
+describe('Tags:basic', () => {
 
-  it('POST /users => should create new user', (done) => {
+  it('POST /tags => should create new tag', (done) => {
     apiLink
-      .post(`/users`)
-      .send(mockUsers.dataForCreating)
+      .post(`/tags`)
+      .send(mockTags.dataForCreating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is created !');
+        chai.expect(res.body['message']).to.equal('tag is created !');
         done(err);
       });
   });
 
-  it('GET /users => should return all users', (done) => {
+  it('GET /tags => should return all tags', (done) => {
     apiLink
-      .get(`/users`)
+      .get(`/tags`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('data');
@@ -30,9 +30,9 @@ describe('Users:basic', () => {
       });
   });
 
-  it('GET /users/:id => should return user with id === (:id)', (done) => {
+  it('GET /tags/:id => should return tag with id === (:id)', (done) => {
     apiLink
-      .get(`/users/${ mockUsers.id }`)
+      .get(`/tags/${ mockTags.id }`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('data');
@@ -40,25 +40,25 @@ describe('Users:basic', () => {
       });
   });
 
-  it('PATCH /users/:id => should update user with id === (:id)', (done) => {
+  it('PATCH /tags/:id => should update tag with id === (:id)', (done) => {
     apiLink
-      .patch(`/users/${ mockUsers.id }`)
-      .send(mockUsers.dataForUpdating)
+      .patch(`/tags/${ mockTags.id }`)
+      .send(mockTags.dataForUpdating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is updated !');
+        chai.expect(res.body['message']).to.equal('tag is updated !');
         done(err);
       });
   });
 
-  it('DELETE /users/:id => should delete user with id === (:id)', (done) => {
+  it('DELETE /tags/:id => should delete tag with id === (:id)', (done) => {
     apiLink
-      .delete(`/users/${ mockUsers.id }`)
+      .delete(`/tags/${ mockTags.id }`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is deleted !');
+        chai.expect(res.body['message']).to.equal('tag is deleted !');
         done(err);
       });
   });
