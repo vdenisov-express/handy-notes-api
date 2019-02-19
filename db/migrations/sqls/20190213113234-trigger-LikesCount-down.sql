@@ -13,8 +13,10 @@ DROP TRIGGER IF EXISTS "Notes_decr_LikesCount";
 /* DISABLE foreign keys */
 PRAGMA foreign_keys = OFF;
 
--- BEGIN transaction
-BEGIN TRANSACTION;
+-- COMMENT {
+-- If you want you can start transaction
+-- BEGIN TRANSACTION;
+-- } COMMENT
 
 -- STEP 3.1
 -- RENAME TABLE "Notes" to "Notes_backup"
@@ -47,8 +49,11 @@ INSERT INTO "Notes" ("id", "title", "text", "Users_id")
 -- (optional step)
 DROP TABLE "Notes_backup";
 
--- COMPLETE transaction
-COMMIT;
+-- COMMENT {
+-- If you applied a transaction, you must close it
+-- END TRANSACTION;
+-- or you can use "COMMIT;"
+-- } COMMENT
 
 /* ENABLE foreign keys */
 PRAGMA foreign_keys = ON;

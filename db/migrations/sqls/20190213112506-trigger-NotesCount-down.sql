@@ -13,8 +13,10 @@ DROP TRIGGER IF EXISTS "Users_decr_NotesCount";
 /* DISABLE foreign keys */
 PRAGMA foreign_keys = OFF;
 
--- BEGIN transaction
-BEGIN TRANSACTION;
+-- COMMENT {
+-- If you want you can start transaction
+-- BEGIN TRANSACTION;
+-- } COMMENT
 
 -- STEP 3.1
 -- RENAME TABLE "Users" to "Users_backup"
@@ -42,8 +44,11 @@ INSERT INTO "Users" ("id", "name", "birthdate", "email", "phone", "password")
 -- (optional step)
 DROP TABLE "Users_backup";
 
--- COMPLETE transaction
-COMMIT;
+-- COMMENT {
+-- If you applied a transaction, you must close it
+-- END TRANSACTION;
+-- or you can use "COMMIT;"
+-- } COMMENT
 
 /* ENABLE foreign keys */
 PRAGMA foreign_keys = ON;
