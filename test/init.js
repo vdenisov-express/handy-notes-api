@@ -5,7 +5,7 @@ const supertest = require('supertest');
 const request = supertest('http://localhost:3000');
 
 
-describe('>>> SERVER <<<', () => {
+describe.skip('>>> SERVER <<<', () => {
 
   it('GET / should return status 404', (done) => {
     request
@@ -41,7 +41,6 @@ describe('>>> SERVER <<<', () => {
   });
 
 });
-
 
 
 describe('>>> API v1 <<<', () => {

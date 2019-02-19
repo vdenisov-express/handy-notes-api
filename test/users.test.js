@@ -15,7 +15,7 @@ describe('Users:basic', () => {
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is created !');
+        chai.expect(res.body.message).to.equal('user is created !');
         done(err);
       });
   });
@@ -26,6 +26,7 @@ describe('Users:basic', () => {
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('data');
+        chai.expect(res.body).to.have.property('total');
         done(err);
       });
   });
@@ -47,7 +48,7 @@ describe('Users:basic', () => {
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is updated !');
+        chai.expect(res.body.message).to.equal('user is updated !');
         done(err);
       });
   });
@@ -58,7 +59,7 @@ describe('Users:basic', () => {
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is deleted !');
+        chai.expect(res.body.message).to.equal('user is deleted !');
         done(err);
       });
   });
