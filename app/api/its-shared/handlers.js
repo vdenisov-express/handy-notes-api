@@ -2,19 +2,12 @@ module.exports = {
 
   SUCCESS(response, status, data = null, message = null) {
     const results = {};
+    results['data'] = data;
 
-    if (data) {
-      results['data'] = data;
-      results['total'] = data.length;
-    }
+    if (data)     results['total'] = data.length;
+    if (message)  results['message'] = message;
 
-    if (message) {
-      results['message'] = message;
-    }
-
-    return response
-      .status(status)
-      .json(results);
+    return response.status(status).json(results);
   },
 
   ERROR(res, err) {
