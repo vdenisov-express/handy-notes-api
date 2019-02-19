@@ -2,13 +2,16 @@ const path = require('path');
 const Promise = require('bluebird');
 const sqlite3 = require('sqlite3').verbose();
 
+const config = require('config');
+const DB_CONFIG = config.get('DATABASE');
 
 const db = Promise.promisifyAll(
   new sqlite3.Database(
-    path.join(__dirname, './dev-db.sqlite')
+    path.join(__dirname, DB_CONFIG.PATH)
   )
 );
 
+console.log(`* database => use "${DB_CONFIG.PATH}"`);
 
 db.serialize(() => {
   // Enforced setting flag "foreign_keys"
@@ -19,7 +22,8 @@ db.serialize(() => {
 
   db.get('PRAGMA foreign_keys', (err, res) => {
     if (err) throw err;
-    console.log('Default PRAGMA "foreign_keys" switched to', res.foreign_keys);
+    // console.log('Default PRAGMA "foreign_keys" switched to', res.foreign_keys);
+    console.log(`* database => foreign key links activated`);
   });
 });
 
