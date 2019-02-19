@@ -19,7 +19,7 @@ module.exports = {
 
     tableTags
       .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is created'))
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is created !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
 

@@ -23,7 +23,7 @@ module.exports = {
 
     tableNotes
       .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'note is created'))
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'note is created !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
 

@@ -27,7 +27,7 @@ module.exports = {
 
     tableUsers
       .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created'))
+      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
 
