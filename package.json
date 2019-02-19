@@ -7,9 +7,14 @@
   ">>> PART #2 <<<": "========================= SCRIPTS =========================",
   "scripts": {
     "start": "nodemon index.js",
-    "migrate:up": "cd ./db && db-migrate up",
-    "migrate:down": "cd ./db && db-migrate down",
-    "migrate:reset": "cd ./db && db-migrate reset"
+    "------------------------------": "------------------------------",
+    "db:dev:migrate:up": "cd ./db && db-migrate up",
+    "db:dev:migrate:down": "cd ./db && db-migrate down",
+    "db:dev:migrate:reset": "cd ./db && db-migrate reset",
+    "-------------------------------": "-----------------------------",
+    "db:test:migrate:up": "cd ./db && db-migrate up -e test",
+    "db:test:migrate:down": "cd ./db && db-migrate down -e test",
+    "db:test:migrate:reset": "cd ./db && db-migrate reset -e test"
   },
   "scripts:COMMENTS": {
     "start": "Run server",
