@@ -77,7 +77,7 @@
     "/users/{id}": {
       "get": {
         "description": "",
-        "summary": "find by id",
+        "summary": "Find by id",
         "tags": [
           "Users:basic"
         ],
@@ -107,7 +107,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "update by id",
+        "summary": "Update by id",
         "tags": [
           "Users:basic"
         ],
@@ -146,7 +146,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "delete by id",
+        "summary": "Delete by id",
         "tags": [
           "Users:basic"
         ],
@@ -228,7 +228,7 @@
     "/notes/{id}": {
       "get": {
         "description": "",
-        "summary": "find by id",
+        "summary": "Find by id",
         "tags": [
           "Notes:basic"
         ],
@@ -258,7 +258,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "update by id",
+        "summary": "Update by id",
         "tags": [
           "Notes:basic"
         ],
@@ -297,7 +297,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "delete by id",
+        "summary": "Delete by id",
         "tags": [
           "Notes:basic"
         ],
@@ -379,7 +379,7 @@
     "/tags/{id}": {
       "get": {
         "description": "",
-        "summary": "find by id",
+        "summary": "Find by id",
         "tags": [
           "Tags:basic"
         ],
@@ -409,7 +409,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "update by id",
+        "summary": "Update by id",
         "tags": [
           "Tags:basic"
         ],
@@ -448,7 +448,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "delete by id",
+        "summary": "Delete by id",
         "tags": [
           "Tags:basic"
         ],
@@ -495,26 +495,36 @@
         }
       }
     },
-    "/users/1/likes": {
+    "/users/{id}/likes": {
       "post": {
         "description": "",
-        "summary": "likes for user (noteId)",
+        "summary": "Add like by user {noteId}",
         "tags": [
           "Users:extra"
         ],
-        "operationId": "Users1LikesPost",
+        "operationId": "Users:by:id:likes:add",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
             "name": "data",
             "in": "body",
             "required": true,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/USERS=>like(noteId)Request"
+              "$ref": "#/definitions/Users:likes:add"
             }
           }
         ],
@@ -527,16 +537,27 @@
       },
       "get": {
         "description": "",
-        "summary": "USERS => liked notes (userId)",
+        "summary": "Likes added by user",
         "tags": [
           "Users:extra"
         ],
-        "operationId": "Users1LikesGet",
+        "operationId": "Users:by:id:likes:get",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -546,23 +567,33 @@
       },
       "delete": {
         "description": "",
-        "summary": "USERS => dislike (noteId)",
+        "summary": "Dislike note by user {noteId}",
         "tags": [
           "Users:extra"
         ],
-        "operationId": "Users1LikesDelete",
+        "operationId": "Users:by:id:likes:delete",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
             "name": "data",
             "in": "body",
             "required": true,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/USERS=>dislike(noteId)Request"
+              "$ref": "#/definitions/Users:likes:delete"
             }
           }
         ],
@@ -574,19 +605,30 @@
         }
       }
     },
-    "/users/1/notes": {
+    "/users/{id}/notes": {
       "get": {
         "description": "",
-        "summary": "USERS => notes (userId)",
+        "summary": "Notes created by user",
         "tags": [
           "Users:extra"
         ],
-        "operationId": "Users1NotesGet",
+        "operationId": "Users:by:id:notes:get",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -602,7 +644,7 @@
         "tags": [
           "Users:extra"
         ],
-        "operationId": "UsersFilterByLikedGet",
+        "operationId": "Users:filterBy:likedNote",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -782,7 +824,8 @@
           "type": "string"
         },
         "email": {
-          "type": "string"
+          "type": "string",
+          "format": "email"
         },
         "password": {
           "type": "string"
@@ -791,13 +834,14 @@
           "type": "string"
         },
         "birthdate": {
-          "type": "string"
+          "type": "string",
+          "format": "date"
         }
       },
       "required": []
     },
-    "USERS=>like(noteId)Request": {
-      "title": "USERS=>like(noteId)Request",
+    "Users:likes:add": {
+      "title": "Users:likes:add",
       "example": {
         "noteId": 1
       },
@@ -812,8 +856,8 @@
         "noteId"
       ]
     },
-    "USERS=>dislike(noteId)Request": {
-      "title": "USERS=>dislike(noteId)Request",
+    "Users:likes:delete": {
+      "title": "Users:likes:delete",
       "example": {
         "noteId": 1
       },
