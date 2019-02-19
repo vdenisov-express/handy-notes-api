@@ -2,27 +2,27 @@ const chai = require('chai');
 const supertest = require('supertest');
 
 
-const mockUsers = require('./mock.json').Users;
+const mockNotes = require('./mock.json').Notes;
 const apiLink = supertest('http://localhost:3000/api/v1');
 
 
-describe.skip('Users:basic', () => {
+describe('Notes:basic', () => {
 
-  it('POST /users => should create new user', (done) => {
+  it('POST /notes => should create new note', (done) => {
     apiLink
-      .post(`/users`)
-      .send(mockUsers.dataForCreating)
+      .post(`/notes`)
+      .send(mockNotes.dataForCreating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is created !');
+        chai.expect(res.body['message']).to.equal('note is created !');
         done(err);
       });
   });
 
-  it('GET /users => should return all users', (done) => {
+  it('GET /notes => should return all notes', (done) => {
     apiLink
-      .get(`/users`)
+      .get(`/notes`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('data');
@@ -30,9 +30,9 @@ describe.skip('Users:basic', () => {
       });
   });
 
-  it('GET /users/:id => should return user with id === (:id)', (done) => {
+  it('GET /notes/:id => should return note with id === (:id)', (done) => {
     apiLink
-      .get(`/users/${ mockUsers.id }`)
+      .get(`/notes/${ mockNotes.id }`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('data');
@@ -40,25 +40,25 @@ describe.skip('Users:basic', () => {
       });
   });
 
-  it('PATCH /users/:id => should update user with id === (:id)', (done) => {
+  it('PATCH /notes/:id => should update note with id === (:id)', (done) => {
     apiLink
-      .patch(`/users/${ mockUsers.id }`)
-      .send(mockUsers.dataForUpdating)
+      .patch(`/notes/${ mockNotes.id }`)
+      .send(mockNotes.dataForUpdating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is updated !');
+        chai.expect(res.body['message']).to.equal('note is updated !');
         done(err);
       });
   });
 
-  it('DELETE /users/:id => should delete user with id === (:id)', (done) => {
+  it('DELETE /notes/:id => should delete note with id === (:id)', (done) => {
     apiLink
-      .delete(`/users/${ mockUsers.id }`)
+      .delete(`/notes/${ mockNotes.id }`)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body['message']).to.equal('user is deleted !');
+        chai.expect(res.body['message']).to.equal('note is deleted !');
         done(err);
       });
   });

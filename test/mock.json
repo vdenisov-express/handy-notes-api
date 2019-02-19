@@ -13,5 +13,27 @@
     "dataForUpdating": {
       "name": "Senior Tester"
     }
+  },
+
+  "Notes": {
+    "id": 1,
+
+    "dataForCreating": {
+      "title": "test title for note",
+      "text": "test description for test note",
+      "userId": 1
+    },
+
+    "dataForUpdating": {
+      "text": "new text for test note"
+    }
+  },
+
+  "Tags": {
+    "id": 1,
+
+    "dataForCreating": {},
+
+    "dataForUpdating": {}
   }
 }
