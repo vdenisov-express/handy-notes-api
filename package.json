@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Training project Notes",
   "main": "index.js",
-  ">>> PART #2 <<<": "========================= SCRIPTS =========================",
+  ">>> PART #2 <<<": "========================= SCRIPTS ============================",
   "scripts": {
     "start": "nodemon index.js",
     "start:dev": "export NODE_ENV=dev && nodemon index.js",
@@ -29,7 +29,7 @@
     "migrate:down": "Cancel one migrations",
     "migrate:reset": "Cancel all migrations"
   },
-  ">>> PART #3 <<<": "========================= DEPENDENCIES =========================",
+  ">>> PART #3 <<<": "========================= DEPENDENCIES =======================",
   "dependencies": {
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
@@ -42,37 +42,14 @@
     "sqlite3": "^4.0.6",
     "swagger-ui-express": "^4.0.2"
   },
-  "dependencies:COMMENTS": {
-    "bluebird": "########## BLUEBIRD ##########",
-    "bluebird:about": "Bluebird is a fully featured promise library with focus on innovative features and performance",
-    "bluebird:npm": "https://www.npmjs.com/package/bluebird",
-    "bluebird:docs": "http://bluebirdjs.com/docs/why-bluebird.html",
-    "body-parser": "########## BODY-PARSER ##########",
-    "body-parser:about": "Node.js body parsing middleware",
-    "body-parser:npm": "https://www.npmjs.com/package/body-parser",
-    "db-migrate": "########## DB-MIGRATE ##########",
-    "db-migrate:about": "Database migration framework for node.js",
-    "db-migrate:npm": "https://www.npmjs.com/package/db-migrate",
-    "db-migrate:docs": "https://db-migrate.readthedocs.io/en/latest",
-    "db-migrate-sqlite3": "########## DB-MIGRATE-SQLITE-3 ##########",
-    "db-migrate-sqlite3:about": "Sqlite driver for db-migrate",
-    "db-migrate-sqlite3:npm": "https://www.npmjs.com/package/db-migrate-sqlite3",
-    "express": "???",
-    "express-handlebars": "???",
-    "sqlite3": "???",
-    "swagger-ui-express": "???"
-  },
-  ">>> #4 <<<": "========================= DEV-DEPENDENCIES =========================",
+  ">>> PART #4 <<<": "========================= DEV-DEPENDENCIES ===================",
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.0.0",
     "nodemon": "^1.18.9",
     "supertest": "^3.4.2"
   },
-  "devDependencies:COMMENTS": {
-    "nodemon": "???"
-  },
-  ">>> #5 <<<": "========================= EXTRA INFO =========================",
+  ">>> PART #5 <<<": "========================= EXTRA INFO =========================",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vdenisov-dev/lds-project-notes.git"
@@ -83,5 +60,5 @@
     "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
-  ">>> #6 <<<": "========================= THE END ========================="
+  ">>> PART #6 <<<": "========================= THE END ============================"
 }
