@@ -27,7 +27,7 @@
     "/users": {
       "post": {
         "description": "",
-        "summary": "Create new user",
+        "summary": "Create new user => { name *, email *, password *, phone ?, birthdate ? }",
         "tags": [
           "Users:basic"
         ],
@@ -77,7 +77,7 @@
     "/users/{id}": {
       "get": {
         "description": "",
-        "summary": "Find by id",
+        "summary": "Find by userId => / : id /",
         "tags": [
           "Users:basic"
         ],
@@ -107,7 +107,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "Update by id",
+        "summary": "Update by userId => / : id / + { name ?, email ?, password ?, phone ?, birthdate ? }",
         "tags": [
           "Users:basic"
         ],
@@ -146,7 +146,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "Delete by id",
+        "summary": "Delete by userId => / : id /",
         "tags": [
           "Users:basic"
         ],
@@ -178,7 +178,7 @@
     "/notes": {
       "post": {
         "description": "",
-        "summary": "Create new note",
+        "summary": "Create new note => { title *, text *, userId * }",
         "tags": [
           "Notes:basic"
         ],
@@ -228,7 +228,7 @@
     "/notes/{id}": {
       "get": {
         "description": "",
-        "summary": "Find by id",
+        "summary": "Find by noteId => / : id /",
         "tags": [
           "Notes:basic"
         ],
@@ -258,7 +258,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "Update by id",
+        "summary": "Update by noteId => / : id / + { title ?, text ? }",
         "tags": [
           "Notes:basic"
         ],
@@ -297,7 +297,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "Delete by id",
+        "summary": "Delete by noteId => / : id /",
         "tags": [
           "Notes:basic"
         ],
@@ -329,7 +329,7 @@
     "/tags": {
       "post": {
         "description": "",
-        "summary": "Create new tag",
+        "summary": "Create new tag => { value * }",
         "tags": [
           "Tags:basic"
         ],
@@ -379,7 +379,7 @@
     "/tags/{id}": {
       "get": {
         "description": "",
-        "summary": "Find by id",
+        "summary": "Find by tagId => / : id /",
         "tags": [
           "Tags:basic"
         ],
@@ -409,7 +409,7 @@
       },
       "patch": {
         "description": "",
-        "summary": "Update by id",
+        "summary": "Update by tagId => / : id / + { value * }",
         "tags": [
           "Tags:basic"
         ],
@@ -448,7 +448,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "Delete by id",
+        "summary": "Delete by tagId => / : id /",
         "tags": [
           "Tags:basic"
         ],
@@ -498,7 +498,7 @@
     "/users/{id}/likes": {
       "post": {
         "description": "",
-        "summary": "Add like by user {noteId}",
+        "summary": "Add like by user => / : id / + { noteId * }",
         "tags": [
           "Users:extra"
         ],
@@ -537,7 +537,7 @@
       },
       "get": {
         "description": "",
-        "summary": "Likes added by user",
+        "summary": "Likes added by user => / : id /",
         "tags": [
           "Users:extra"
         ],
@@ -567,7 +567,7 @@
       },
       "delete": {
         "description": "",
-        "summary": "Dislike note by user {noteId}",
+        "summary": "Dislike note by user => / : id / + { noteId * }",
         "tags": [
           "Users:extra"
         ],
@@ -608,7 +608,7 @@
     "/users/{id}/notes": {
       "get": {
         "description": "",
-        "summary": "Notes created by user",
+        "summary": "Notes created by user => / : id /",
         "tags": [
           "Users:extra"
         ],
@@ -640,7 +640,7 @@
     "/users/filter/by/liked": {
       "get": {
         "description": "",
-        "summary": "USERS => filter liked (noteId)",
+        "summary": "Filter users by liked note => ( ? noteId )",
         "tags": [
           "Users:extra"
         ],
@@ -667,26 +667,36 @@
         }
       }
     },
-    "/notes/4/tags": {
+    "/notes/{id}/tags": {
       "post": {
         "description": "",
-        "summary": "NOTES => attach tag",
+        "summary": "Add tag for note => / : id / + { tagId * }",
         "tags": [
           "Notes:extra"
         ],
-        "operationId": "Notes4TagsPost",
+        "operationId": "Notes:by:id:tags:add",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
             "name": "data",
             "in": "body",
             "required": true,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/NOTES=>attachtagRequest"
+              "$ref": "#/definitions/Notes:tags:add"
             }
           }
         ],
@@ -699,16 +709,66 @@
       },
       "get": {
         "description": "",
-        "summary": "NOTES => tags (noteId)",
+        "summary": "Get tag for note => / : id /",
         "tags": [
           "Notes:extra"
         ],
-        "operationId": "Notes4TagsGet",
+        "operationId": "Notes:by:id:tags:get",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Delete tag from note => / : id / + { tagId * }",
+        "tags": [
+          "Notes:extra"
+        ],
+        "operationId": "Notes:by:id:tags:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Notes:tags:delete"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -720,11 +780,11 @@
     "/notes/filter/by": {
       "get": {
         "description": "",
-        "summary": "NOTES => filter (tagId)",
+        "summary": "Filter notes by tag => ( ? tagId )",
         "tags": [
           "Notes:extra"
         ],
-        "operationId": "NotesFilterByGet",
+        "operationId": "Notes:filterBy:tag",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -737,37 +797,6 @@
             "type": "integer",
             "format": "int32",
             "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/notes/1/tags": {
-      "delete": {
-        "description": "",
-        "summary": "NOTES => detach tag",
-        "tags": [
-          "Notes:extra"
-        ],
-        "operationId": "Notes1TagsDelete",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/NOTES=>detachtagRequest"
-            }
           }
         ],
         "responses": {
@@ -816,7 +845,7 @@
     "Users:model:update": {
       "title": "Users:model:update",
       "example": {
-        "name": "Denisov Vladimir Andreevich"
+        "name": "Denisov Vladimir"
       },
       "type": "object",
       "properties": {
@@ -905,18 +934,19 @@
       },
       "type": "object",
       "properties": {
+        "title": {
+          "type": "string"
+        },
         "text": {
           "type": "string"
         }
       },
-      "required": [
-        "text"
-      ]
+      "required": []
     },
-    "NOTES=>attachtagRequest": {
-      "title": "NOTES=>attachtagRequest",
+    "Notes:tags:add": {
+      "title": "Notes:tags:add",
       "example": {
-        "tagId": 7
+        "tagId": 1
       },
       "type": "object",
       "properties": {
@@ -929,8 +959,8 @@
         "tagId"
       ]
     },
-    "NOTES=>detachtagRequest": {
-      "title": "NOTES=>detachtagRequest",
+    "Notes:tags:delete": {
+      "title": "Notes:tags:delete",
       "example": {
         "tagId": 1
       },
