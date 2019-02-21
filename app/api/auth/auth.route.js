@@ -1,7 +1,7 @@
 const authRoute = require('express').Router();
 const authController = require('./auth.controller');
 
-const mwCheckEmail = require('./../api-shared/middleware/check-email');
+const mwCheckEmail = require('./../api-shared/middlewares/check-email');
 
 
 authRoute.post('/login', mwCheckEmail, authController.login);
