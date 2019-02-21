@@ -87,7 +87,7 @@ describe('Notes:basic', () => {
 
 describe('< delete useless data >', () => {
 
-  it('=> delete usefull user', (done) => {
+  it('=> delete useless user', (done) => {
     apiLink
       .delete(`/users/${ mockUsers.id }`)
       .end((err, res) => {

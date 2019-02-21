@@ -61,12 +61,12 @@ describe.only('>>> API v1 <<<', () => {
     require('./../app/api/notes/test/run');
   });
 
-  describe.skip(`
+  describe.only(`
   ########
   # TAGS #
   ########
   `, () => {
-    require('./tags.test');
+    require('./../app/api/tags/test/run');
   });
 
 });
