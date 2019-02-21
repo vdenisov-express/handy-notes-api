@@ -7,7 +7,8 @@
   ">>> PART #2 <<<": "========================= SCRIPTS ============================",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "mocha $1 -- test/init.js",
+    "test": "mocha test/",
+    "test:same": "mocha $1 -- test/init.js",
     "-------------------------------": "------------------------------",
     "start:dev": "export NODE_ENV=dev && node index.js",
     "start:test": "export NODE_ENV=test && node index.js",
