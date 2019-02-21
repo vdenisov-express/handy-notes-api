@@ -110,16 +110,6 @@ module.exports = {
       .catch(err => handlerFor.ERROR(res, err));
   },
 
-  // filter notes by id of tag
-  filterByTagId(req, res) {
-    const tagId = parseInt(req.query.tagId);
-
-    tableNotesTags
-      .filterNotesByTagId(tagId)
-      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
-      .catch(err => handlerFor.ERROR(res, err));
-  },
-
   // detach tag from note
   detachTag(req, res) {
     const noteId = parseInt(req.params.id);

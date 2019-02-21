@@ -30,9 +30,6 @@ notesRoute.get('/:id/tags',     notesController.getTags);
 // get user who liked this note
 notesRoute.get('/:id/likers',   notesController.getLikers);
 
-// filter notes by tag
-notesRoute.get('/filter/by',    notesController.filterByTagId);
-
 // detach tag from note
 notesRoute.delete('/:id/tags',  notesController.detachTag);
 
