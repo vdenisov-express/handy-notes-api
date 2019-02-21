@@ -1,9 +1,11 @@
-const handlerFor = require('./../its-shared/handlers');
+const handlerFor = require('./../api-shared/handlers');
 
 const { TagsModel } = require('./tags.model');
+const { NotesTagsModel } = require('./../api-shared/notes-tags.model');
 
 
 const tableTags = new TagsModel();
+const tableNotesTags = new NotesTagsModel();
 
 
 module.exports = {
@@ -63,6 +65,18 @@ module.exports = {
     tableTags
       .deleteById(id)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is deleted !'))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
+
+  // ##################################################
+
+  // get notes that was marked with this tag
+  getTaggedNotes(req, res) {
+    const { id } = req.params;
+
+    tableNotesTags
+      .filterNotesByTagId(id)
+      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
       .catch(err => handlerFor.ERROR(res, err));
   },
 

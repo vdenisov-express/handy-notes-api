@@ -2,6 +2,8 @@ const tagsRoute = require('express').Router();
 const tagsController = require('./tags.controller');
 
 
+/* BASE CRUD */
+
 // CREATE
 tagsRoute.post('/',      tagsController.create);
 
@@ -14,6 +16,15 @@ tagsRoute.patch('/:id',  tagsController.updateById);
 
 // DELETE
 tagsRoute.delete('/:id', tagsController.deleteById);
+
+// ##################################################
+
+/* ADDITIONAL FUNCTIONALITY */
+
+// get notes that was marked with this tag
+tagsRoute.get('/:id/notes', tagsController.getTaggedNotes);
+
+// ##################################################
 
 
 module.exports = { tagsRoute };

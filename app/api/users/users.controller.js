@@ -1,8 +1,8 @@
-const handlerFor = require('./../its-shared/handlers');
+const handlerFor = require('./../api-shared/handlers');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('./../notes/notes.model');
-const { LikesModel } = require('./../its-shared/likes.model');
+const { LikesModel } = require('./../api-shared/likes.model');
 
 
 const tableUsers = new UsersModel();
@@ -109,16 +109,6 @@ module.exports = {
     tableLikes
       .filterNotesByLikedCondition(userId)
       .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
-      .catch(err => handlerFor.ERROR(res, err));
-  },
-
-  // filter users by liked note
-  filterByLikedNote(req, res) {
-    const noteId = parseInt(req.query.noteId);
-
-    tableLikes
-      .filterUsersByIdOfLikedNote(noteId)
-      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
       .catch(err => handlerFor.ERROR(res, err));
   },
 

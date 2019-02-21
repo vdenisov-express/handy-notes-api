@@ -29,9 +29,6 @@ usersRoute.get('/:id/notes',        usersController.getNotes);
 // get notes that user likes
 usersRoute.get('/:id/likes',        usersController.getLikedNotes);
 
-// filter users by liked note
-usersRoute.get('/filter/by/liked',  usersController.filterByLikedNote);
-
 // remove like from note
 usersRoute.delete('/:id/likes',     usersController.removeLikeFromNote);
 

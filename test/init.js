@@ -1,72 +1,9 @@
-const chai = require('chai');
-const supertest = require('supertest');
+describe('RUN TESTS', () => {
 
+  describe('\n@@@ PART 1 => SERVER @@@\n',  () => { require('./modules/server.test'); });
 
-const request = supertest('http://localhost:3000');
+  describe('\n@@@ PART 2 => SITE @@@\n',    () => { require('./modules/site.test');   });
 
-
-describe.skip('>>> SERVER <<<', () => {
-
-  it('GET / should return status 404', (done) => {
-    request
-      .get('/')
-      .end((err, res) => {
-        chai.assert.equal(res.status, 404);
-        chai.assert.typeOf(res.text, 'string');
-        chai.assert.equal(res.text, '404 - Not Found :(');
-        done(err);
-      });
-  });
-
-  it('GET /api/v1 should return status 200', (done) => {
-    request
-      .get('/api/v1')
-      .end((err, res) => {
-        chai.assert.equal(res.status, 200);
-        chai.assert.typeOf(res.text, 'string');
-        chai.assert.equal(res.text, 'Welcome to API v1 !!!');
-        done(err);
-      });
-  });
-
-  it('GET /abcdefg should return status 404', (done) => {
-    request
-      .get('/abcdefghijk')
-      .end((err, res) => {
-        chai.assert.equal(res.status, 404);
-        chai.assert.typeOf(res.text, 'string');
-        chai.assert.equal(res.text, '404 - Not Found :(');
-        done(err);
-      });
-  });
-
-});
-
-
-describe('>>> API v1 <<<', () => {
-
-  describe.skip(`
-  #########
-  # USERS #
-  #########
-  `, () => {
-    require('./users.test');
-  });
-
-  describe.skip(`
-  #########
-  # NOTES #
-  #########
-  `, () => {
-    require('./notes.test');
-  });
-
-  describe.skip(`
-  ########
-  # TAGS #
-  ########
-  `, () => {
-    require('./tags.test');
-  });
+  describe('\n@@@ PART 3 => API v1 @@@\n',  () => { require('./modules/apiV1.test');  });
 
 });
