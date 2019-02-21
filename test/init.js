@@ -45,7 +45,7 @@ describe('>>> SERVER <<<', () => {
 
 describe.only('>>> API v1 <<<', () => {
 
-  describe.only(`
+  describe(`
   #########
   # USERS #
   #########
@@ -53,12 +53,12 @@ describe.only('>>> API v1 <<<', () => {
     require('./../app/api/users/users.test');
   });
 
-  describe(`
+  describe.only(`
   #########
   # NOTES #
   #########
   `, () => {
-    require('./notes.test');
+    require('./../app/api/notes/notes.test');
   });
 
   describe(`

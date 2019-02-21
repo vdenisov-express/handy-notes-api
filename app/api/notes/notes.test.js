@@ -2,8 +2,48 @@ const chai = require('chai');
 const supertest = require('supertest');
 
 
-const mockNotes = require('./mock.json').Notes;
 const apiLink = supertest('http://localhost:3000/api/v1');
+const mockNotes = {
+  id: 1,
+
+  dataForCreating: {
+    title: 'test title for note',
+    text: 'test description for test note',
+    userId: 1,
+  },
+
+  dataForUpdating: {
+    text: 'new text for test note',
+  },
+};
+const mockUsers = {
+  id: 1,
+
+  dataForCreating: {
+    name: 'Junior Tester',
+    email: 'test@gmail.com',
+    password: 'idontknow',
+    phone: '+0-000-000-00-00',
+    birthdate: '10.10.1010',
+  },
+};
+
+
+describe('< create needed data >', () => {
+
+  it('=> create user for notes', (done) => {
+    apiLink
+      .post(`/users`)
+      .send(mockUsers.dataForCreating)
+      .end((err, res) => {
+        chai.expect(res.status).to.equal(200, 'res.status');
+        chai.expect(res.body).to.have.property('message');
+        chai.expect(res.body.message).to.equal('user is created !');
+        done(err);
+      });
+  });
+
+});
 
 
 describe('Notes:basic', () => {
@@ -60,6 +100,22 @@ describe('Notes:basic', () => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
         chai.expect(res.body.message).to.equal('note is deleted !');
+        done(err);
+      });
+  });
+
+});
+
+
+describe('< delete useless data >', () => {
+
+  it('=> delete usefull user', (done) => {
+    apiLink
+      .delete(`/users/${ mockUsers.id }`)
+      .end((err, res) => {
+        chai.expect(res.status).to.equal(200, 'res.status');
+        chai.expect(res.body).to.have.property('message');
+        chai.expect(res.body.message).to.equal('user is deleted !');
         done(err);
       });
   });

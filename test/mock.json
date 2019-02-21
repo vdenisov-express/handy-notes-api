@@ -1,33 +1,4 @@
 {
-  "Users": {
-    "id": 1,
-
-    "dataForCreating": {
-      "name": "Super Tester",
-      "email": "test@gmail.com",
-      "password": "idontknow",
-      "phone": "+0-000-000-00-00",
-      "birthdate": "10.10.1010"
-    },
-
-    "dataForUpdating": {
-      "name": "Senior Tester"
-    }
-  },
-
-  "Notes": {
-    "id": 1,
-
-    "dataForCreating": {
-      "title": "test title for note",
-      "text": "test description for test note",
-      "userId": 1
-    },
-
-    "dataForUpdating": {
-      "text": "new text for test note"
-    }
-  },
 
   "Tags": {
     "id": 1,
@@ -40,4 +11,5 @@
       "value": "home"
     }
   }
+
 }
