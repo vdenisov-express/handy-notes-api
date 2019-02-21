@@ -50,18 +50,18 @@ describe.only('>>> API v1 <<<', () => {
   # USERS #
   #########
   `, () => {
-    require('./../app/api/users/users.test');
+    require('./../app/api/users/test/run');
   });
 
-  describe.only(`
+  describe(`
   #########
   # NOTES #
   #########
   `, () => {
-    require('./../app/api/notes/notes.test');
+    require('./../app/api/notes/test/run');
   });
 
-  describe(`
+  describe.skip(`
   ########
   # TAGS #
   ########
