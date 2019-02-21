@@ -1,5 +1,5 @@
 const authService = require('./auth.service');
-const handlerFor = require('./../its-shared/handlers');
+const handlerFor = require('./../api-shared/handlers');
 const { UsersModel } = require('./../users/users.model');
 
 
@@ -14,36 +14,22 @@ module.exports.login = (req, res) => {
     password:   `${ reqBody.password }`,
   };
 
-  tableUsers
-    .checkEmail(inputData.email)
+  const userObj = req['user'];
 
-    .then(userObj => {
-      // User was found by "email"
-      if (userObj) {
+  if (!userObj) {
+    return handlerFor.ERROR_NOT_FOUND(res, 'email not found');
+  }
 
-        // Password verification
-        const checkPass = authService.comparePasswords(inputData.password, userObj.password);
+  // Password verification
+  const checkPass = authService.comparePasswords(inputData.password, userObj.password);
 
-        // Password is correct
-        if (checkPass) {
-          const token = authService.createToken(userObj.id);
-          return handlerFor.SUCCESS(res, 200, {token}, 'user is logged in !');
-        }
+  if (!checkPass) {
+    return handlerFor.ERROR_ON_AUTH(res, 'passwords don`t match, try again');
+  }
 
-        // Wrong password
-        else {
-          return handlerFor.ERROR_ON_AUTH(res, 'passwords don`t match, try again');
-        }
-      }
-
-      // Unknown email
-      else {
-        return handlerFor.ERROR_NOT_FOUND(res, 'email not found');
-      }
-    })
-
-    // Unknown error in database
-    .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
+  const token = authService.createToken(userObj.id);
+  return handlerFor.SUCCESS(res, 200, {token}, 'user is logged in !');
+   
 }
 
 
@@ -58,31 +44,21 @@ module.exports.register = (req, res) => {
     password:   `${ reqBody.password }`,
   };
 
+  const userObj = req['user'];
+
+  if (userObj) {
+    return handlerFor.ERROR_ON_AUTH(res, 'this email is already in use');
+  }
+
+  // Create hash from password
+  const hashedPass = authService.createPasswordHash(inputData.password);
+
+  // Save hash of password in database, not password
+  inputData.password = hashedPass;
+
   tableUsers
-    .checkEmail(inputData.email)
-
-    .then(userObj => {
-      // User was found by "email"
-      if (userObj) {
-        return handlerFor.ERROR_ON_AUTH(res, 'this email is already in use');
-      }
-
-      // Unknown email
-      else {
-        // Create hash from password
-        const hashedPass = authService.createPasswordHash(inputData.password);
-
-        // Save hash of password in database, not password
-        inputData.password = hashedPass;
-
-        tableUsers
-          .create(inputData)
-          .then(() => handlerFor.SUCCESS(res, 200, null, 'user is registered !'))
-          .catch(err => handlerFor.ERROR(res, err));
-      }
-    })
-
-    // Unknown error in database
-    .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
+    .create(inputData)
+    .then(() => handlerFor.SUCCESS(res, 200, null, 'user is registered !'))
+    .catch(err => handlerFor.ERROR(res, err));
 
 }
