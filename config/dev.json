@@ -1,0 +1,8 @@
+{
+  "DATABASE": {
+    "PATH": "./db.dev.sqlite"
+  },
+  "SERVER": {
+    "PORT": 3000
+  }
+}

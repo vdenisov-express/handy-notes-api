@@ -1,15 +1,58 @@
 {
+  ">>> PART #1 <<<": "========================= BASIC INFO =========================",
   "name": "lds-project-notes",
   "version": "1.0.0",
-  "description": "Training project \"Notes\"",
+  "description": "Training project Notes",
   "main": "index.js",
+  ">>> PART #2 <<<": "========================= SCRIPTS ============================",
   "scripts": {
     "start": "nodemon index.js",
-
-    "migrate:up":     "cd ./db && db-migrate up",
-    "migrate:down":   "cd ./db && db-migrate down",
-    "migrate:reset":  "cd ./db && db-migrate reset"
+    "test": "mocha test/",
+    "test:same": "mocha $1 -- test/init.js",
+    "-------------------------------": "------------------------------",
+    "start:dev": "export NODE_ENV=dev && node index.js",
+    "start:test": "export NODE_ENV=test && node index.js",
+    "start:prod": "export NODE_ENV=prod && node index.js",
+    "--------------------------------": "------------------------------",
+    "db:dev:migrate:up": "cd ./db && db-migrate up",
+    "db:dev:migrate:down": "cd ./db && db-migrate down",
+    "db:dev:migrate:reset": "cd ./db && db-migrate reset",
+    "---------------------------------": "------------------------------",
+    "db:test:migrate:up": "cd ./db && db-migrate up -e test",
+    "db:test:migrate:down": "cd ./db && db-migrate down -e test",
+    "db:test:migrate:reset": "cd ./db && db-migrate reset -e test",
+    "----------------------------------": "------------------------------",
+    "db:prod:migrate:up": "cd ./db && db-migrate up -e prod",
+    "db:prod:migrate:down": "cd ./db && db-migrate down -e prod",
+    "db:prod:migrate:reset": "cd ./db && db-migrate reset -e prod"
   },
+  "scripts:COMMENTS": {
+    "start": "Run server",
+    "migrate:up": "Execute all migrations",
+    "migrate:down": "Cancel one migrations",
+    "migrate:reset": "Cancel all migrations"
+  },
+  ">>> PART #3 <<<": "========================= DEPENDENCIES =======================",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "colors": "^1.3.3",
+    "config": "^3.0.1",
+    "db-migrate": "^0.11.5",
+    "db-migrate-sqlite3": "^0.3.1",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "sqlite3": "^4.0.6",
+    "swagger-ui-express": "^4.0.2"
+  },
+  ">>> PART #4 <<<": "========================= DEV-DEPENDENCIES ===================",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
+  },
+  ">>> PART #5 <<<": "========================= EXTRA INFO =========================",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vdenisov-dev/lds-project-notes.git"
@@ -20,14 +63,5 @@
     "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
-  "dependencies": {
-    "db-migrate": "^0.11.5",
-    "db-migrate-sqlite3": "^0.3.1",
-    "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
-    "sqlite3": "^4.0.6"
-  },
-  "devDependencies": {
-    "nodemon": "^1.18.9"
-  }
+  ">>> PART #6 <<<": "========================= THE END ============================"
 }

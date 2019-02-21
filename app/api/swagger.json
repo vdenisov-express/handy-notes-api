@@ -1,0 +1,1039 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "lds-project-notes",
+    "description": "This is the documentation for the API is implemented using swagger",
+    "contact": {
+      "author": "Vladimir Denisov",
+      "email": "vdenisov.dev@gmail.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "curl": {
+    "display": "none"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "",
+        "summary": "Create new user => { name *, email *, password *, phone ?, birthdate ? }",
+        "tags": [
+          "Users:basic"
+        ],
+        "operationId": "Users:create",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "Data for creating user",
+            "schema": {
+              "$ref": "#/definitions/Users:model:create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "List of all users",
+        "tags": [
+          "Users:basic"
+        ],
+        "operationId": "Users:list",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "",
+        "summary": "Find by userId => / : id /",
+        "tags": [
+          "Users:basic"
+        ],
+        "operationId": "Users:by:id:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "Update by userId => / : id / + { name ?, email ?, password ?, phone ?, birthdate ? }",
+        "tags": [
+          "Users:basic"
+        ],
+        "operationId": "Users:by:id:update",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "Data for updating user",
+            "schema": {
+              "$ref": "#/definitions/Users:model:update"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Delete by userId => / : id /",
+        "tags": [
+          "Users:basic"
+        ],
+        "operationId": "Users:by:id:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes": {
+      "post": {
+        "description": "",
+        "summary": "Create new note => { title *, text *, userId * }",
+        "tags": [
+          "Notes:basic"
+        ],
+        "operationId": "Notes:create",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Notes:model:create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "List of all notes",
+        "tags": [
+          "Notes:basic"
+        ],
+        "operationId": "Notes:list",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/{id}": {
+      "get": {
+        "description": "",
+        "summary": "Find by noteId => / : id /",
+        "tags": [
+          "Notes:basic"
+        ],
+        "operationId": "Notes:by:id:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "Update by noteId => / : id / + { title ?, text ? }",
+        "tags": [
+          "Notes:basic"
+        ],
+        "operationId": "Notes:by:id:update",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Notes:model:update"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Delete by noteId => / : id /",
+        "tags": [
+          "Notes:basic"
+        ],
+        "operationId": "Notes:by:id:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags": {
+      "post": {
+        "description": "",
+        "summary": "Create new tag => { value * }",
+        "tags": [
+          "Tags:basic"
+        ],
+        "operationId": "Tags:create",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Tags:model:create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "List of all tags",
+        "tags": [
+          "Tags:basic"
+        ],
+        "operationId": "Tags:list",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags/{id}": {
+      "get": {
+        "description": "",
+        "summary": "Find by tagId => / : id /",
+        "tags": [
+          "Tags:basic"
+        ],
+        "operationId": "Tags:by:id:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of tag",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "summary": "Update by tagId => / : id / + { value * }",
+        "tags": [
+          "Tags:basic"
+        ],
+        "operationId": "Tags:by:id:update",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of tag",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Tags:model:update"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Delete by tagId => / : id /",
+        "tags": [
+          "Tags:basic"
+        ],
+        "operationId": "Tags:by:id:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of tag",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "",
+        "summary": "welcome message",
+        "operationId": "UnnammedEndpointGet",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/{id}/likes": {
+      "post": {
+        "description": "",
+        "summary": "Add like by user => / : id / + { noteId * }",
+        "tags": [
+          "Users:extra"
+        ],
+        "operationId": "Users:by:id:likes:add",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Users:likes:add"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "Likes added by user => / : id /",
+        "tags": [
+          "Users:extra"
+        ],
+        "operationId": "Users:by:id:likes:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Dislike note by user => / : id / + { noteId * }",
+        "tags": [
+          "Users:extra"
+        ],
+        "operationId": "Users:by:id:likes:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Users:likes:delete"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/{id}/notes": {
+      "get": {
+        "description": "",
+        "summary": "Notes created by user => / : id /",
+        "tags": [
+          "Users:extra"
+        ],
+        "operationId": "Users:by:id:notes:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/{id}/tags": {
+      "post": {
+        "description": "",
+        "summary": "Add tag for note => / : id / + { tagId * }",
+        "tags": [
+          "Notes:extra"
+        ],
+        "operationId": "Notes:by:id:tags:add",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Notes:tags:add"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "summary": "Get tag for note => / : id /",
+        "tags": [
+          "Notes:extra"
+        ],
+        "operationId": "Notes:by:id:tags:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "Delete tag from note => / : id / + { tagId * }",
+        "tags": [
+          "Notes:extra"
+        ],
+        "operationId": "Notes:by:id:tags:delete",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Notes:tags:delete"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/notes/{id}/likers": {
+      "get": {
+        "description": "",
+        "summary": "Get users who liked this note => / :id /",
+        "tags": [
+          "Notes:extra"
+        ],
+        "operationId": "Notes:by:id:likers:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags/{id}/notes": {
+      "get": {
+        "description": "",
+        "summary": "Get notes that was marked with this tag => / :id /",
+        "tags": [
+          "Tags:extra"
+        ],
+        "operationId": "Tags:by:id:notes:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of tag",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Users:model:create": {
+      "title": "Users:model:create",
+      "example": {
+        "name": "Vladimir Denisov",
+        "email": "vdenisov.dev@gmail.com",
+        "password": "qwerty123",
+        "phone": "+0-000-000-00-00",
+        "birthdate": "01.01.1970"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "password"
+      ]
+    },
+    "Users:model:update": {
+      "title": "Users:model:update",
+      "example": {
+        "name": "Denisov Vladimir"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": []
+    },
+    "Users:likes:add": {
+      "title": "Users:likes:add",
+      "example": {
+        "noteId": 1
+      },
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "noteId"
+      ]
+    },
+    "Users:likes:delete": {
+      "title": "Users:likes:delete",
+      "example": {
+        "noteId": 1
+      },
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "noteId"
+      ]
+    },
+    "Notes:model:create": {
+      "title": "Notes:model:create",
+      "example": {
+        "title": "name for note",
+        "text": "some description for note",
+        "userId": 1
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "title",
+        "text",
+        "userId"
+      ]
+    },
+    "Notes:model:update": {
+      "title": "Notes:model:update",
+      "example": {
+        "text": "q, w, e, r, t, y"
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": []
+    },
+    "Notes:tags:add": {
+      "title": "Notes:tags:add",
+      "example": {
+        "tagId": 1
+      },
+      "type": "object",
+      "properties": {
+        "tagId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "tagId"
+      ]
+    },
+    "Notes:tags:delete": {
+      "title": "Notes:tags:delete",
+      "example": {
+        "tagId": 1
+      },
+      "type": "object",
+      "properties": {
+        "tagId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "tagId"
+      ]
+    },
+    "Tags:model:create": {
+      "title": "Tags:model:create",
+      "example": {
+        "value": "shazam"
+      },
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "Tags:model:update": {
+      "title": "Tags:model:update",
+      "example": {
+        "value": "sport"
+      },
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Users:basic",
+      "description": "Basic methods for managing user data"
+    },
+    {
+      "name": "Users:extra",
+      "description": "Additional methods for users"
+    },
+    {
+      "name": "Notes:basic",
+      "description": "Basic methods for managing note data"
+    },
+    {
+      "name": "Notes:extra",
+      "description": "Additional methods for notes"
+    },
+    {
+      "name": "Tags:basic",
+      "description": "Basic methods for managing tag data"
+    },
+    {
+      "name": "Tags:extra",
+      "description": "Additional methods for tags"
+    }
+  ]
+}
