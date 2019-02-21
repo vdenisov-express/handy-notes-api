@@ -27,6 +27,9 @@ notesRoute.post('/:id/tags',    notesController.attachTag);
 // get tags for note
 notesRoute.get('/:id/tags',     notesController.getTags);
 
+// get user who liked this note
+notesRoute.get('/:id/likers',   notesController.getLikers);
+
 // filter notes by tag
 notesRoute.get('/filter/by',    notesController.filterByTagId);
 

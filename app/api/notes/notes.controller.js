@@ -2,10 +2,12 @@ const handlerFor = require('./../api-shared/handlers');
 
 const { NotesModel } = require('./notes.model');
 const { NotesTagsModel } = require('./../api-shared/notes-tags.model');
+const { LikesModel } = require('./../api-shared/likes.model');
 
 
 const tableNotes = new NotesModel();
 const tableNotesTags = new NotesTagsModel();
+const tableLikes = new LikesModel();
 
 
 module.exports = {
@@ -95,6 +97,16 @@ module.exports = {
     tableNotesTags
       .filterTagsByNoteId(noteId)
       .then(tagsList => handlerFor.SUCCESS(res, 200, tagsList))
+      .catch(err => handlerFor.ERROR(res, err));
+  },
+
+  // get user who liked this note
+  getLikers(req, res) {
+    const noteId = parseInt(req.params.id);
+
+    tableLikes
+      .filterUsersByIdOfLikedNote(noteId)
+      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
       .catch(err => handlerFor.ERROR(res, err));
   },
 

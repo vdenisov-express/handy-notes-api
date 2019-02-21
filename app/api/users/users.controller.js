@@ -112,16 +112,6 @@ module.exports = {
       .catch(err => handlerFor.ERROR(res, err));
   },
 
-  // filter users by liked note
-  filterByLikedNote(req, res) {
-    const noteId = parseInt(req.query.noteId);
-
-    tableLikes
-      .filterUsersByIdOfLikedNote(noteId)
-      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
-      .catch(err => handlerFor.ERROR(res, err));
-  },
-
   // remove like from note
   removeLikeFromNote(req, res) {
     const userId = parseInt(req.params.id);
