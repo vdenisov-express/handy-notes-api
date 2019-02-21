@@ -1,4 +1,4 @@
-const handlerFor = require('./../its-shared/handlers');
+const handlerFor = require('./../api-shared/handlers');
 
 const { TagsModel } = require('./tags.model');
 
