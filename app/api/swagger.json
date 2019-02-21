@@ -637,36 +637,6 @@
         }
       }
     },
-    "/users/filter/by/liked": {
-      "get": {
-        "description": "",
-        "summary": "Filter users by liked note => ( ? noteId )",
-        "tags": [
-          "Users:extra"
-        ],
-        "operationId": "Users:filterBy:likedNote",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "noteId",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
     "/notes/{id}/tags": {
       "post": {
         "description": "",
@@ -777,26 +747,60 @@
         }
       }
     },
-    "/notes/filter/by": {
+    "/notes/{id}/likers": {
       "get": {
         "description": "",
-        "summary": "Filter notes by tag => ( ? tagId )",
+        "summary": "Get users who liked this note => / :id /",
         "tags": [
           "Notes:extra"
         ],
-        "operationId": "Notes:filterBy:tag",
+        "operationId": "Notes:by:id:likers:get",
         "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "tagId",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of note",
             "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/tags/{id}/notes": {
+      "get": {
+        "description": "",
+        "summary": "Get notes that was marked with this tag => / :id /",
+        "tags": [
+          "Tags:extra"
+        ],
+        "operationId": "Tags:by:id:notes:get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "'id' is identifier of tag",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
         "responses": {
