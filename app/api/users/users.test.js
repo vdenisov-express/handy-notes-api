@@ -2,8 +2,22 @@ const chai = require('chai');
 const supertest = require('supertest');
 
 
-const mockUsers = require('./mock.json').Users;
 const apiLink = supertest('http://localhost:3000/api/v1');
+const mockUsers = {
+  id: 1,
+
+  dataForCreating: {
+    name: 'Junior Tester',
+    email: 'test@gmail.com',
+    password: 'idontknow',
+    phone: '+0-000-000-00-00',
+    birthdate: '10.10.1010',
+  },
+
+  dataForUpdating: {
+    name: 'Senior Tester',
+  },
+};
 
 
 describe('Users:basic', () => {
