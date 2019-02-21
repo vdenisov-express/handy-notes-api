@@ -22,8 +22,7 @@ db.serialize(() => {
 
   db.get('PRAGMA foreign_keys', (err, res) => {
     if (err) throw err;
-    // console.log('Default PRAGMA "foreign_keys" switched to', res.foreign_keys);
-    console.log(`* database => foreign key links activated`);
+    console.log(`* database => foreign key links ${ res.foreign_keys ? 'enabled' : 'disabled' }`);
   });
 });
 
