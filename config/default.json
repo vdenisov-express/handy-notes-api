@@ -4,5 +4,8 @@
   },
   "SERVER": {
     "PORT": 3000
+  },
+  "APP": {
+    "JWT_SECRET_KEY": "abcdefg12345"
   }
 }
