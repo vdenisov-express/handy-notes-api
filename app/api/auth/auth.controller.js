@@ -29,7 +29,6 @@ module.exports.login = (req, res) => {
 
   const token = authService.createToken(userObj.id);
   return handlerFor.SUCCESS(res, 200, {token}, 'user is logged in !');
-   
 }
 
 
@@ -60,5 +59,7 @@ module.exports.register = (req, res) => {
     .create(inputData)
     .then(() => handlerFor.SUCCESS(res, 200, null, 'user is registered !'))
     .catch(err => handlerFor.ERROR(res, err));
-
 }
+
+
+module.exports.testJWT = (req, res) => handlerFor.STOPPER(res);
