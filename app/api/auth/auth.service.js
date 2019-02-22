@@ -1,10 +1,9 @@
+const config = require('config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
-const config = {
-  jwtSecret: 'abcdefg12345',
-};
+const APP_CONFIG = config.get('APP');
 
 
 module.exports = {
@@ -23,12 +22,15 @@ module.exports = {
   },
 
   createToken(userId) {
-    return jwt.sign({ userId }, config.jwtSecret, { expiresIn: 60 * 60 });
+    const token = jwt.sign({ userId }, APP_CONFIG.JWT_SECRET_KEY, { expiresIn: 60 * 60 });
+    return `Bearer ${token}`;
   },
 
   verifyToken(token) {
+    token = token.replace('Bearer ', '');
     const result = { success: false, data: null };
-    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+
+    jwt.verify(token, APP_CONFIG.JWT_SECRET_KEY, (err, decoded) => {
       if (!err) { result.success = true; result.data = decoded }
     });
     return result;
