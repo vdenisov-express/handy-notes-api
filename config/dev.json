@@ -6,6 +6,6 @@
     "PORT": 3000
   },
   "APP": {
-    "JWT_SECRET_KEY": "abcdefg12345"
+    "JWT_SECRET_KEY": "jwt-dev-super-secret"
   }
 }
