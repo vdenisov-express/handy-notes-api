@@ -1,0 +1,18 @@
+{
+
+  "Auth": {
+    "userId": 1,
+
+    "dataForRegister": {
+      "name": "New Test",
+      "email": "tester@gmail.com",
+      "password": "qwerty123"
+    },
+
+    "dataForLogin": {
+      "email": "tester@gmail.com",
+      "password": "qwerty123"
+    }
+  }
+
+}
