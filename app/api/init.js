@@ -8,6 +8,7 @@ const { apiV1 } = require('./v1.route');
 
 // AUTH {
 const passport = require('passport');
+const authViaJWT = require('./api-shared/middlewares/auth-via-jwt');
 // } AUTH
 
 
@@ -20,7 +21,7 @@ module.exports = function initialize(app) {
 
   // AUTH: config {
   app.use(passport.initialize());
-  require('./api-shared/middlewares/auth-jwt')(passport);
+  authViaJWT(passport);
   // } AUTH: config
 
   // API: routes {
