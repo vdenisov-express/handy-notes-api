@@ -70,7 +70,8 @@
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
   ">>> PART #6 <<<": "========================= ALIASES ============================",
   "_moduleAliases": {
-    "@database": "./db"
+    "@database": "./db",
+    "@api": "./app/api"
   },
   ">>> PART #7 <<<": "========================= THE END ============================"
 }
