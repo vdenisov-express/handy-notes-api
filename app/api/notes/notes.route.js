@@ -19,26 +19,44 @@ notesRoute.get('/:id',
 );
 
 // UPDATE
-notesRoute.patch('/:id',  notesController.updateById);
+notesRoute.patch('/:id',
+  notesMiddleware.checkId,
+  notesController.updateById
+);
 
 // DELETE
-notesRoute.delete('/:id', notesController.deleteById);
+notesRoute.delete('/:id',
+  notesMiddleware.checkId,
+  notesController.deleteById
+);
 
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */
 
 // attach tag to note
-notesRoute.post('/:id/tags',    notesController.attachTag);
+notesRoute.post('/:id/tags',
+  notesMiddleware.checkId,
+  notesController.attachTag
+);
 
 // get tags for note
-notesRoute.get('/:id/tags',     notesController.getTags);
+notesRoute.get('/:id/tags',
+  notesMiddleware.checkId,
+  notesController.getTags
+);
 
 // get user who liked this note
-notesRoute.get('/:id/likers',   notesController.getLikers);
+notesRoute.get('/:id/likers',
+  notesMiddleware.checkId,
+  notesController.getLikers
+);
 
 // detach tag from note
-notesRoute.delete('/:id/tags',  notesController.detachTag);
+notesRoute.delete('/:id/tags',
+  notesMiddleware.checkId,
+  notesController.detachTag
+);
 
 // ##################################################
 
