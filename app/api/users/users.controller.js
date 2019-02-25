@@ -52,12 +52,10 @@ module.exports = {
 
   updateById(req, res) {
     const { id } = req.params;
-    const reqBody = req.body;
-
-    const inputData = reqBody;
+    const dataForUpdating = req.body;
 
     tableUsers
-      .updateById(id, inputData)
+      .updateById(id, dataForUpdating)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is updated !'))
       .catch(err => handlerFor.ERROR(res, err));
   },

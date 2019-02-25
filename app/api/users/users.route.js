@@ -26,6 +26,7 @@ usersRoute.get('/:id',
 // UPDATE
 usersRoute.patch('/:id',
   usersMiddleware.checkId,
+  usersMiddleware.validateUpdating,
   usersController.updateById
 );
 
