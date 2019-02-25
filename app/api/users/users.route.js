@@ -13,34 +13,55 @@ usersRoute.post('/',
 );
 
 // READ
-usersRoute.get('/',       usersController.getAll);
+usersRoute.get('/',
+  usersController.getAll
+);
 
+// READ
 usersRoute.get('/:id',
   usersMiddleware.checkId,
   usersController.getById
 );
 
 // UPDATE
-usersRoute.patch('/:id',  usersController.updateById);
+usersRoute.patch('/:id',
+  usersMiddleware.checkId,
+  usersController.updateById
+);
 
 // DELETE
-usersRoute.delete('/:id', usersController.deleteById);
+usersRoute.delete('/:id',
+  usersMiddleware.checkId,
+  usersController.deleteById
+);
 
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */
 
 // add like to note
-usersRoute.post('/:id/likes',       usersController.addLikeToNote);
+usersRoute.post('/:id/likes',
+  usersMiddleware.checkId,
+  usersController.addLikeToNote
+);
 
 // get notes for user
-usersRoute.get('/:id/notes',        usersController.getNotes);
+usersRoute.get('/:id/notes',
+  usersMiddleware.checkId,
+  usersController.getNotes
+);
 
 // get notes that user likes
-usersRoute.get('/:id/likes',        usersController.getLikedNotes);
+usersRoute.get('/:id/likes',
+  usersMiddleware.checkId,
+  usersController.getLikedNotes
+);
 
 // remove like from note
-usersRoute.delete('/:id/likes',     usersController.removeLikeFromNote);
+usersRoute.delete('/:id/likes',
+  usersMiddleware.checkId,
+  usersController.removeLikeFromNote
+);
 
 // ##################################################
 
