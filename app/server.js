@@ -1,7 +1,7 @@
 const express = require('express');
 
-const initSite = require('./site/init');
-const initAPI  = require('./api/init');
+const initSite = require('./site/site.init');
+const initAPI  = require('./api/api.init');
 
 
 const app = express();
