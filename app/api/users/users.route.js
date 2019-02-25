@@ -9,8 +9,6 @@ const usersMiddleware = require('@api/users/middleware');
 // CREATE
 usersRoute.post('/',
   usersMiddleware.validateCreation,
-  usersMiddleware.checkName,
-  usersMiddleware.checkEmail,
   usersController.create
 );
 

@@ -14,7 +14,34 @@ module.exports = {
 
   // CREATE
 
-  create(req, res) {
+  async create(req, res) {
+
+    // checking name {
+    await tableUsers
+      .checkName(req.body.name)
+      .then(userObj => {
+        if (userObj) handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+        res.end();
+      })
+      .catch(err => {
+        handlerFor.ERROR_ON_DATABASE(res, err);
+        res.end();
+      });
+    // } checking name
+
+    // // checking email {
+    // tableUsers
+    //   .checkEmail(req.body.email)
+    //   .then(userObj => {
+    //     if (userObj) return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    //   })
+    //   .catch(err => {
+    //     return handlerFor.ERROR_ON_DATABASE(res, err);
+    //   });
+    // // } checking email
+
+    // handlerFor.STOPPER(res);
+
     const dataForCreation = {
       name:       req.body.name,
       email:      req.body.email,
@@ -24,7 +51,7 @@ module.exports = {
       birthdate:  req.body.birthdate || null,
     }
 
-    tableUsers
+    return tableUsers
       .create(dataForCreation)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created !'))
       .catch(err => handlerFor.ERROR(res, err));
