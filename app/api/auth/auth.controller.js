@@ -6,22 +6,19 @@ const { UsersModel } = require('@api/users/users.model');
 const tableUsers = new UsersModel();
 
 
-module.exports.login = (req, res) => {
-  const reqBody = req.body;
+module.exports.login = async (req, res) => {
+  let userObj;
 
-  const inputData = {
-    email:      `${ reqBody.email }`,
-    password:   `${ reqBody.password }`,
-  };
+  // check email {
+  userObj = await tableUsers.checkEmail(req.body.email);
+  if (!userObj)
+    return handlerFor.ERROR_ON_VALIDATION(res, 'user with this `email` not found !');
+  // } check email
 
-  const userObj = req['user'];
-
-  if (!userObj) {
-    return handlerFor.ERROR_NOT_FOUND(res, 'email not found');
-  }
+  const dataForLogin = req.body;
 
   // Password verification
-  const checkPass = authService.comparePasswords(inputData.password, userObj.password);
+  const checkPass = authService.comparePasswords(dataForLogin.password, userObj.password);
 
   if (!checkPass) {
     return handlerFor.ERROR_ON_AUTH(res, 'passwords don`t match, try again');
@@ -32,31 +29,35 @@ module.exports.login = (req, res) => {
 }
 
 
-module.exports.register = (req, res) => {
-  const reqBody = req.body;
+module.exports.register = async (req, res) => {
+  let userObj;
 
-  const inputData = {
-    name:       `${ reqBody.name }`,
-    email:      `${ reqBody.email }`,
-    phone:      `${ reqBody.phone }` || null,
-    birthdate:  `${ reqBody.birthdate }` || null,
-    password:   `${ reqBody.password }`,
-  };
+  // check name {
+  userObj = await tableUsers.checkName(req.body.name);
+  if (userObj)
+    return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+  // } check name
 
-  const userObj = req['user'];
-
-  if (userObj) {
-    return handlerFor.ERROR_ON_AUTH(res, 'this email is already in use');
-  }
+  // check email {
+  userObj = await tableUsers.checkEmail(req.body.email);
+  if (userObj)
+    return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+  // } check email
 
   // Create hash from password
-  const hashedPass = authService.createPasswordHash(inputData.password);
+  const hashedPass = authService.createPasswordHash(req.body.password);
 
-  // Save hash of password in database, not password
-  inputData.password = hashedPass;
+  const dataForRegister = {
+    name:       req.body.name,
+    email:      req.body.email,
+    password:   hashedPass,
+
+    phone:      req.body.phone || null,
+    birthdate:  req.body.birthdate || null,
+  };
 
   tableUsers
-    .create(inputData)
+    .create(dataForRegister)
     .then(() => handlerFor.SUCCESS(res, 200, null, 'user is registered !'))
     .catch(err => handlerFor.ERROR(res, err));
 }

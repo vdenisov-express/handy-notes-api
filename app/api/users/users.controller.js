@@ -15,16 +15,17 @@ module.exports = {
   // CREATE
 
   async create(req, res) {
+    let userObj;
 
     // check name {
-    const userByName = await tableUsers.checkName(req.body.name);
-    if (userByName)
+    userObj = await tableUsers.checkName(req.body.name);
+    if (userObj)
       return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
     // } check name
 
     // check email {
-    const userByEmail = await tableUsers.checkEmail(req.body.email);
-    if (userByEmail)
+    userObj = await tableUsers.checkEmail(req.body.email);
+    if (userObj)
       return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
     // } check email
 
