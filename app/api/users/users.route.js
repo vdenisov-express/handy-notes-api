@@ -1,10 +1,16 @@
 const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
+const usersMiddleware = require('@api/users/middleware');
+
+
 /* BASE CRUD */
 
 // CREATE
-usersRoute.post('/',      usersController.create);
+usersRoute.post('/',
+  usersMiddleware.validateCreation,
+  usersController.create
+);
 
 // READ
 usersRoute.get('/',       usersController.getAll);

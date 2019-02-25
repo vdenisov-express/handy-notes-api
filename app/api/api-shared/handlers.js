@@ -18,6 +18,10 @@ module.exports = {
     return res.status(200).send('All is okay ;)');
   },
 
+  ERROR_ON_VALIDATION(res, message) {
+    return res.status(400).json({ message });
+  },
+
   ERROR_ON_AUTH(res, message) {
     return res.status(401).json({ message });
   },

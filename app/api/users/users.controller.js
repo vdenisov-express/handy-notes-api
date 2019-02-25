@@ -15,18 +15,17 @@ module.exports = {
   // CREATE
 
   create(req, res) {
-    const reqBody = req.body;
+    const dataForCreation = {
+      name:       req.body.name,
+      email:      req.body.email,
+      password:   req.body.password,
 
-    const inputData = {
-      name:       `${ reqBody.name }`,
-      email:      `${ reqBody.email }`,
-      phone:      `${ reqBody.phone }` || null,
-      birthdate:  `${ reqBody.birthdate }` || null,
-      password:   `${ reqBody.password }`,
-    };
+      phone:      req.body.phone || null,
+      birthdate:  req.body.birthdate || null,
+    }
 
     tableUsers
-      .create(inputData)
+      .create(dataForCreation)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
