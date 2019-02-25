@@ -3,7 +3,9 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-const mockUsers = require('./mock.json').Users;
+const {
+  Users: mockUsers,
+} = require('./users.mock.json');
 
 
 describe('Users:basic', () => {

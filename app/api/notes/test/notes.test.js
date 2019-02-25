@@ -3,8 +3,10 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-const mockUsers = require('./mock.json').Users;
-const mockNotes = require('./mock.json').Notes;
+const {
+  Users: mockUsers,
+  Notes: mockNotes,
+} = require('./notes.mock.json');
 
 
 describe('< create needed data >', () => {

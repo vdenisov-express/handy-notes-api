@@ -3,7 +3,10 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-const mockAuth = require('./mock.json').Auth;
+const {
+  Auth: mockAuth,
+} = require('./auth.mock.json')
+
 
 const globalStorage = {
   token: null,
