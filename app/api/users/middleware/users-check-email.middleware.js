@@ -11,8 +11,7 @@ module.exports = (req, res, next) => {
     .checkEmail(req.body.email)
 
     .then(userObj => {
-      if (userObj) req['user'] = userObj;
-      next();
+      userObj ? next() : handlerFor.ERROR_NOT_FOUND(res, 'this `email` is already in use')
     })
 
     .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
