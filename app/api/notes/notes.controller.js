@@ -1,13 +1,12 @@
 const handlerFor = require('./../api-shared/handlers');
 
 const { NotesModel } = require('./notes.model');
-const { NotesTagsModel } = require('./../api-shared/models/notes-tags.model');
-const { LikesModel } = require('./../api-shared/models/likes.model');
+const { LikesModel, NotesTagsModel } = require('./../api-shared/models');
 
 
 const tableNotes = new NotesModel();
-const tableNotesTags = new NotesTagsModel();
 const tableLikes = new LikesModel();
+const tableNotesTags = new NotesTagsModel();
 
 
 module.exports = {
