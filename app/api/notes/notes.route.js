@@ -1,6 +1,8 @@
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
 
+const notesMiddleware = require('@api/notes/middleware');
+
 
 /* BASE CRUD */
 
@@ -9,7 +11,12 @@ notesRoute.post('/',      notesController.create);
 
 // READ
 notesRoute.get('/',       notesController.getAll);
-notesRoute.get('/:id',    notesController.getById);
+
+// READ
+notesRoute.get('/:id',
+  notesMiddleware.checkId,
+  notesController.getById
+);
 
 // UPDATE
 notesRoute.patch('/:id',  notesController.updateById);
