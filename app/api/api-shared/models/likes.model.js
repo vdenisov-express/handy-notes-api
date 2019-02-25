@@ -1,4 +1,4 @@
-const { db } = require('./../../../db/initialize');
+const { db } = require('./../../../../db/initialize');
 const { AbstractModel } = require('./abstract.model');
 
 
