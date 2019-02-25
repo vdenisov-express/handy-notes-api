@@ -1,5 +1,5 @@
-const handlerFor = require('./../handlers');
-const { UsersModel } = require('./../../users/users.model');
+const handlerFor = require('./../../api-shared/handlers');
+const { UsersModel } = require('./../users.model');
 
 
 const tableUsers = new UsersModel();
