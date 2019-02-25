@@ -68,5 +68,9 @@
     "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
-  ">>> PART #6 <<<": "========================= THE END ============================"
+  ">>> PART #6 <<<": "========================= ALIASES ============================",
+  "_moduleAliases": {
+    "@database": "./db"
+  },
+  ">>> PART #7 <<<": "========================= THE END ============================"
 }
