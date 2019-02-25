@@ -16,31 +16,17 @@ module.exports = {
 
   async create(req, res) {
 
-    // checking name {
-    await tableUsers
-      .checkName(req.body.name)
-      .then(userObj => {
-        if (userObj) handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
-        res.end();
-      })
-      .catch(err => {
-        handlerFor.ERROR_ON_DATABASE(res, err);
-        res.end();
-      });
-    // } checking name
+    // check name {
+    const userByName = await tableUsers.checkName(req.body.name);
+    if (userByName)
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+    // } check name
 
-    // // checking email {
-    // tableUsers
-    //   .checkEmail(req.body.email)
-    //   .then(userObj => {
-    //     if (userObj) return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
-    //   })
-    //   .catch(err => {
-    //     return handlerFor.ERROR_ON_DATABASE(res, err);
-    //   });
-    // // } checking email
-
-    // handlerFor.STOPPER(res);
+    // check email {
+    const userByEmail = await tableUsers.checkEmail(req.body.email);
+    if (userByEmail)
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    // } check email
 
     const dataForCreation = {
       name:       req.body.name,
