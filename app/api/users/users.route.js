@@ -14,7 +14,11 @@ usersRoute.post('/',
 
 // READ
 usersRoute.get('/',       usersController.getAll);
-usersRoute.get('/:id',    usersController.getById);
+
+usersRoute.get('/:id',
+  usersMiddleware.checkId,
+  usersController.getById
+);
 
 // UPDATE
 usersRoute.patch('/:id',  usersController.updateById);
