@@ -8,11 +8,6 @@ class UsersModel extends AbstractModel {
     super(db, 'Users');
   }
 
-  async checkId(id) {
-    const sql = `SELECT * FROM Users WHERE id = ${id}`;
-    return await this.database.getAsync(sql);
-  }
-
   async checkName(name) {
     const sql = `SELECT * FROM Users WHERE name = "${name}"`;
     return await db.getAsync(sql);
