@@ -1,8 +1,8 @@
-const handlerFor = require('@api/api-shared/handlers');
+const handlerFor = require('@shared/handlers');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('@api/notes/notes.model');
-const { LikesModel } = require('@api/api-shared/models');
+const { LikesModel } = require('@shared/models');
 
 
 const tableUsers = new UsersModel();

@@ -1,4 +1,4 @@
-const handlerFor = require('@api/api-shared/handlers');
+const handlerFor = require('@shared/handlers');
 const { UsersModel } = require('@api/users/users.model');
 
 
