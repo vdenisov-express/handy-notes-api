@@ -13,6 +13,11 @@ class UsersModel extends AbstractModel {
     return await this.database.getAsync(sql);
   }
 
+  async checkName(name) {
+    const sql = `SELECT * FROM Users WHERE name = "${name}"`;
+    return await db.getAsync(sql);
+  }
+
   async checkEmail(email) {
     const sql = `SELECT * FROM Users WHERE email = "${email}"`;
     return await db.getAsync(sql);
