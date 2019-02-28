@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
+const helmet = require('helmet');
+
 const { apiV1 } = require('./api.route');
 // } API
 
