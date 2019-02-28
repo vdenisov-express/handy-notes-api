@@ -7,11 +7,24 @@ const tableUsers = new UsersModel();
 
 module.exports = (req, res, next) => {
 
+  const { id: searchId } = req.params;
+
+  if (isNaN(searchId)) {
+    return handlerFor.ERROR_ON_VALIDATION(res, 'this `id` is invalid !');
+  }
+
   tableUsers
-    .checkId(req.params.id)
+    .checkId(searchId)
 
     .then(userObj => {
-      userObj ? next() : handlerFor.ERROR_NOT_FOUND(res, 'user with this `id` not found !')
+      if (userObj) {
+        req.params.id = searchId;
+        next();
+      }
+
+      else {
+        return handlerFor.ERROR_NOT_FOUND(res, 'user with this `id` not found !');
+      }
     })
 
     .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
