@@ -7,19 +7,49 @@ const apiLink = supertest('http://localhost:3000/api/v1');
 const mockUsers = require('./users.mock.json');
 
 
-describe('Users:basic', () => {
+const globalStorage = {
+  token: null,
+};
 
-  it('POST /users => should create new user', (done) => {
+
+describe('< create needed data >', () => {
+
+  it('=> register user (for creating notes)', (done) => {
     apiLink
-      .post(`/users`)
-      .send(mockUsers.dataForCreating)
+      .post(`/auth/register`)
+      .send(mockUsers.dataForRegister)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is created !');
+        chai.expect(res.body.message).to.equal('user is registered !');
         done(err);
       });
   });
+
+  it('=> login user (for getting token)', (done) => {
+    apiLink
+      .post(`/auth/login`)
+      .send(mockUsers.dataForLogin)
+      .end((err, res) => {
+        chai.expect(res.status).to.equal(200, 'res.status');
+
+        chai.expect(res.body).to.have.property('message');
+        chai.expect(res.body.message).to.equal('user is logged in !');
+
+        chai.expect(res.body).to.have.property('data');
+        chai.expect(res.body.data).to.have.property('token');
+        chai.expect(res.body.data.token).to.be.a('string');
+
+        // save token to object "globalStorage"
+        globalStorage.token = res.body.data.token;
+        done(err);
+      });
+  });
+
+});
+
+
+describe('Users:basic', () => {
 
   it('GET /users => should return all users', (done) => {
     apiLink
@@ -42,9 +72,10 @@ describe('Users:basic', () => {
       });
   });
 
-  it('PATCH /users/:id => should update user with id === (:id)', (done) => {
+  it('(token) PATCH /users/:id => should update user with id === (:id)', (done) => {
     apiLink
       .patch(`/users/${ mockUsers.id }`)
+      .set({ Authorization: globalStorage.token })
       .send(mockUsers.dataForUpdating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
