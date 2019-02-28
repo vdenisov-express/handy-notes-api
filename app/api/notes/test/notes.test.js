@@ -3,21 +3,41 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-
 const mockUsers = require('./../../users/test/users.mock.json');
 const mockNotes = require('./notes.mock.json');
+const globalStorage = { token: null };
 
 
 describe('< create needed data >', () => {
 
-  it('=> create user for notes', (done) => {
+  it('=> register user (for creating notes)', (done) => {
     apiLink
-      .post(`/users`)
-      .send(mockUsers.dataForCreating)
+      .post(`/auth/register`)
+      .send(mockUsers.dataForRegister)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is created !');
+        chai.expect(res.body.message).to.equal('user is registered !');
+        done(err);
+      });
+  });
+
+  it('=> login user (for getting token)', (done) => {
+    apiLink
+      .post(`/auth/login`)
+      .send(mockUsers.dataForLogin)
+      .end((err, res) => {
+        chai.expect(res.status).to.equal(200, 'res.status');
+
+        chai.expect(res.body).to.have.property('message');
+        chai.expect(res.body.message).to.equal('user is logged in !');
+
+        chai.expect(res.body).to.have.property('data');
+        chai.expect(res.body.data).to.have.property('token');
+        chai.expect(res.body.data.token).to.be.a('string');
+
+        // save token to object "globalStorage"
+        globalStorage.token = res.body.data.token;
         done(err);
       });
   });
@@ -60,9 +80,10 @@ describe('Notes:basic', () => {
       });
   });
 
-  it('PATCH /notes/:id => should update note with id === (:id)', (done) => {
+  it('(token) PATCH /notes/:id => should update note with id === (:id)', (done) => {
     apiLink
       .patch(`/notes/${ mockNotes.id }`)
+      .set({ Authorization: globalStorage.token })
       .send(mockNotes.dataForUpdating)
       .end((err, res) => {
         chai.expect(res.status).to.equal(200, 'res.status');

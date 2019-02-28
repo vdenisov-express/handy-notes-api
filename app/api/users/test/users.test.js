@@ -3,13 +3,8 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-
 const mockUsers = require('./users.mock.json');
-
-
-const globalStorage = {
-  token: null,
-};
+const globalStorage = { token: null };
 
 
 describe('< create needed data >', () => {
