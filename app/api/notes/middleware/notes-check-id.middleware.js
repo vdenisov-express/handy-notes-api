@@ -7,7 +7,7 @@ const tableNotes = new NotesModel();
 
 module.exports = (req, res, next) => {
 
-  const { id: searchId } = req.params;
+  const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
     return handlerFor.ERROR_ON_VALIDATION(res, 'this `id` is invalid !');
