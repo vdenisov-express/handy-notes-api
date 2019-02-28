@@ -26,6 +26,10 @@ module.exports = {
     return res.status(401).json({ message });
   },
 
+  ERROR_ON_PRIVILEGES(res) {
+    return res.status(403).json({ message: 'access denied' });
+  },
+
   ERROR_NOT_FOUND(res, message) {
     return res.status(404).json({ message });
   },
@@ -35,7 +39,7 @@ module.exports = {
     // if ((err.code) === 'SQLITE_CONSTRAINT') {
     //   message = 'already exists, send unique data'
     // }
-    return res.status(400).json({ err });
+    return res.status(500).json({ err });
   },
 
 }
