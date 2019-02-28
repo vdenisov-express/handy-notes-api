@@ -11,7 +11,7 @@
     "test:same": "mocha $1 -- test/test.init.js",
     "-------------------------------": "------------------------------",
     "start:dev": "export NODE_ENV=dev && node index.js",
-    "start:test": "export NODE_ENV=test && node index.js",
+    "start:test": "export NODE_ENV=test && nodemon index.js",
     "start:prod": "export NODE_ENV=prod && node index.js",
     "--------------------------------": "------------------------------",
     "db:dev:migrate:up": "cd ./db && db-migrate up",
