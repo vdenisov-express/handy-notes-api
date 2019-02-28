@@ -1,3 +1,4 @@
+const passport = require('passport');
 const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
@@ -26,6 +27,7 @@ usersRoute.get('/:id',
 // UPDATE
 usersRoute.patch('/:id',
   usersMiddleware.checkId,
+  passport.authenticate('jwt', {session: false}),
   usersMiddleware.validateUpdating,
   usersController.updateById
 );

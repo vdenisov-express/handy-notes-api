@@ -1,4 +1,5 @@
 const handlerFor = require('@shared/handlers');
+const authService = require('@api/auth/auth.service')
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('@api/notes/notes.model');
@@ -16,19 +17,6 @@ module.exports = {
 
   async create(req, res) {
     let userObj;
-
-    // check name {
-    userObj = await tableUsers.checkName(req.body.name);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
-    // } check name
-
-    // check email {
-    userObj = await tableUsers.checkEmail(req.body.email);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
-    // } check email
-
     const dataForCreation = {
       name:       req.body.name,
       email:      req.body.email,
@@ -37,6 +25,18 @@ module.exports = {
       phone:      req.body.phone || null,
       birthdate:  req.body.birthdate || null,
     }
+
+    // check name {
+    userObj = await tableUsers.checkName(dataForCreation.name);
+    if (userObj)
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+    // } check name
+
+    // check email {
+    userObj = await tableUsers.checkEmail(dataForCreation.email);
+    if (userObj)
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    // } check email
 
     return tableUsers
       .create(dataForCreation)
@@ -64,12 +64,28 @@ module.exports = {
 
   // UPDATE
 
-  updateById(req, res) {
+  async updateById(req, res) {
     const { id } = req.params;
     const dataForUpdating = req.body;
 
+    const token = req.get('Authorization');
+    const infoFromToken = authService.verifyToken(token);
+    const { userId } = infoFromToken.data;
+
+    if (id !== userId) {
+      return handlerFor.ERROR_ON_PRIVILEGES(res);
+    }
+
+    if (dataForUpdating.name) {
+      // check name {
+      const userObj = await tableUsers.checkName(req.body.name);
+      if (userObj)
+        return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+      // } check name
+    }
+
     tableUsers
-      .updateById(id, dataForUpdating)
+      .updateById(String(id), dataForUpdating)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'user is updated !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
