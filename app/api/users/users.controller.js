@@ -13,37 +13,6 @@ const tableLikes = new LikesModel();
 
 module.exports = {
 
-  // CREATE
-
-  async create(req, res) {
-    let userObj;
-    const dataForCreation = {
-      name:       req.body.name,
-      email:      req.body.email,
-      password:   req.body.password,
-
-      phone:      req.body.phone || null,
-      birthdate:  req.body.birthdate || null,
-    }
-
-    // check name {
-    userObj = await tableUsers.checkName(dataForCreation.name);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
-    // } check name
-
-    // check email {
-    userObj = await tableUsers.checkEmail(dataForCreation.email);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
-    // } check email
-
-    return tableUsers
-      .create(dataForCreation)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created !'))
-      .catch(err => handlerFor.ERROR(res, err));
-  },
-
   // READ
 
   getAll(req, res) {
