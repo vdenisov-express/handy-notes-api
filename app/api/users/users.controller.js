@@ -1,5 +1,5 @@
 const handlerFor = require('@shared/handlers');
-const authService = require('@api/auth/auth.service')
+const authService = require('@api/auth/auth.service');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('@api/notes/notes.model');

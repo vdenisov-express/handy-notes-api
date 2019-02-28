@@ -1,4 +1,5 @@
 const handlerFor = require('@shared/handlers');
+const authService = require('@api/auth/auth.service');
 
 const { NotesModel } = require('./notes.model');
 const { LikesModel, NotesTagsModel } = require('@shared/models');
@@ -48,14 +49,22 @@ module.exports = {
 
   // UPDATE
 
-  updateById(req, res) {
+  async updateById(req, res) {
     const { id } = req.params;
-    const reqBody = req.body;
+    const dataForUpdating = req.body;
+    const noteObj = await tableNotes.getById(id)
+      .catch(err => handlerFor.ERROR(res, err));
 
-    const inputData = reqBody;
+    const token = req.get('Authorization');
+    const infoFromToken = authService.verifyToken(token);
+    const { userId } = infoFromToken.data;
+
+    if (noteObj.Users_id !== userId) {
+      return handlerFor.ERROR_ON_PRIVILEGES(res);
+    }
 
     tableNotes
-      .updateById(id, inputData)
+      .updateById(id, dataForUpdating)
       .then(() => handlerFor.SUCCESS(res, 200, null, 'note is updated !'))
       .catch(err => handlerFor.ERROR(res, err));
   },
@@ -74,9 +83,19 @@ module.exports = {
   // ##################################################
 
   // attach tag to note
-  attachTag(req, res) {
-    const noteId = parseInt(req.params.id);
-    const tagId = req.body.tagId;
+  async attachTag(req, res) {
+    const { id: noteId } = req.params;
+    const { tagId } = req.body;
+    const noteObj = await tableNotes.getById(noteId)
+      .catch(err => handlerFor.ERROR(res, err));
+
+    const token = req.get('Authorization');
+    const infoFromToken = authService.verifyToken(token);
+    const { userId } = infoFromToken.data;
+
+    if (noteObj.Users_id !== userId) {
+      return handlerFor.ERROR_ON_PRIVILEGES(res);
+    }
 
     const inputData = {
       Notes_id: noteId,
@@ -110,9 +129,19 @@ module.exports = {
   },
 
   // detach tag from note
-  detachTag(req, res) {
-    const noteId = parseInt(req.params.id);
-    const tagId = req.body.tagId;
+  async detachTag(req, res) {
+    const { id: noteId } = req.params;
+    const { tagId } = req.body;
+    const noteObj = await tableNotes.getById(noteId)
+      .catch(err => handlerFor.ERROR(res, err));
+
+    const token = req.get('Authorization');
+    const infoFromToken = authService.verifyToken(token);
+    const { userId } = infoFromToken.data;
+
+    if (noteObj.Users_id !== userId) {
+      return handlerFor.ERROR_ON_PRIVILEGES(res);
+    }
 
     tableNotesTags
       .deleteByUniquePairOfIds(noteId, tagId)
