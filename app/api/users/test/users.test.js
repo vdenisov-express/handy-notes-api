@@ -3,9 +3,8 @@ const supertest = require('supertest');
 
 
 const apiLink = supertest('http://localhost:3000/api/v1');
-const {
-  Users: mockUsers,
-} = require('./users.mock.json');
+
+const mockUsers = require('./users.mock.json');
 
 
 describe('Users:basic', () => {
