@@ -9,11 +9,16 @@ const tableUsers = new UsersModel();
 module.exports.login = async (req, res) => {
   let userObj;
 
-  // check email {
-  userObj = await tableUsers.checkEmail(req.body.email);
-  if (!userObj)
-    return handlerFor.ERROR_ON_VALIDATION(res, 'user with this `email` not found !');
-  // } check email
+  try {
+    // check email {
+    userObj = await tableUsers.checkEmail(req.body.email);
+    if (!userObj) {
+      return handlerFor.ERROR_ON_VALIDATION(res, 'user with this `email` not found !');
+    }
+    // } check email
+  } catch (err) {
+      return handlerFor.ERROR(res, err);
+  }
 
   const dataForLogin = req.body;
 
@@ -32,17 +37,22 @@ module.exports.login = async (req, res) => {
 module.exports.register = async (req, res) => {
   let userObj;
 
-  // check name {
-  userObj = await tableUsers.checkName(req.body.name);
-  if (userObj)
-    return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
-  // } check name
+  try {
+    // check name {
+    userObj = await tableUsers.checkName(req.body.name);
+    if (userObj) {
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+    }
+    // } check name
 
-  // check email {
-  userObj = await tableUsers.checkEmail(req.body.email);
-  if (userObj)
-    return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
-  // } check email
+    // check email {
+    userObj = await tableUsers.checkEmail(req.body.email);
+    if (userObj)
+      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    // } check email
+  } catch (err) {
+      return handlerFor.ERROR(res, err);
+  }
 
   // Create hash from password
   const hashedPass = authService.createPasswordHash(req.body.password);
@@ -56,10 +66,13 @@ module.exports.register = async (req, res) => {
     birthdate:  req.body.birthdate || null,
   };
 
-  tableUsers
-    .create(dataForRegister)
-    .then(() => handlerFor.SUCCESS(res, 200, null, 'user is registered !'))
-    .catch(err => handlerFor.ERROR(res, err));
+  try {
+    await tableUsers.create(dataForRegister);
+    return handlerFor.SUCCESS(res, 200, null, 'user is registered !');
+  } catch (err) {
+      return handlerFor.ERROR(res, err);
+  }
+
 }
 
 
