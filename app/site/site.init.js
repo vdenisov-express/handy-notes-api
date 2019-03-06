@@ -25,19 +25,19 @@ module.exports = function initialize(app) {
   // pages: routes {
 
   app.get('/home', (req, res) => {
-    res.render('home', { home: true });
+    res.render('page-home', { home: true });
   });
 
   app.get('/features', (req, res) => {
-    res.render('features', { features: true });
+    res.render('page-features', { features: true });
   });
 
   app.get('/news', (req, res) => {
-    res.render('news', { news: true });
+    res.render('page-news', { news: true });
   });
 
   app.get('/logs', (req, res) => {
-    res.render('logs', { logs: true });
+    res.render('page-logs', { logs: true });
   });
 
   // } pages: routes
