@@ -85,6 +85,7 @@ module.exports = {
 
   // ##################################################
 
+  // add like to note
   async addLikeToNote(req, res) {
     const userId = parseInt(req.params.id);
     const noteId = req.body.noteId;
@@ -124,6 +125,10 @@ module.exports = {
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
+  },
+
+  async getRating(req, res) {
+    return handlerFor.STOPPER(res);
   },
 
   // remove like from note

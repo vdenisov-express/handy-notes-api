@@ -54,6 +54,12 @@ usersRoute.get('/:id/likes',
   usersController.getLikedNotes
 );
 
+// get total likes for user
+usersRoute.get('/:id/rating',
+  usersMiddleware.checkId,
+  usersController.getRating
+);
+
 // remove like from note
 usersRoute.delete('/:id/likes',
   usersMiddleware.checkId,
