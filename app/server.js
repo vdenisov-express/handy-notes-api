@@ -1,12 +1,14 @@
-const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const initSite = require('./site/site.init');
 const initAPI  = require('./api/api.init');
+const initSite = require('./site/site.init');
+const initSocket = require('./socket/socket.init');
 
 
-const app = express();
+const app = require('express')();
+const server = require('http').Server(app);
+
 
 // CORS
 app.use(cors());
@@ -15,13 +17,17 @@ app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
-// connecting static pages to the application
-initSite(app);
-console.log('* app => static site initialized');
-
 // connecting the API to the application
 initAPI(app);
 console.log('* app => server API initialized');
 
+// connecting static pages to the application
+initSite(app);
+console.log('* app => static site initialized');
 
-module.exports = app;
+// add socket connection to the application
+initSocket(server);
+console.log('* app => socket connection initialized');
+
+
+module.exports = server;
