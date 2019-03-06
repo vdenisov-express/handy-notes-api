@@ -17,5 +17,9 @@ apiV1.use('/users',   usersRoute);
 apiV1.use('/notes',   notesRoute);
 apiV1.use('/tags',    tagsRoute);
 
+apiV1.use('**', (req, res) => {
+  res.status(404).send('404 - Not Found :(');
+});
+
 
 module.exports = { apiV1 };

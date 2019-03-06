@@ -4,6 +4,10 @@ a {
 	text-decoration: none!important;
 }
 
+th, td {
+  padding: 10px;
+}
+
 #logo { width: 50px; }
 
 .active { font-weight: bold; }
