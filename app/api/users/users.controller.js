@@ -85,24 +85,6 @@ module.exports = {
 
   // ##################################################
 
-  // add like to note
-  async addLikeToNote(req, res) {
-    const userId = parseInt(req.params.id);
-    const noteId = req.body.noteId;
-
-    const inputData = {
-      Users_id: userId,
-      Notes_id: noteId,
-    };
-
-    try {
-      await tableLikes.create(inputData);
-      return handlerFor.SUCCESS(res, 200, null, 'like is added !');
-    } catch (err) {
-        return handlerFor.ERROR(res, err);
-    }
-  },
-
   // get notes for user
   async getNotes(req, res) {
     const { id } = req.params;
@@ -129,19 +111,6 @@ module.exports = {
 
   async getRating(req, res) {
     return handlerFor.STOPPER(res);
-  },
-
-  // remove like from note
-  async removeLikeFromNote(req, res) {
-    const userId = parseInt(req.params.id);
-    const noteId = req.body.noteId;
-
-    try {
-      await tableLikes.deleteByUniquePairOfIds(userId, noteId);
-      return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
-    } catch (err) {
-        return handlerFor.ERROR(res, err);
-    }
   },
 
 }

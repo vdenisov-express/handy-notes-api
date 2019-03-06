@@ -34,7 +34,23 @@ notesRoute.delete('/:id',
 
 // ##################################################
 
-/* ADDITIONAL FUNCTIONALITY */
+/* NOTES => LIKES */
+
+// add like to note
+notesRoute.post('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.addLikeToNote
+);
+
+// remove like from note
+notesRoute.delete('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.removeLikeFromNote
+);
+
+// ##################################################
+
+/* NOTES => TAGS */
 
 // attach tag to note
 notesRoute.post('/:id/tags',

@@ -36,12 +36,6 @@ usersRoute.delete('/:id',
 
 /* ADDITIONAL FUNCTIONALITY */
 
-// add like to note
-usersRoute.post('/:id/likes',
-  usersMiddleware.checkId,
-  usersController.addLikeToNote
-);
-
 // get notes for user
 usersRoute.get('/:id/notes',
   usersMiddleware.checkId,
@@ -58,12 +52,6 @@ usersRoute.get('/:id/likes',
 usersRoute.get('/:id/rating',
   usersMiddleware.checkId,
   usersController.getRating
-);
-
-// remove like from note
-usersRoute.delete('/:id/likes',
-  usersMiddleware.checkId,
-  usersController.removeLikeFromNote
 );
 
 // ##################################################
