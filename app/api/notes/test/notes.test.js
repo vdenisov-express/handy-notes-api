@@ -1,4 +1,4 @@
-const chai = require('chai');
+const { expect } = require('chai');
 const supertest = require('supertest');
 
 
@@ -15,9 +15,9 @@ describe('< create needed data >', () => {
       .post(`/auth/register`)
       .send(mockUsers.dataForRegister)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is registered !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is registered !');
         done(err);
       });
   });
@@ -27,14 +27,14 @@ describe('< create needed data >', () => {
       .post(`/auth/login`)
       .send(mockUsers.dataForLogin)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
+        expect(res.status).to.equal(200, 'res.status');
 
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is logged in !');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is logged in !');
 
-        chai.expect(res.body).to.have.property('data');
-        chai.expect(res.body.data).to.have.property('token');
-        chai.expect(res.body.data.token).to.be.a('string');
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.have.property('token');
+        expect(res.body.data.token).to.be.a('string');
 
         // save token to object "globalStorage"
         globalStorage.token = res.body.data.token;
@@ -52,9 +52,9 @@ describe('Notes:basic', () => {
       .post(`/notes`)
       .send(mockNotes.dataForCreating)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('note is created !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('note is created !');
         done(err);
       });
   });
@@ -63,9 +63,9 @@ describe('Notes:basic', () => {
     apiLink
       .get(`/notes`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('data');
-        chai.expect(res.body).to.have.property('total');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('data');
+        expect(res.body).to.have.property('total');
         done(err);
       });
   });
@@ -74,8 +74,8 @@ describe('Notes:basic', () => {
     apiLink
       .get(`/notes/${ mockNotes.id }`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('data');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('data');
         done(err);
       });
   });
@@ -86,9 +86,9 @@ describe('Notes:basic', () => {
       .set({ Authorization: globalStorage.token })
       .send(mockNotes.dataForUpdating)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('note is updated !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('note is updated !');
         done(err);
       });
   });
@@ -97,9 +97,9 @@ describe('Notes:basic', () => {
     apiLink
       .delete(`/notes/${ mockNotes.id }`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('note is deleted !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('note is deleted !');
         done(err);
       });
   });
@@ -113,9 +113,9 @@ describe('< delete useless data >', () => {
     apiLink
       .delete(`/users/${ mockUsers.id }`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is deleted !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is deleted !');
         done(err);
       });
   });

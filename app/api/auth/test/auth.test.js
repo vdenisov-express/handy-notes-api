@@ -1,4 +1,4 @@
-const chai = require('chai');
+const { expect } = require('chai');
 const supertest = require('supertest');
 
 
@@ -20,9 +20,9 @@ describe('Auth', () => {
       .post(`/auth/register`)
       .send(mockAuth.dataForRegister)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is registered !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is registered !');
         done(err);
       });
   });
@@ -32,14 +32,14 @@ describe('Auth', () => {
       .post(`/auth/login`)
       .send(mockAuth.dataForLogin)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
+        expect(res.status).to.equal(200, 'res.status');
 
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is logged in !');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is logged in !');
 
-        chai.expect(res.body).to.have.property('data');
-        chai.expect(res.body.data).to.have.property('token');
-        chai.expect(res.body.data.token).to.be.a('string');
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.have.property('token');
+        expect(res.body.data.token).to.be.a('string');
 
         // save token to object "globalStorage"
         globalStorage.token = res.body.data.token;
@@ -56,9 +56,9 @@ describe('Token', () => {
     apiLink
       .get(`/auth/testJWT`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(401, 'res.status');
-        chai.expect(res).to.have.property('text');
-        chai.expect(res.text).to.equal('Unauthorized');
+        expect(res.status).to.equal(401, 'res.status');
+        expect(res).to.have.property('text');
+        expect(res.text).to.equal('Unauthorized');
         done(err);
       });
   });
@@ -68,9 +68,9 @@ describe('Token', () => {
       .get(`/auth/testJWT`)
       .set({ Authorization: 'it_is_a_wrong_token' })
       .end((err, res)  => {
-        chai.expect(res.status).to.equal(401, 'res.status');
-        chai.expect(res).to.have.property('text');
-        chai.expect(res.text).to.equal('Unauthorized');
+        expect(res.status).to.equal(401, 'res.status');
+        expect(res).to.have.property('text');
+        expect(res.text).to.equal('Unauthorized');
         done(err);
       });
   });
@@ -80,9 +80,9 @@ describe('Token', () => {
       .get(`/auth/testJWT`)
       .set({ Authorization: globalStorage.token })
       .end((err, res)  => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res).to.have.property('text');
-        chai.expect(res.text).to.equal('All is okay ;)');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res).to.have.property('text');
+        expect(res.text).to.equal('All is okay ;)');
         done(err);
       });
   });
@@ -96,9 +96,9 @@ describe('< delete useless data >', () => {
     apiLink
       .delete(`/users/${ mockAuth.userId }`)
       .end((err, res) => {
-        chai.expect(res.status).to.equal(200, 'res.status');
-        chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal('user is deleted !');
+        expect(res.status).to.equal(200, 'res.status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('user is deleted !');
         done(err);
       });
   });
