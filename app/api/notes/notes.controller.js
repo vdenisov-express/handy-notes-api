@@ -14,7 +14,7 @@ module.exports = {
 
   // CREATE
 
-  create(req, res) {
+  async create(req, res) {
     const reqBody = req.body;
 
     const inputData = {
@@ -23,28 +23,34 @@ module.exports = {
       Users_id: `${ reqBody.userId }`,
     };
 
-    tableNotes
-      .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'note is created !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableNotes.create(inputData);
+      return handlerFor.SUCCESS(res, 200, null, 'note is created !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // READ
 
-  getAll(req, res) {
-    tableNotes
-      .getAll()
-      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
-      .catch(err => handlerFor.ERROR(res, err));
+  async getAll(req, res) {
+    try {
+      const notesList = await tableNotes.getAll();
+      return handlerFor.SUCCESS(res, 200, notesList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
-  getById(req, res) {
+  async getById(req, res) {
     const { id } = req.params;
 
-    tableNotes
-      .getById(id)
-      .then(noteObj => handlerFor.SUCCESS(res, 200, noteObj))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      const noteObj = await tableNotes.getById(id);
+      return handlerFor.SUCCESS(res, 200, noteObj);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // UPDATE
@@ -52,8 +58,13 @@ module.exports = {
   async updateById(req, res) {
     const { id } = req.params;
     const dataForUpdating = req.body;
-    const noteObj = await tableNotes.getById(id)
-      .catch(err => handlerFor.ERROR(res, err));
+    let noteObj;
+
+    try {
+      noteObj = await tableNotes.getById(id)
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
 
     const token = req.get('Authorization');
     const infoFromToken = authService.verifyToken(token);
@@ -63,21 +74,25 @@ module.exports = {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
-    tableNotes
-      .updateById(id, dataForUpdating)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'note is updated !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableNotes.updateById(id, dataForUpdating);
+      return handlerFor.SUCCESS(res, 200, null, 'note is updated !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // DELETE
 
-  deleteById(req, res) {
+  async deleteById(req, res) {
     const { id } = req.params;
 
-    tableNotes
-      .deleteById(id)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'note is deleted !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableNotes.deleteById(id);
+      return handlerFor.SUCCESS(res, 200, null, 'note is deleted !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // ##################################################
@@ -86,8 +101,13 @@ module.exports = {
   async attachTag(req, res) {
     const { id: noteId } = req.params;
     const { tagId } = req.body;
-    const noteObj = await tableNotes.getById(noteId)
-      .catch(err => handlerFor.ERROR(res, err));
+    let noteObj;
+
+    try {
+      noteObj = await tableNotes.getById(noteId);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
 
     const token = req.get('Authorization');
     const infoFromToken = authService.verifyToken(token);
@@ -102,38 +122,49 @@ module.exports = {
       Tags_id:  tagId,
     };
 
-    tableNotesTags
-      .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is attached !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableNotesTags.create(inputData);
+      return handlerFor.SUCCESS(res, 200, null, 'tag is attached !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // get tags for note
-  getTags(req, res) {
+  async getTags(req, res) {
     const noteId = parseInt(req.params.id);
 
-    tableNotesTags
-      .filterTagsByNoteId(noteId)
-      .then(tagsList => handlerFor.SUCCESS(res, 200, tagsList))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      const tagsList = await tableNotesTags.filterTagsByNoteId(noteId);
+      return handlerFor.SUCCESS(res, 200, tagsList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // get user who liked this note
-  getLikers(req, res) {
+  async getLikers(req, res) {
     const noteId = parseInt(req.params.id);
 
-    tableLikes
-      .filterUsersByIdOfLikedNote(noteId)
-      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      const usersList = await tableLikes.filterUsersByIdOfLikedNote(noteId);
+      return handlerFor.SUCCESS(res, 200, usersList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // detach tag from note
   async detachTag(req, res) {
     const { id: noteId } = req.params;
     const { tagId } = req.body;
-    const noteObj = await tableNotes.getById(noteId)
-      .catch(err => handlerFor.ERROR(res, err));
+    let noteObj;
+
+    try {
+      noteObj = await tableNotes.getById(noteId);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
 
     const token = req.get('Authorization');
     const infoFromToken = authService.verifyToken(token);
@@ -143,10 +174,12 @@ module.exports = {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
-    tableNotesTags
-      .deleteByUniquePairOfIds(noteId, tagId)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'tag is detached !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableNotesTags.deleteByUniquePairOfIds(noteId, tagId);
+      return handlerFor.SUCCESS(res, 200, null, 'tag is detached !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
 }
