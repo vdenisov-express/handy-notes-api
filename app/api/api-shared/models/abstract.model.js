@@ -60,6 +60,14 @@ class AbstractModel {
     return await this.database.runAsync(sql);
   }
 
+  // ADDITIONALLY
+
+  // check id
+  async checkId(id) {
+    const sql = `SELECT * FROM ${ this.tableName } WHERE id = ${id}`;
+    return await this.database.getAsync(sql);
+  }
+
 }
 
 

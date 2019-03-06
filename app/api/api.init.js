@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-const { apiV1 } = require('./v1.route');
+const helmet = require('helmet');
+
+const { apiV1 } = require('./api.route');
 // } API
 
 // AUTH {
 const passport = require('passport');
-const authViaJWT = require('./api-shared/middlewares/auth-via-jwt');
+const authMiddleware = require('./auth/middleware');
 // } AUTH
 
 
@@ -21,7 +23,7 @@ module.exports = function initialize(app) {
 
   // AUTH: config {
   app.use(passport.initialize());
-  authViaJWT(passport);
+  authMiddleware.useJWT(passport);
   // } AUTH: config
 
   // API: routes {

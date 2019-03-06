@@ -1,8 +1,9 @@
-const handlerFor = require('./../api-shared/handlers');
+const handlerFor = require('@shared/handlers');
+const authService = require('@api/auth/auth.service');
 
 const { UsersModel } = require('./users.model');
-const { NotesModel } = require('./../notes/notes.model');
-const { LikesModel } = require('./../api-shared/likes.model');
+const { NotesModel } = require('@api/notes/notes.model');
+const { LikesModel } = require('@shared/models');
 
 
 const tableUsers = new UsersModel();
@@ -12,71 +13,79 @@ const tableLikes = new LikesModel();
 
 module.exports = {
 
-  // CREATE
-
-  create(req, res) {
-    const reqBody = req.body;
-
-    const inputData = {
-      name:       `${ reqBody.name }`,
-      email:      `${ reqBody.email }`,
-      phone:      `${ reqBody.phone }` || null,
-      birthdate:  `${ reqBody.birthdate }` || null,
-      password:   `${ reqBody.password }`,
-    };
-
-    tableUsers
-      .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is created !'))
-      .catch(err => handlerFor.ERROR(res, err));
-  },
-
   // READ
 
-  getAll(req, res) {
-    tableUsers
-      .getAll()
-      .then(usersList => handlerFor.SUCCESS(res, 200, usersList))
-      .catch(err => handlerFor.ERROR(res, err));
+  async getAll(req, res) {
+    try {
+      const usersList = await tableUsers.getAll();
+      return handlerFor.SUCCESS(res, 200, usersList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
-  getById(req, res) {
+  async getById(req, res) {
     const { id } = req.params;
 
-    tableUsers
-      .getById(id)
-      .then(userObj => handlerFor.SUCCESS(res, 200, userObj))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      const userObj = await tableUsers.getById(id);
+      return handlerFor.SUCCESS(res, 200, userObj);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // UPDATE
 
-  updateById(req, res) {
+  async updateById(req, res) {
     const { id } = req.params;
-    const reqBody = req.body;
+    const dataForUpdating = req.body;
 
-    const inputData = reqBody;
+    const token = req.get('Authorization');
+    const infoFromToken = authService.verifyToken(token);
+    const { userId } = infoFromToken.data;
 
-    tableUsers
-      .updateById(id, inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is updated !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    if (id !== userId) {
+      return handlerFor.ERROR_ON_PRIVILEGES(res);
+    }
+
+    if (dataForUpdating.name) {
+      try {
+        // check name {
+        const userObj = await tableUsers.checkName(req.body.name);
+        if (userObj) {
+          return handlerFor.ERROR_ON_VALIDATION(res, 'this `name` is already in use');
+        }
+        // } check name
+      } catch (err) {
+          return handlerFor.ERROR(res, err);
+      }
+    }
+
+    try {
+      await tableUsers.updateById(333, dataForUpdating);
+      return handlerFor.SUCCESS(res, 200, null, 'user is updated !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // DELETE
 
-  deleteById(req, res) {
+  async deleteById(req, res) {
     const { id } = req.params;
 
-    tableUsers
-      .deleteById(id)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'user is deleted !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableUsers.deleteById(id);
+      return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // ##################################################
 
-  addLikeToNote(req, res) {
+  async addLikeToNote(req, res) {
     const userId = parseInt(req.params.id);
     const noteId = req.body.noteId;
 
@@ -85,42 +94,49 @@ module.exports = {
       Notes_id: noteId,
     };
 
-    tableLikes
-      .create(inputData)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'like is added !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableLikes.create(inputData);
+      return handlerFor.SUCCESS(res, 200, null, 'like is added !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // get notes for user
-  getNotes(req, res) {
+  async getNotes(req, res) {
     const { id } = req.params;
 
-    tableNotes
-      .filterByUserId(id)
-      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
-      .catch(err => handlerFor.ERROR(res, err));
-
+    try {
+      const notesList = await tableNotes.filterByUserId(id);
+      return handlerFor.SUCCESS(res, 200, notesList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // get notes that user likes
-  getLikedNotes(req, res) {
+  async getLikedNotes(req, res) {
     const userId = parseInt(req.params.id);
 
-    tableLikes
-      .filterNotesByLikedCondition(userId)
-      .then(notesList => handlerFor.SUCCESS(res, 200, notesList))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      const notesList = await tableLikes.filterNotesByLikedCondition(userId);
+      return handlerFor.SUCCESS(res, 200, notesList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
   // remove like from note
-  removeLikeFromNote(req, res) {
+  async removeLikeFromNote(req, res) {
     const userId = parseInt(req.params.id);
     const noteId = req.body.noteId;
 
-    tableLikes
-      .deleteByUniquePairOfIds(userId, noteId)
-      .then(() => handlerFor.SUCCESS(res, 200, null, 'like is removed !'))
-      .catch(err => handlerFor.ERROR(res, err));
+    try {
+      await tableLikes.deleteByUniquePairOfIds(userId, noteId);
+      return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
 }

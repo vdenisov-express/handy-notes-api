@@ -24,14 +24,14 @@
     "display": "none"
   },
   "paths": {
-    "/users": {
+    "/auth/register": {
       "post": {
         "description": "",
-        "summary": "Create new user => { name *, email *, password *, phone ?, birthdate ? }",
+        "summary": "Register new user => { name *, email *, password *, phone ?, birthdate ? }",
         "tags": [
-          "Users:basic"
+          "Authorization"
         ],
-        "operationId": "Users:create",
+        "operationId": "Auth:register",
         "deprecated": false,
         "produces": [
           "application/json"
@@ -43,7 +43,7 @@
             "required": true,
             "description": "Data for creating user",
             "schema": {
-              "$ref": "#/definitions/Users:model:create"
+              "$ref": "#/definitions/Auth:model:register"
             }
           }
         ],
@@ -53,7 +53,40 @@
             "headers": {}
           }
         }
-      },
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "",
+        "summary": "Register new user => { email *, password * }",
+        "tags": [
+          "Authorization"
+        ],
+        "operationId": "Auth:login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "description": "Data for creating user",
+            "schema": {
+              "$ref": "#/definitions/Auth:model:login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users": {
       "get": {
         "description": "",
         "summary": "List of all users",
@@ -813,14 +846,14 @@
     }
   },
   "definitions": {
-    "Users:model:create": {
-      "title": "Users:model:create",
+    "Auth:model:register": {
+      "title": "Auth:model:register",
       "example": {
-        "name": "Vladimir Denisov",
-        "email": "vdenisov.dev@gmail.com",
+        "name": "vladimir",
+        "email": "tester@gmail.com",
         "password": "qwerty123",
-        "phone": "+0-000-000-00-00",
-        "birthdate": "01.01.1970"
+        "phone": "+7-938-147-57-47",
+        "birthdate": "24.04.1997"
       },
       "type": "object",
       "properties": {
@@ -842,6 +875,26 @@
       },
       "required": [
         "name",
+        "email",
+        "password"
+      ]
+    },
+    "Auth:model:login": {
+      "title": "Auth:model:login",
+      "example": {
+        "email": "tester@gmail.com",
+        "password": "qwerty123"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
         "email",
         "password"
       ]
@@ -1011,6 +1064,10 @@
     }
   },
   "tags": [
+    {
+      "name": "Authorization",
+      "description": "Auth methods"
+    },
     {
       "name": "Users:basic",
       "description": "Basic methods for managing user data"

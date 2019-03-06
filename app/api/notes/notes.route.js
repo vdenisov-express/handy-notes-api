@@ -1,5 +1,8 @@
+const passport = require('passport');
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
+
+const notesMiddleware = require('@api/notes/middleware');
 
 
 /* BASE CRUD */
@@ -9,29 +12,55 @@ notesRoute.post('/',      notesController.create);
 
 // READ
 notesRoute.get('/',       notesController.getAll);
-notesRoute.get('/:id',    notesController.getById);
+
+// READ
+notesRoute.get('/:id',
+  notesMiddleware.checkId,
+  notesController.getById
+);
 
 // UPDATE
-notesRoute.patch('/:id',  notesController.updateById);
+notesRoute.patch('/:id',
+  notesMiddleware.checkId,
+  passport.authenticate('jwt', {session: false}),
+  notesController.updateById
+);
 
 // DELETE
-notesRoute.delete('/:id', notesController.deleteById);
+notesRoute.delete('/:id',
+  notesMiddleware.checkId,
+  notesController.deleteById
+);
 
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */
 
 // attach tag to note
-notesRoute.post('/:id/tags',    notesController.attachTag);
+notesRoute.post('/:id/tags',
+  notesMiddleware.checkId,
+  passport.authenticate('jwt', {session: false}),
+  notesController.attachTag
+);
 
 // get tags for note
-notesRoute.get('/:id/tags',     notesController.getTags);
+notesRoute.get('/:id/tags',
+  notesMiddleware.checkId,
+  notesController.getTags
+);
 
 // get user who liked this note
-notesRoute.get('/:id/likers',   notesController.getLikers);
+notesRoute.get('/:id/likers',
+  notesMiddleware.checkId,
+  notesController.getLikers
+);
 
 // detach tag from note
-notesRoute.delete('/:id/tags',  notesController.detachTag);
+notesRoute.delete('/:id/tags',
+  notesMiddleware.checkId,
+  passport.authenticate('jwt', {session: false}),
+  notesController.detachTag
+);
 
 // ##################################################
 

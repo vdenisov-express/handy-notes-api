@@ -1,0 +1,22 @@
+{
+
+  "id": 1,
+
+  "dataForRegister": {
+    "name": "vladimir",
+    "email": "tester@gmail.com",
+    "password": "qwerty123",
+    "phone": "+7-938-147-57-47",
+    "birthdate": "24.04.1997"
+  },
+
+  "dataForLogin": {
+    "email": "tester@gmail.com",
+    "password": "qwerty123"
+  },
+
+  "dataForUpdating": {
+    "name": "Vladimir"
+  }
+
+}

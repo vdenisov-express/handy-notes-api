@@ -1,16 +1,22 @@
+const passport = require('passport');
 const authRoute = require('express').Router();
 const authController = require('./auth.controller');
 
-const mwCheckEmail = require('./../api-shared/middlewares/check-email');
-const mwPassport = require('passport');
+const authMiddleware = require('@api/auth/middleware');
 
 
-authRoute.post('/login', mwCheckEmail, authController.login);
+authRoute.post('/login',
+  authMiddleware.validateLogin,
+  authController.login
+);
 
-authRoute.post('/register', mwCheckEmail, authController.register);
+authRoute.post('/register',
+  authMiddleware.validateRegister,
+  authController.register
+);
 
 authRoute.get('/testJWT',
-  mwPassport.authenticate('jwt', {session: false}),
+  passport.authenticate('jwt', {session: false}),
   authController.testJWT
 );
 

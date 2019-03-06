@@ -1,3 +1,5 @@
+require('module-alias/register');
+
 const app = require('./app/server');
 
 const config = require('config');
