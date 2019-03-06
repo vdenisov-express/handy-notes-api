@@ -48,6 +48,12 @@ notesRoute.delete('/:id/likes',
   notesController.removeLikeFromNote
 );
 
+// get user who liked this note
+notesRoute.get('/:id/likers',
+  notesMiddleware.checkId,
+  notesController.getLikers
+);
+
 // ##################################################
 
 /* NOTES => TAGS */
@@ -63,12 +69,6 @@ notesRoute.post('/:id/tags',
 notesRoute.get('/:id/tags',
   notesMiddleware.checkId,
   notesController.getTags
-);
-
-// get user who liked this note
-notesRoute.get('/:id/likers',
-  notesMiddleware.checkId,
-  notesController.getLikers
 );
 
 // detach tag from note

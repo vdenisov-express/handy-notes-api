@@ -130,6 +130,18 @@ module.exports = {
     }
   },
 
+  // get user who liked this note
+  async getLikers(req, res) {
+    const noteId = parseInt(req.params.id);
+
+    try {
+      const usersList = await tableLikes.filterUsersByIdOfLikedNote(noteId);
+      return handlerFor.SUCCESS(res, 200, usersList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
   // ##################################################
 
   /* NOTES => TAGS */
@@ -179,18 +191,6 @@ module.exports = {
     }
   },
 
-  // get user who liked this note
-  async getLikers(req, res) {
-    const noteId = parseInt(req.params.id);
-
-    try {
-      const usersList = await tableLikes.filterUsersByIdOfLikedNote(noteId);
-      return handlerFor.SUCCESS(res, 200, usersList);
-    } catch (err) {
-        return handlerFor.ERROR(res, err);
-    }
-  },
-
   // detach tag from note
   async detachTag(req, res) {
     const { id: noteId } = req.params;
@@ -218,5 +218,7 @@ module.exports = {
         return handlerFor.ERROR(res, err);
     }
   },
+
+  // ##################################################
 
 }
