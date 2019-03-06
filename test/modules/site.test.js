@@ -33,3 +33,13 @@ it('GET /news should return "News" page', (done) => {
       done(err);
     });
 });
+
+it('GET /logs should return "Logs" page', (done) => {
+  request
+    .get('/logs')
+    .end((err, res) => {
+      assert.equal(res.status, 200);
+      assert.equal(res.type, 'text/html');
+      done(err);
+    });
+});
