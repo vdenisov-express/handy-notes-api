@@ -12,12 +12,12 @@ module.exports = function initialize(app) {
     defaultLayout: 'main',
     extname: '.hbs',
   });
-  
+
   app.engine('.hbs', hbsConfig.engine);
-  
+
   app.set('view engine', '.hbs');
   app.set('views', path.join(__dirname, 'views'));
-  
+
   app.use(express.static(path.join(__dirname, 'static')));
 
   // } handlebars: configs
@@ -27,13 +27,17 @@ module.exports = function initialize(app) {
   app.get('/home', (req, res) => {
     res.render('home', { home: true });
   });
-  
+
   app.get('/features', (req, res) => {
     res.render('features', { features: true });
   });
-  
+
   app.get('/news', (req, res) => {
     res.render('news', { news: true });
+  });
+
+  app.get('/logs', (req, res) => {
+    res.render('logs', { logs: true });
   });
 
   // } pages: routes
