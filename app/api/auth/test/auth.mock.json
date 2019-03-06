@@ -1,18 +1,16 @@
 {
 
-  "Auth": {
-    "userId": 1,
+  "userId": 1,
 
-    "dataForRegister": {
-      "name": "mysterio",
-      "email": "tester@gmail.com",
-      "password": "qwerty123"
-    },
+  "dataForRegister": {
+    "name": "vladimir",
+    "email": "test@gmail.com",
+    "password": "qwerty123"
+  },
 
-    "dataForLogin": {
-      "email": "tester@gmail.com",
-      "password": "qwerty123"
-    }
+  "dataForLogin": {
+    "email": "test@gmail.com",
+    "password": "qwerty123"
   }
 
 }
