@@ -17,7 +17,6 @@
     "db:dev:migrate:up": "cd ./db/sqlite && db-migrate up",
     "db:dev:migrate:down": "cd ./db/sqlite && db-migrate down",
     "db:dev:migrate:reset": "cd ./db/sqlite && db-migrate reset",
-
     "db:dev:migrate:restart": "npm run db:dev:migrate:reset && npm run db:dev:migrate:up",
     "db:dev:seeds": "NODE_ENV=dev && node ./db/sqlite/seeds.js",
     "db:dev:complete": "npm run db:dev:migrate:restart && npm run db:dev:seeds",
@@ -81,8 +80,8 @@
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
   ">>> PART #6 <<<": "========================= ALIASES ============================",
   "_moduleAliases": {
-    "@database": "./db/sqlite",
-    "@redis": "./db/redis"
+    "@db-sqlite": "./db/sqlite",
+    "@db-redis": "./db/redis"
   },
   ">>> PART #7 <<<": "========================= THE END ============================"
 }
