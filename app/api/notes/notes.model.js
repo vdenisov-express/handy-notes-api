@@ -13,6 +13,11 @@ class NotesModel extends AbstractModel {
     return await db.allAsync(sql);
   }
 
+  async getSumLikesForNotesByUserId(id) {
+    const sql = `SELECT SUM(likes_count) FROM Notes WHERE Users_id = ${id}`;
+    return await db.getAsync(sql);
+  }
+
 }
 
 

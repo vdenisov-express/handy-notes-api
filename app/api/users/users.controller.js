@@ -110,7 +110,15 @@ module.exports = {
   },
 
   async getRating(req, res) {
-    return handlerFor.STOPPER(res);
+    const userId = parseInt(req.params.id);
+
+    try {
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+      const result = { rating: Object.values(sumOfLikes)[0] };
+      return handlerFor.SUCCESS(res, 200, result);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
   },
 
 }
