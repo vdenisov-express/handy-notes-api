@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 const sqlite3 = require('sqlite3').verbose();
 
 const config = require('config');
-const DB_CONFIG = config.get('DATABASE');
+const DB_CONFIG = config.get('DATABASE.SQLITE');
 
 const db = Promise.promisifyAll(
   new sqlite3.Database(

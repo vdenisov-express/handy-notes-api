@@ -10,7 +10,7 @@
     "test": "mocha test/",
     "test:same": "mocha $1 -- test/test.init.js",
     "-------------------------------": "------------------------------",
-    "start:dev": "export NODE_ENV=dev && node index.js",
+    "start:dev": "export NODE_ENV=dev && nodemon index.js",
     "start:test": "export NODE_ENV=test && nodemon index.js",
     "start:prod": "export NODE_ENV=prod && node index.js",
     "--------------------------------": "------------------------------",

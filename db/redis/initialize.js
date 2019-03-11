@@ -1,5 +1,8 @@
-const redis = require("redis");
+const redis = require('redis');
 const Promise = require('bluebird');
+
+const config = require('config');
+const REDIS_CONFIG = config.get('DATABASE.REDIS');
 
 
 Promise.promisifyAll(redis.RedisClient.prototype);
@@ -7,9 +10,9 @@ Promise.promisifyAll(redis.Multi.prototype);
 
 
 const redisClient = redis.createClient({
-  host: "redis-19213.c57.us-east-1-4.ec2.cloud.redislabs.com",
-  port: 19213,
-  password: "ONVvgbiDiEzW76lLSkP6dC1b92R2Q1gI"
+  host:     REDIS_CONFIG.HOST,
+  port:     REDIS_CONFIG.PORT,
+  password: REDIS_CONFIG.PASS,
 });
 
 
