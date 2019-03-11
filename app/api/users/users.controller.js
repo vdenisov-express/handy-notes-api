@@ -124,11 +124,17 @@ module.exports = {
     }
   },
 
-  async redisTest(req, res) {
-    const result = await redisManager.getData('string key');
-    console.log({ result });
+  // get raiting from redis (for user)
+  async getRedisRaiting(req, res) {
+    const userId = parseInt(req.params.id);
 
-    return handlerFor.STOPPER(res);
-  }
+    try {
+      const number = await redisManager.getData(`client-${ userId }`);
+      const result = { rating: number };
+      return handlerFor.SUCCESS(res, 200, result);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
 
 }

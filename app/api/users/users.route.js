@@ -54,10 +54,10 @@ usersRoute.get('/:id/rating',
   usersController.getRating
 );
 
-
-usersRoute.get('/:id/redis-test',
+// get raiting from redis (for user)
+usersRoute.get('/:id/redis-raiting',
   usersMiddleware.checkId,
-  usersController.redisTest
+  usersController.getRedisRaiting
 );
 
 
