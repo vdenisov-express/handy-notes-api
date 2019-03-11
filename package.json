@@ -81,7 +81,8 @@
   ">>> PART #6 <<<": "========================= ALIASES ============================",
   "_moduleAliases": {
     "@db-sqlite": "./db/sqlite",
-    "@db-redis": "./db/redis"
+    "@db-redis": "./db/redis",
+    "@db-mongo": "./db/mongo"
   },
   ">>> PART #7 <<<": "========================= THE END ============================"
 }
