@@ -1,4 +1,4 @@
-const { redisClient } = require('@db-redis/initialize');
+const { redisClient } = require('@db-redis/redis.init');
 
 
 class RedisManager {
