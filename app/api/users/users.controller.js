@@ -124,17 +124,50 @@ module.exports = {
     }
   },
 
-  // get raiting from redis (for user)
-  async getRedisRaiting(req, res) {
+  // compare raiting for user [ Sqlite vs Redis ]
+  async compareRating(req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const number = await redisManager.getData(`client-${ userId }`);
-      const result = { rating: number };
-      return handlerFor.SUCCESS(res, 200, result);
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+
+      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+
+      const data = { ratingFromSqlite, ratingFromRedis };
+
+      if (ratingFromSqlite !== ratingFromRedis) {
+        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
+      }
+
+      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
+  },
+
+  // synchronize raiting for user [ Sqlite & Redis ]
+  async synchronizeRating(req, res) {
+    const userId = parseInt(req.params.id);
+
+    try {
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+
+      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      redisManager.setData(`user-${ userId }`, ratingFromSqlite);
+      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+
+      const data = { ratingFromSqlite, ratingFromRedis };
+
+      if (ratingFromSqlite !== ratingFromRedis) {
+        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
+      }
+
+      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+
   },
 
 }
