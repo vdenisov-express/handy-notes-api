@@ -14,17 +14,17 @@
     "start:test": "export NODE_ENV=test && nodemon index.js",
     "start:prod": "export NODE_ENV=prod && node index.js",
     "--------------------------------": "------------------------------",
-    "db:dev:migrate:up": "cd ./db && db-migrate up",
-    "db:dev:migrate:down": "cd ./db && db-migrate down",
-    "db:dev:migrate:reset": "cd ./db && db-migrate reset",
+    "db:dev:migrate:up": "cd ./db/sqlite && db-migrate up",
+    "db:dev:migrate:down": "cd ./db/sqlite && db-migrate down",
+    "db:dev:migrate:reset": "cd ./db/sqlite && db-migrate reset",
     "---------------------------------": "------------------------------",
-    "db:test:migrate:up": "cd ./db && db-migrate up -e test",
-    "db:test:migrate:down": "cd ./db && db-migrate down -e test",
-    "db:test:migrate:reset": "cd ./db && db-migrate reset -e test",
+    "db:test:migrate:up": "cd ./db/sqlite && db-migrate up -e test",
+    "db:test:migrate:down": "cd ./db/sqlite && db-migrate down -e test",
+    "db:test:migrate:reset": "cd ./db/sqlite && db-migrate reset -e test",
     "----------------------------------": "------------------------------",
-    "db:prod:migrate:up": "cd ./db && db-migrate up -e prod",
-    "db:prod:migrate:down": "cd ./db && db-migrate down -e prod",
-    "db:prod:migrate:reset": "cd ./db && db-migrate reset -e prod"
+    "db:prod:migrate:up": "cd ./db/sqlite && db-migrate up -e prod",
+    "db:prod:migrate:down": "cd ./db/sqlite && db-migrate down -e prod",
+    "db:prod:migrate:reset": "cd ./db/sqlite && db-migrate reset -e prod"
   },
   "scripts:COMMENTS": {
     "start": "Run server",
@@ -76,7 +76,7 @@
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
   ">>> PART #6 <<<": "========================= ALIASES ============================",
   "_moduleAliases": {
-    "@database": "./db",
+    "@database": "./db/sqlite",
     "@api": "./app/api",
     "@shared": "./app/api/api-shared"
   },
