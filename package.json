@@ -78,9 +78,7 @@
   ">>> PART #6 <<<": "========================= ALIASES ============================",
   "_moduleAliases": {
     "@database": "./db/sqlite",
-    "@redis": "./db/redis",
-    "@api": "./app/api",
-    "@shared": "./app/api/api-shared"
+    "@redis": "./db/redis"
   },
   ">>> PART #7 <<<": "========================= THE END ============================"
 }

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const handlerFor = require('@shared/handlers');
+const handlerFor = require('./../../api-shared/handlers');
 
 
 const authRegisterSchema = Joi.object().keys({

@@ -1,7 +1,7 @@
 const tagsRoute = require('express').Router();
 const tagsController = require('./tags.controller');
 
-const tagsMiddleware = require('@api/tags/middleware');
+const tagsMiddleware = require('./../tags/middleware');
 
 
 /* BASE CRUD */

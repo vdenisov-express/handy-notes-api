@@ -1,9 +1,9 @@
-const handlerFor = require('@shared/handlers');
-const authService = require('@api/auth/auth.service');
+const handlerFor = require('./../api-shared/handlers');
+const authService = require('./../auth/auth.service');
 
 const { UsersModel } = require('./users.model');
-const { NotesModel } = require('@api/notes/notes.model');
-const { LikesModel } = require('@shared/models');
+const { NotesModel } = require('./../notes/notes.model');
+const { LikesModel } = require('./../api-shared/models');
 const { RedisManager } = require('./../api-shared/redis-manager');
 
 

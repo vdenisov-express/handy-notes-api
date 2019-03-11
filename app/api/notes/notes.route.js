@@ -2,7 +2,7 @@ const passport = require('passport');
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
 
-const notesMiddleware = require('@api/notes/middleware');
+const notesMiddleware = require('./../notes/middleware');
 
 
 /* BASE CRUD */

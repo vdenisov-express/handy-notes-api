@@ -2,7 +2,7 @@ const passport = require('passport');
 const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
-const usersMiddleware = require('@api/users/middleware');
+const usersMiddleware = require('./../users/middleware');
 
 
 /* BASE CRUD */

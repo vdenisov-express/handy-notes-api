@@ -1,5 +1,5 @@
 const { db } = require('@database/initialize');
-const { AbstractModel } = require('@shared/models');
+const { AbstractModel } = require('./../api-shared/models');
 
 
 class UsersModel extends AbstractModel {
