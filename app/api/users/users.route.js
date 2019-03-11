@@ -54,6 +54,13 @@ usersRoute.get('/:id/rating',
   usersController.getRating
 );
 
+
+usersRoute.get('/:id/redis-test',
+  usersMiddleware.checkId,
+  usersController.redisTest
+);
+
+
 // ##################################################
 
 

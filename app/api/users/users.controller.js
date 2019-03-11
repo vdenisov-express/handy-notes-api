@@ -4,11 +4,13 @@ const authService = require('@api/auth/auth.service');
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('@api/notes/notes.model');
 const { LikesModel } = require('@shared/models');
+const { RedisManager } = require('./../api-shared/redis-manager');
 
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
 const tableLikes = new LikesModel();
+const redisManager = new RedisManager();
 
 
 module.exports = {
@@ -109,6 +111,7 @@ module.exports = {
     }
   },
 
+  // get total likes for user
   async getRating(req, res) {
     const userId = parseInt(req.params.id);
 
@@ -120,5 +123,12 @@ module.exports = {
         return handlerFor.ERROR(res, err);
     }
   },
+
+  async redisTest(req, res) {
+    const result = await redisManager.getData('string key');
+    console.log({ result });
+
+    return handlerFor.STOPPER(res);
+  }
 
 }
