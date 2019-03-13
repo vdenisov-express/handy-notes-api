@@ -3,7 +3,7 @@ const authService = require('./../auth/auth.service');
 
 const { UsersModel } = require('./users.model');
 const { NotesModel } = require('./../notes/notes.model');
-const { LikesModel } = require('./../api-shared/models');
+const { LikesModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../api-shared/redis-manager');
 
 

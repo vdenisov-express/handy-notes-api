@@ -2,7 +2,8 @@ const handlerFor = require('./../api-shared/handlers');
 const authService = require('./../auth/auth.service');
 
 const { NotesModel } = require('./notes.model');
-const { LikesModel, NotesTagsModel } = require('./../api-shared/models');
+const { LikesModel } = require('./../../../db/sqlite/models');
+const { NotesTagsModel } = require('./../api-shared/models');
 
 
 const tableNotes = new NotesModel();
