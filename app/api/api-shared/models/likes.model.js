@@ -1,5 +1,5 @@
 const { db } = require('@db-sqlite/sqlite.init');
-const { AbstractModel } = require('./abstract.model');
+const { AbstractModel } = require('./../../../../db/sqlite/models');
 
 
 class LikesModel extends AbstractModel {

@@ -1,5 +1,5 @@
 const { db } = require('@db-sqlite/sqlite.init');
-const { AbstractModel } = require('./../api-shared/models');
+const { AbstractModel } = require('./../../../db/sqlite/models');
 
 
 class TagsModel extends AbstractModel {
