@@ -1,8 +1,7 @@
 const handlerFor = require('./../api-shared/handlers');
 const authService = require('./../auth/auth.service');
 
-const { NotesModel } = require('./../notes/notes.model');
-const { UsersModel, LikesModel } = require('./../../../db/sqlite/models');
+const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../api-shared/redis-manager');
 
 
