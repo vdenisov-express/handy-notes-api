@@ -1,5 +1,5 @@
 const authService = require('./auth.service');
-const handlerFor = require('./../api-shared/handlers');
+const handlerFor = require('./../../shared/handlers');
 const { UsersModel } = require('./../../../db/sqlite/models');
 
 

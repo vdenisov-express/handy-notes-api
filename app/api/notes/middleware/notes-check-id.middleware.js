@@ -1,4 +1,4 @@
-const handlerFor = require('./../../api-shared/handlers');
+const handlerFor = require('./../../../shared/handlers');
 const { NotesModel } = require('./../../../../db/sqlite/models');
 
 
