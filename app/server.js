@@ -18,9 +18,9 @@ app.use(helmet());
 app.disable('x-powered-by');
 
 // connecting databases
-require('./../db/sqlite/sqlite.init');
-require('./../db/redis/redis.init');
-require('./../db/mongo/mongo.init');
+require('@db-sqlite/sqlite.init');
+require('@db-redis/redis.init');
+require('@db-mongo/mongo.init');
 
 // connecting the API to the application
 initAPI(app);
