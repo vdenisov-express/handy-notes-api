@@ -1,4 +1,4 @@
-const { db } = require('@database/initialize');
+const { db } = require('@db-sqlite/sqlite.init');
 const { AbstractModel } = require('./abstract.model');
 
 

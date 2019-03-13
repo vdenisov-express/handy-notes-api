@@ -1,14 +1,16 @@
-const handlerFor = require('@shared/handlers');
-const authService = require('@api/auth/auth.service');
+const handlerFor = require('./../api-shared/handlers');
+const authService = require('./../auth/auth.service');
 
 const { UsersModel } = require('./users.model');
-const { NotesModel } = require('@api/notes/notes.model');
-const { LikesModel } = require('@shared/models');
+const { NotesModel } = require('./../notes/notes.model');
+const { LikesModel } = require('./../api-shared/models');
+const { RedisManager } = require('./../api-shared/redis-manager');
 
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
 const tableLikes = new LikesModel();
+const redisManager = new RedisManager();
 
 
 module.exports = {
@@ -85,23 +87,6 @@ module.exports = {
 
   // ##################################################
 
-  async addLikeToNote(req, res) {
-    const userId = parseInt(req.params.id);
-    const noteId = req.body.noteId;
-
-    const inputData = {
-      Users_id: userId,
-      Notes_id: noteId,
-    };
-
-    try {
-      await tableLikes.create(inputData);
-      return handlerFor.SUCCESS(res, 200, null, 'like is added !');
-    } catch (err) {
-        return handlerFor.ERROR(res, err);
-    }
-  },
-
   // get notes for user
   async getNotes(req, res) {
     const { id } = req.params;
@@ -126,17 +111,63 @@ module.exports = {
     }
   },
 
-  // remove like from note
-  async removeLikeFromNote(req, res) {
+  // get total likes for user
+  async getRating(req, res) {
     const userId = parseInt(req.params.id);
-    const noteId = req.body.noteId;
 
     try {
-      await tableLikes.deleteByUniquePairOfIds(userId, noteId);
-      return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+      const result = { rating: Object.values(sumOfLikes)[0] };
+      return handlerFor.SUCCESS(res, 200, result);
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
+  },
+
+  // compare raiting for user [ Sqlite vs Redis ]
+  async compareRating(req, res) {
+    const userId = parseInt(req.params.id);
+
+    try {
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+
+      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+
+      const data = { ratingFromSqlite, ratingFromRedis };
+
+      if (ratingFromSqlite !== ratingFromRedis) {
+        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
+      }
+
+      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // synchronize raiting for user [ Sqlite & Redis ]
+  async synchronizeRating(req, res) {
+    const userId = parseInt(req.params.id);
+
+    try {
+      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
+
+      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      redisManager.setData(`user-${ userId }`, ratingFromSqlite);
+      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+
+      const data = { ratingFromSqlite, ratingFromRedis };
+
+      if (ratingFromSqlite !== ratingFromRedis) {
+        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
+      }
+
+      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+
   },
 
 }

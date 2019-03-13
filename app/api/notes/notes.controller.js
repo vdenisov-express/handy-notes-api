@@ -1,8 +1,8 @@
-const handlerFor = require('@shared/handlers');
-const authService = require('@api/auth/auth.service');
+const handlerFor = require('./../api-shared/handlers');
+const authService = require('./../auth/auth.service');
 
 const { NotesModel } = require('./notes.model');
-const { LikesModel, NotesTagsModel } = require('@shared/models');
+const { LikesModel, NotesTagsModel } = require('./../api-shared/models');
 
 
 const tableNotes = new NotesModel();
@@ -97,6 +97,55 @@ module.exports = {
 
   // ##################################################
 
+  /* NOTES => LIKES */
+
+  // add like to note
+  async addLikeToNote(req, res) {
+    const noteId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    const inputData = {
+      Users_id: userId,
+      Notes_id: noteId,
+    };
+
+    try {
+      await tableLikes.create(inputData);
+      return handlerFor.SUCCESS(res, 200, null, 'like is added !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // remove like from note
+  async removeLikeFromNote(req, res) {
+    const noteId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    try {
+      await tableLikes.deleteByUniquePairOfIds(userId, noteId);
+      return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // get user who liked this note
+  async getLikers(req, res) {
+    const noteId = parseInt(req.params.id);
+
+    try {
+      const usersList = await tableLikes.filterUsersByIdOfLikedNote(noteId);
+      return handlerFor.SUCCESS(res, 200, usersList);
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // ##################################################
+
+  /* NOTES => TAGS */
+
   // attach tag to note
   async attachTag(req, res) {
     const { id: noteId } = req.params;
@@ -142,18 +191,6 @@ module.exports = {
     }
   },
 
-  // get user who liked this note
-  async getLikers(req, res) {
-    const noteId = parseInt(req.params.id);
-
-    try {
-      const usersList = await tableLikes.filterUsersByIdOfLikedNote(noteId);
-      return handlerFor.SUCCESS(res, 200, usersList);
-    } catch (err) {
-        return handlerFor.ERROR(res, err);
-    }
-  },
-
   // detach tag from note
   async detachTag(req, res) {
     const { id: noteId } = req.params;
@@ -181,5 +218,7 @@ module.exports = {
         return handlerFor.ERROR(res, err);
     }
   },
+
+  // ##################################################
 
 }

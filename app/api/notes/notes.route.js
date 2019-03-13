@@ -2,7 +2,7 @@ const passport = require('passport');
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
 
-const notesMiddleware = require('@api/notes/middleware');
+const notesMiddleware = require('./../notes/middleware');
 
 
 /* BASE CRUD */
@@ -34,7 +34,29 @@ notesRoute.delete('/:id',
 
 // ##################################################
 
-/* ADDITIONAL FUNCTIONALITY */
+/* NOTES => LIKES */
+
+// add like to note
+notesRoute.post('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.addLikeToNote
+);
+
+// remove like from note
+notesRoute.delete('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.removeLikeFromNote
+);
+
+// get user who liked this note
+notesRoute.get('/:id/likers',
+  notesMiddleware.checkId,
+  notesController.getLikers
+);
+
+// ##################################################
+
+/* NOTES => TAGS */
 
 // attach tag to note
 notesRoute.post('/:id/tags',
@@ -47,12 +69,6 @@ notesRoute.post('/:id/tags',
 notesRoute.get('/:id/tags',
   notesMiddleware.checkId,
   notesController.getTags
-);
-
-// get user who liked this note
-notesRoute.get('/:id/likers',
-  notesMiddleware.checkId,
-  notesController.getLikers
 );
 
 // detach tag from note

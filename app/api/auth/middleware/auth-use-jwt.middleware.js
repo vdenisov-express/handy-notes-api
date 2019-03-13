@@ -2,7 +2,7 @@ const config = require('config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 
 const APP_CONFIG = config.get('APP');
-const { UsersModel } = require('@api/users/users.model');
+const { UsersModel } = require('./../../users/users.model');
 
 
 const tableUsers = new UsersModel();

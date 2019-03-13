@@ -2,7 +2,7 @@ const passport = require('passport');
 const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
-const usersMiddleware = require('@api/users/middleware');
+const usersMiddleware = require('./../users/middleware');
 
 
 /* BASE CRUD */
@@ -36,12 +36,6 @@ usersRoute.delete('/:id',
 
 /* ADDITIONAL FUNCTIONALITY */
 
-// add like to note
-usersRoute.post('/:id/likes',
-  usersMiddleware.checkId,
-  usersController.addLikeToNote
-);
-
 // get notes for user
 usersRoute.get('/:id/notes',
   usersMiddleware.checkId,
@@ -54,10 +48,22 @@ usersRoute.get('/:id/likes',
   usersController.getLikedNotes
 );
 
-// remove like from note
-usersRoute.delete('/:id/likes',
+// get total likes for user
+usersRoute.get('/:id/rating',
   usersMiddleware.checkId,
-  usersController.removeLikeFromNote
+  usersController.getRating
+);
+
+// compare raiting for user [ Sqlite vs Redis ]
+usersRoute.get('/:id/redis-rating',
+  usersMiddleware.checkId,
+  usersController.compareRating
+);
+
+// synchronize raiting for user [ Sqlite & Redis ]
+usersRoute.post('/:id/redis-rating',
+  usersMiddleware.checkId,
+  usersController.synchronizeRating
 );
 
 // ##################################################
