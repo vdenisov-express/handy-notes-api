@@ -1,7 +1,7 @@
 const handlerFor = require('./../api-shared/handlers');
 
 const { TagsModel } = require('./tags.model');
-const { NotesTagsModel } = require('./../api-shared/models');
+const { NotesTagsModel } = require('./../../../db/sqlite/models');
 
 
 const tableTags = new TagsModel();
