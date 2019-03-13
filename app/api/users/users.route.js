@@ -70,10 +70,21 @@ usersRoute.post('/:id/redis-rating',
 
 // } REDIS
 
+// STATISTIC {
+
+// get tags for all user notes
 usersRoute.get('/:id/tags-for-notes',
   usersMiddleware.checkId,
   usersController.getTagsForNotes
 );
+
+// get last notes for user
+usersRoute.get('/:id/last-notes',
+  usersMiddleware.checkId,
+  usersController.getLastNotes
+);
+
+// } STATISTIC
 
 // ##################################################
 

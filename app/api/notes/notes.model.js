@@ -29,15 +29,12 @@ class NotesModel extends AbstractModel {
     return await db.allAsync(sql);
   }
 
+  async getLimitedNumberOfLastUserNotes(userId, limit) {
+    const sql = `SELECT * FROM Notes WHERE Users_id = ${userId} LIMIT ${limit}`;
+    return await db.allAsync(sql);
+  }
+
 }
 
 
 module.exports = { NotesModel };
-
-
-// --CREATE VIEW IF NOT EXISTS personal_notes
-// --    AS SELECT * FROM Notes WHERE Users_id = 1;
-// --SELECT * FROM personal_notes;
-// --DROP VIEW IF EXISTS personal_notes;
-
-// --SELECT * FROM Notes WHERE Users_id = 1;

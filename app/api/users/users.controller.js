@@ -174,16 +174,33 @@ module.exports = {
 
   // } REDIS
 
+  // STATISTIC {
+
+  // get tags for all user notes
   async getTagsForNotes(req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const data = await tableNotes.getTagsForNotesByUserId(userId);
-      console.log(data);
-      return handlerFor.SUCCESS(res, 200, data);
+      const tagsList = await tableNotes.getTagsForNotesByUserId(userId);
+      return handlerFor.SUCCESS(res, 200, tagsList);
     } catch (err) {
       return handlerFor.ERROR(res, err);
     }
   },
+
+  // get last notes for user
+  async getLastNotes(req, res) {
+    const userId = parseInt(req.params.id);
+    const limit = parseInt(req.query.limit) || 10;
+
+    try {
+      const notesList = await tableNotes.getLimitedNumberOfLastUserNotes(userId, limit);
+      return handlerFor.SUCCESS(res, 200, notesList);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // } STATISTIC
 
 }
