@@ -2,8 +2,7 @@ const config = require('config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 
 const APP_CONFIG = config.get('APP');
-const { UsersModel } = require('./../../users/users.model');
-
+const { UsersModel } = require('./../../../../db/sqlite/models');
 
 const tableUsers = new UsersModel();
 
