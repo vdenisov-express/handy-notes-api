@@ -17,7 +17,9 @@ app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
-// connecting MongoDB
+// connecting databases
+require('./../db/sqlite/sqlite.init');
+require('./../db/redis/redis.init');
 require('./../db/mongo/mongo.init');
 
 // connecting the API to the application

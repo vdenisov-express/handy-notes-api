@@ -15,5 +15,7 @@ const redisClient = redis.createClient({
   password: REDIS_CONFIG.PASS,
 });
 
+console.log('* db Redis => connected !')
+
 
 module.exports = { redisClient };
