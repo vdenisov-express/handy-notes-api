@@ -12,7 +12,7 @@
     },
 
     "MONGO": {
-      "URL": "mongodb://<dbuser>:<dbpassword>@ds151805.mlab.com:51805/test-memory"
+      "URL": "mongodb://admin:Kriogen531@ds151805.mlab.com:51805/test-memory"
     }
 
   },

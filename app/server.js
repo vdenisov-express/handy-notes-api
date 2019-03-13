@@ -17,6 +17,9 @@ app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
+// connecting MongoDB
+require('./../db/mongo/mongo.init');
+
 // connecting the API to the application
 initAPI(app);
 console.log('* app => server API initialized');
