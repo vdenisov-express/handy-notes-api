@@ -201,6 +201,21 @@ module.exports = {
     }
   },
 
+  // get rating among all users
+  async getTotalRating(req, res) {
+    const userId = parseInt(req.params.id);
+
+    try {
+      const ratingList = await tableNotes.getTotalRatingAmongAllUsersByLikes();
+      const place = ratingList.findIndex(item => item.id === userId) + 1;
+
+      const data = { ratingList, place };
+      return handlerFor.SUCCESS(res, 200, data);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
   // } STATISTIC
 
 }

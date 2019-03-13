@@ -84,6 +84,12 @@ usersRoute.get('/:id/last-notes',
   usersController.getLastNotes
 );
 
+// get rating among all users
+usersRoute.get('/:id/total-rating',
+  usersMiddleware.checkId,
+  usersController.getTotalRating
+);
+
 // } STATISTIC
 
 // ##################################################
