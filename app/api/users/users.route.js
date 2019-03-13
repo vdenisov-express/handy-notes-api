@@ -54,6 +54,8 @@ usersRoute.get('/:id/rating',
   usersController.getRating
 );
 
+// REDIS {
+
 // compare raiting for user [ Sqlite vs Redis ]
 usersRoute.get('/:id/redis-rating',
   usersMiddleware.checkId,
@@ -64,6 +66,13 @@ usersRoute.get('/:id/redis-rating',
 usersRoute.post('/:id/redis-rating',
   usersMiddleware.checkId,
   usersController.synchronizeRating
+);
+
+// } REDIS
+
+usersRoute.get('/:id/tags-for-notes',
+  usersMiddleware.checkId,
+  usersController.getTagsForNotes
 );
 
 // ##################################################

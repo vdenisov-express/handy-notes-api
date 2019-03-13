@@ -124,6 +124,8 @@ module.exports = {
     }
   },
 
+  // REDIS {
+
   // compare raiting for user [ Sqlite vs Redis ]
   async compareRating(req, res) {
     const userId = parseInt(req.params.id);
@@ -168,6 +170,20 @@ module.exports = {
       return handlerFor.ERROR(res, err);
     }
 
+  },
+
+  // } REDIS
+
+  async getTagsForNotes(req, res) {
+    const userId = parseInt(req.params.id);
+
+    try {
+      const data = await tableNotes.getTagsForNotesByUserId(userId);
+      console.log(data);
+      return handlerFor.SUCCESS(res, 200, data);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
   },
 
 }

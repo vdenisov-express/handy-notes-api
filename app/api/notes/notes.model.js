@@ -13,12 +13,31 @@ class NotesModel extends AbstractModel {
     return await db.allAsync(sql);
   }
 
-  async getSumLikesForNotesByUserId(id) {
-    const sql = `SELECT SUM(likes_count) FROM Notes WHERE Users_id = ${id}`;
+  async getSumLikesForNotesByUserId(userId) {
+    const sql = `SELECT SUM(likes_count) FROM Notes WHERE Users_id = ${userId}`;
     return await db.getAsync(sql);
+  }
+
+  async getTagsForNotesByUserId(userId) {
+    const sql = `
+      SELECT DISTINCT Tags.* FROM Users
+        INNER JOIN Notes ON Notes.Users_id = Users.id
+        INNER JOIN NotesTags ON NotesTags.Notes_id = Notes.id
+        INNer JOIN Tags ON Tags.id = NotesTags.Tags_id
+      WHERE Users.id = ${userId} ORDER BY Tags.id ASC;
+    `;
+    return await db.allAsync(sql);
   }
 
 }
 
 
 module.exports = { NotesModel };
+
+
+// --CREATE VIEW IF NOT EXISTS personal_notes
+// --    AS SELECT * FROM Notes WHERE Users_id = 1;
+// --SELECT * FROM personal_notes;
+// --DROP VIEW IF EXISTS personal_notes;
+
+// --SELECT * FROM Notes WHERE Users_id = 1;
