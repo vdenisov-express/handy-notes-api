@@ -14,18 +14,18 @@ class NotesModel extends AbstractModel {
   }
 
   async getSumLikesForNotesByUserId(userId) {
-    const sql = `SELECT SUM(likes_count) FROM Notes WHERE Users_id = ${userId}`;
+    const sql = `SELECT SUM(likes_count) AS "rating" FROM Notes WHERE Users_id = ${userId}`;
     return await db.getAsync(sql);
   }
 
   async getTagsForNotesByUserId(userId) {
     const sql = `
-      SELECT DISTINCT Tags.* FROM Users
-        INNER JOIN Notes ON Notes.Users_id = Users.id
+      SELECT DISTINCT Tags.* FROM Notes
         INNER JOIN NotesTags ON NotesTags.Notes_id = Notes.id
         INNER JOIN Tags ON Tags.id = NotesTags.Tags_id
-      WHERE Users.id = ${userId} ORDER BY Tags.id ASC;
+      WHERE Notes.Users_id = ${userId} ORDER BY Tags.id ASC;
     `;
+
     return await db.allAsync(sql);
   }
 
@@ -39,13 +39,13 @@ class NotesModel extends AbstractModel {
       SELECT
         Users.id,
         Users.name,
-        COUNT(Likes.RowID) as rating
+        COUNT(Likes.RowID) AS "rating"
       FROM
         Users
         INNER JOIN Notes ON Notes.Users_id = Users.id
         INNER JOIN Likes ON Likes.Notes_id = Notes.id
       GROUP BY Users.id
-      ORDER BY rating DESC;
+      ORDER BY "rating" DESC;
     `;
     return await db.allAsync(sql);
   }

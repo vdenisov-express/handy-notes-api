@@ -114,8 +114,8 @@ module.exports = {
     const userId = parseInt(req.params.id);
 
     try {
-      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
-      const result = { rating: Object.values(sumOfLikes)[0] };
+      const { rating } = await tableNotes.getSumLikesForNotesByUserId(userId);
+      const result = { rating };
       return handlerFor.SUCCESS(res, 200, result);
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -129,9 +129,7 @@ module.exports = {
     const userId = parseInt(req.params.id);
 
     try {
-      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
-
-      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
       const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
 
       const data = { ratingFromSqlite, ratingFromRedis };
@@ -151,9 +149,7 @@ module.exports = {
     const userId = parseInt(req.params.id);
 
     try {
-      const sumOfLikes = await tableNotes.getSumLikesForNotesByUserId(userId);
-
-      const ratingFromSqlite = Object.values(sumOfLikes)[0];
+      const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
       redisManager.setData(`user-${ userId }`, ratingFromSqlite);
       const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
 
