@@ -31,4 +31,6 @@ module.exports = function initialize(app) {
   app.use('/api/v1', apiV1);
   // } API: routes
 
+  console.log('* app => server API initialized');
+
 }

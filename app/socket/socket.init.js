@@ -21,4 +21,6 @@ module.exports = function initialize(server) {
       console.log('client disconnected!');
     });
   });
+
+  console.log('* app => socket connection initialized');
 }

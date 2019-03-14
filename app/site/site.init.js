@@ -42,6 +42,8 @@ module.exports = function initialize(app) {
 
   // } pages: routes
 
+  console.log('* app => static site initialized');
+
 }
 
 

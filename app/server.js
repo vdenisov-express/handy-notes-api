@@ -22,18 +22,12 @@ require('@db-sqlite/sqlite.init');
 require('@db-redis/redis.init');
 require('@db-mongo/mongo.init');
 
-// connecting the API to the application
+// connect features
 initAPI(app);
-console.log('* app => server API initialized');
-
-// connecting static pages to the application
 initSite(app);
-console.log('* app => static site initialized');
-
-// add socket connection to the application
 initSocket(server);
-console.log('* app => socket connection initialized');
 
+// handle error 404
 app.use('**', (req, res) => {
   res.status(404).send('404 - Not Found :(');
 });
