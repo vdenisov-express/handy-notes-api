@@ -2,7 +2,7 @@ const handlerFor = require('./../../shared/handlers');
 const authService = require('./../auth/auth.service');
 
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
-const { RedisManager } = require('./../../shared/redis-manager');
+const { RedisManager } = require('./../../../db/redis/redis-manager');
 
 
 const tableUsers = new UsersModel();
