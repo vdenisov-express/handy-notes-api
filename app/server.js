@@ -34,5 +34,9 @@ console.log('* app => static site initialized');
 initSocket(server);
 console.log('* app => socket connection initialized');
 
+app.use('**', (req, res) => {
+  res.status(404).send('404 - Not Found :(');
+});
+
 
 module.exports = server;
