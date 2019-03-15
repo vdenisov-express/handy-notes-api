@@ -3,7 +3,7 @@ const authService = require('./../auth/auth.service');
 
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../../../db/redis/redis-manager');
-
+const MongoProfiles = require('./../../../db/mongo/profile.schema');
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
@@ -210,5 +210,81 @@ module.exports = {
   },
 
   // } STATISTIC
+
+  // MONGO {
+
+  // get all profiles
+  async mongoGetAllProfiles(req, res) {
+    try {
+      const profilesList = await MongoProfiles.find({});
+      return handlerFor.SUCCESS(res, 200, profilesList);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // create user profile
+  async mongoCreateProfile(req, res) {
+    const newProfile = new MongoProfiles({
+      userId: req.params.id,
+      rating: req.body.rating,
+    });
+
+    try {
+      const createdProfile = await newProfile.save();
+      return handlerFor.SUCCESS(res, 200, createdProfile);
+    } catch (err) {
+      return handlerFor.ERROR_ON_VALIDATION(res, 'profile already exists for this user !');
+    }
+  },
+
+  // get user profile
+  async mongoGetUserProfile(req, res) {
+    try {
+      const dataProfile = await MongoProfiles.findOne({
+        userId: req.params.id
+      });
+      if (!dataProfile) {
+        return handlerFor.ERROR_NOT_FOUND(res, 'profile not found !');
+      }
+      return handlerFor.SUCCESS(res, 200, dataProfile);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // update user profile
+  async mongoUpdateUserProfile(req, res) {
+    try {
+      const updatedProfile = await MongoProfiles.findOneAndUpdate(
+        { userId: req.params.id },
+        { rating: req.body.rating },
+        { new: true },
+      );
+      if (!updatedProfile) {
+        return handlerFor.ERROR_NOT_FOUND(res, 'profile not found !');
+      }
+      return handlerFor.SUCCESS(res, 200, updatedProfile);
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // delete user profile
+  async mongoRemoveUserProfile(req, res) {
+    try {
+      const removedProfile = await MongoProfiles.findOneAndRemove({
+        userId: req.params.id
+      });
+      if (!removedProfile) {
+        return handlerFor.ERROR_NOT_FOUND(res, 'profile not found !');
+      }
+      return handlerFor.SUCCESS(res, 200, null, 'user profile removed !');
+    } catch (err) {
+      return handlerFor.ERROR(res, err);
+    }
+  },
+
+  // } MONGO
 
 }

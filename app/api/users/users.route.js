@@ -12,6 +12,39 @@ usersRoute.get('/',
   usersController.getAll
 );
 
+// MONGO {
+
+// get all profiles
+usersRoute.get('/profiles',
+  usersController.mongoGetAllProfiles
+);
+
+// create user profile
+usersRoute.post('/:id/profile',
+  usersMiddleware.checkId,
+  usersController.mongoCreateProfile
+);
+
+// get user profile
+usersRoute.get('/:id/profile',
+  usersMiddleware.checkId,
+  usersController.mongoGetUserProfile
+);
+
+// update user profile
+usersRoute.patch('/:id/profile',
+  usersMiddleware.checkId,
+  usersController.mongoUpdateUserProfile
+);
+
+// delete user profile
+usersRoute.delete('/:id/profile',
+  usersMiddleware.checkId,
+  usersController.mongoRemoveUserProfile
+);
+
+// } MONGO
+
 // READ
 usersRoute.get('/:id',
   usersMiddleware.checkId,
