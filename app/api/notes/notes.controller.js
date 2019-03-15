@@ -2,11 +2,13 @@ const handlerFor = require('./../../shared/handlers');
 const authService = require('./../auth/auth.service');
 
 const { NotesModel, LikesModel, NotesTagsModel } = require('./../../../db/sqlite/models');
+const { RedisManager } = require('./../../../db/redis/redis-manager');
 
 
 const tableNotes = new NotesModel();
 const tableLikes = new LikesModel();
 const tableNotesTags = new NotesTagsModel();
+const redisManager = new RedisManager();
 
 
 module.exports = {
@@ -102,17 +104,19 @@ module.exports = {
   async addLikeToNote(req, res) {
     const noteId = parseInt(req.params.id);
     const userId = req.body.userId;
-
-    const inputData = {
-      Users_id: userId,
-      Notes_id: noteId,
-    };
+    const inputData = { Users_id: userId, Notes_id: noteId };
 
     try {
+      // sqlite
       await tableLikes.create(inputData);
+      const { Users_id: ownerId } = await tableNotes.getById(noteId);
+      // redis
+      let ratingFromRedis = parseInt( await redisManager.getData(`user-${ ownerId }`) );
+      await redisManager.setData(`user-${ ownerId }`, ratingFromRedis + 1);
+      // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is added !');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
@@ -122,10 +126,16 @@ module.exports = {
     const userId = req.body.userId;
 
     try {
+      // sqlite
       await tableLikes.deleteByUniquePairOfIds(userId, noteId);
+      const { Users_id: ownerId } = await tableNotes.getById(noteId);
+      // redis
+      let ratingFromRedis = parseInt( await redisManager.getData(`user-${ ownerId }`) );
+      await redisManager.setData(`user-${ ownerId }`, ratingFromRedis - 1);
+      // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 

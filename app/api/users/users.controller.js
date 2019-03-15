@@ -109,20 +109,19 @@ module.exports = {
     }
   },
 
-  // get total likes for user
+  // REDIS {
+
+  // get total likes for user [ Redis ]
   async getRating(req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const { rating } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      const result = { rating };
-      return handlerFor.SUCCESS(res, 200, result);
+      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+      return handlerFor.SUCCESS(res, 200, { ratingFromRedis });
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
   },
-
-  // REDIS {
 
   // compare raiting for user [ Sqlite vs Redis ]
   async compareRating(req, res) {

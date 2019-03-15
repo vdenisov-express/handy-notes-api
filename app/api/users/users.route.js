@@ -48,13 +48,13 @@ usersRoute.get('/:id/likes',
   usersController.getLikedNotes
 );
 
-// get total likes for user
+// REDIS {
+
+// get total likes for user [ Redis ]
 usersRoute.get('/:id/rating',
   usersMiddleware.checkId,
   usersController.getRating
 );
-
-// REDIS {
 
 // compare raiting for user [ Sqlite vs Redis ]
 usersRoute.get('/:id/redis-rating',
