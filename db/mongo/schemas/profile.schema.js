@@ -13,12 +13,20 @@ const ProfileSchema = new Schema({
     required: true,
   },
   tags: {
-    type: [String],
+    type: [{
+      id: Number,
+      value: String,
+    }],
+    default: [],
+  },
+  last10Notes: {
+    type: [{
+      title: String,
+      text: String,
+      Users_id: Number,
+    }],
     default: [],
   }
 });
 
 module.exports = mongoose.model('Profiles', ProfileSchema);
-
-
-

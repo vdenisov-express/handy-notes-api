@@ -1,5 +1,4 @@
 const handlerFor = require('./../../shared/handlers');
-const authService = require('./../auth/auth.service');
 
 const { NotesModel, TagsModel, LikesModel, NotesTagsModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../../../db/redis/redis-manager');
@@ -18,16 +17,22 @@ module.exports = {
   // CREATE
 
   async create(req, res) {
-    const reqBody = req.body;
-
-    const inputData = {
-      title:    `${ reqBody.title }`,
-      text:     `${ reqBody.text }`,
-      Users_id: `${ reqBody.userId }`,
+    const newNote = {
+      title:    req.body.title,
+      text:     req.body.text,
+      Users_id: req.body.userId,
     };
 
     try {
-      await tableNotes.create(inputData);
+      // (sqlite) add note for user
+      await tableNotes.create(newNote);
+
+      // (mongo) add note for user
+      await ProfileSchema.findOneAndUpdate(
+        { userId: req.body.userId },
+        { $addToSet: {last10Notes: newNote} },
+      );
+
       return handlerFor.SUCCESS(res, 200, null, 'note is created !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -84,10 +89,25 @@ module.exports = {
   // DELETE
 
   async deleteById(req, res) {
-    const { id } = req.params;
+    const { id: noteId } = req.params;
+    let noteObj;
 
     try {
-      await tableNotes.deleteById(id);
+      noteObj = await tableNotes.getById(noteId);
+    } catch(err) {
+      return handlerFor.ERROR(res, err);
+    }
+
+    try {
+      // (sqlite) delete user's note
+      await tableNotes.deleteById(noteId);
+
+      // (mongo) add note for user
+      await ProfileSchema.findOneAndUpdate(
+        { userId: String(noteObj.Users_id) },
+        { $pull: {last10Notes: {title: noteObj.title}} },
+      );
+
       return handlerFor.SUCCESS(res, 200, null, 'note is deleted !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -180,7 +200,7 @@ module.exports = {
       // (mongo) attach tag
       await ProfileSchema.findOneAndUpdate(
         { userId: req.token.userId },
-        { $addToSet: {tags: tagObj.value} },
+        { $addToSet: {tags: tagObj} },
       );
 
       return handlerFor.SUCCESS(res, 200, null, 'tag is attached !');
@@ -230,8 +250,7 @@ module.exports = {
         // (mongo) detach tag
         await ProfileSchema.findOneAndUpdate(
           { userId: req.token.userId },
-          { $pull: {tags: tagObj.value} },
-          { new: true },
+          { $pull: {tags: {value: tagObj.value}} },
         );
       }
 
