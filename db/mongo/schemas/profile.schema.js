@@ -11,7 +11,14 @@ const ProfileSchema = new Schema({
   rating: {
     type: Number,
     required: true,
+  },
+  tags: {
+    type: [String],
+    default: [],
   }
 });
 
 module.exports = mongoose.model('Profiles', ProfileSchema);
+
+
+

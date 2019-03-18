@@ -1,13 +1,15 @@
 const handlerFor = require('./../../shared/handlers');
 const authService = require('./../auth/auth.service');
 
-const { NotesModel, LikesModel, NotesTagsModel } = require('./../../../db/sqlite/models');
+const { NotesModel, TagsModel, LikesModel, NotesTagsModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../../../db/redis/redis-manager');
-
+const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableNotes = new NotesModel();
+const tableTags = new TagsModel();
 const tableLikes = new LikesModel();
 const tableNotesTags = new NotesTagsModel();
+
 const redisManager = new RedisManager();
 
 
@@ -67,11 +69,7 @@ module.exports = {
         return handlerFor.ERROR(res, err);
     }
 
-    const token = req.get('Authorization');
-    const infoFromToken = authService.verifyToken(token);
-    const { userId } = infoFromToken.data;
-
-    if (noteObj.Users_id !== userId) {
+    if (noteObj.Users_id !== req.token.userId) {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
@@ -159,29 +157,32 @@ module.exports = {
   async attachTag(req, res) {
     const { id: noteId } = req.params;
     const { tagId } = req.body;
-    let noteObj;
+    let noteObj, tagObj;
 
     try {
       noteObj = await tableNotes.getById(noteId);
+      tagObj = await tableTags.getById(tagId);
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
 
-    const token = req.get('Authorization');
-    const infoFromToken = authService.verifyToken(token);
-    const { userId } = infoFromToken.data;
-
-    if (noteObj.Users_id !== userId) {
+    if (noteObj.Users_id !== req.token.userId) {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
-    const inputData = {
-      Notes_id: noteId,
-      Tags_id:  tagId,
-    };
-
     try {
-      await tableNotesTags.create(inputData);
+      // (sqlite) attach tag
+      await tableNotesTags.create({
+        Notes_id: noteId,
+        Tags_id: tagId,
+      });
+
+      // (mongo) attach tag
+      await ProfileSchema.findOneAndUpdate(
+        { userId: req.token.userId },
+        { $addToSet: {tags: tagObj.value} },
+      );
+
       return handlerFor.SUCCESS(res, 200, null, 'tag is attached !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -204,24 +205,36 @@ module.exports = {
   async detachTag(req, res) {
     const { id: noteId } = req.params;
     const { tagId } = req.body;
-    let noteObj;
+    let noteObj, tagObj;
 
     try {
       noteObj = await tableNotes.getById(noteId);
+      tagObj = await tableTags.getById(tagId);
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
 
-    const token = req.get('Authorization');
-    const infoFromToken = authService.verifyToken(token);
-    const { userId } = infoFromToken.data;
-
-    if (noteObj.Users_id !== userId) {
+    if (noteObj.Users_id !== req.token.userId) {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
     try {
+      // (sqlite) detach tag
       await tableNotesTags.deleteByUniquePairOfIds(noteId, tagId);
+
+      const tagsList = await tableNotes.getTagsForNotesByUserId(req.token.userId);
+      const isTagInUserNotes = tagsList.map(el => el.value).includes(tagObj.value);
+
+      // if none of user's notes contain this tag - delete it from mongo profile
+      if (!isTagInUserNotes) {
+        // (mongo) detach tag
+        await ProfileSchema.findOneAndUpdate(
+          { userId: req.token.userId },
+          { $pull: {tags: tagObj.value} },
+          { new: true },
+        );
+      }
+
       return handlerFor.SUCCESS(res, 200, null, 'tag is detached !');
     } catch (err) {
         return handlerFor.ERROR(res, err);

@@ -2,6 +2,7 @@ const passport = require('passport');
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
 
+const authMiddleware = require('./../auth/middleware');
 const notesMiddleware = require('./../notes/middleware');
 
 
@@ -23,6 +24,7 @@ notesRoute.get('/:id',
 notesRoute.patch('/:id',
   notesMiddleware.checkId,
   passport.authenticate('jwt', {session: false}),
+  authMiddleware.decodeToken,
   notesController.updateById
 );
 
@@ -62,6 +64,7 @@ notesRoute.get('/:id/likers',
 notesRoute.post('/:id/tags',
   notesMiddleware.checkId,
   passport.authenticate('jwt', {session: false}),
+  authMiddleware.decodeToken,
   notesController.attachTag
 );
 
@@ -75,6 +78,7 @@ notesRoute.get('/:id/tags',
 notesRoute.delete('/:id/tags',
   notesMiddleware.checkId,
   passport.authenticate('jwt', {session: false}),
+  authMiddleware.decodeToken,
   notesController.detachTag
 );
 

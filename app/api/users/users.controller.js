@@ -3,7 +3,7 @@ const authService = require('./../auth/auth.service');
 
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../../../db/redis/redis-manager');
-const MongoProfiles = require('./../../../db/mongo/profile.schema');
+const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
@@ -216,7 +216,7 @@ module.exports = {
   // get all profiles
   async mongoGetAllProfiles(req, res) {
     try {
-      const profilesList = await MongoProfiles.find({});
+      const profilesList = await ProfileSchema.find({});
       return handlerFor.SUCCESS(res, 200, profilesList);
     } catch (err) {
       return handlerFor.ERROR(res, err);
@@ -225,7 +225,7 @@ module.exports = {
 
   // create user profile
   async mongoCreateProfile(req, res) {
-    const newProfile = new MongoProfiles({
+    const newProfile = new ProfileSchema({
       userId: req.params.id,
       rating: req.body.rating,
     });
@@ -241,7 +241,7 @@ module.exports = {
   // get user profile
   async mongoGetUserProfile(req, res) {
     try {
-      const dataProfile = await MongoProfiles.findOne({
+      const dataProfile = await ProfileSchema.findOne({
         userId: req.params.id
       });
       if (!dataProfile) {
@@ -256,7 +256,7 @@ module.exports = {
   // update user profile
   async mongoUpdateUserProfile(req, res) {
     try {
-      const updatedProfile = await MongoProfiles.findOneAndUpdate(
+      const updatedProfile = await ProfileSchema.findOneAndUpdate(
         { userId: req.params.id },
         { rating: req.body.rating },
         { new: true },
@@ -273,7 +273,7 @@ module.exports = {
   // delete user profile
   async mongoRemoveUserProfile(req, res) {
     try {
-      const removedProfile = await MongoProfiles.findOneAndRemove({
+      const removedProfile = await ProfileSchema.findOneAndRemove({
         userId: req.params.id
       });
       if (!removedProfile) {
