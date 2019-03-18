@@ -1,4 +1,4 @@
-const { db } = require('./initialize');
+const { db } = require('./sqlite.init');
 const authService = require('./../../app/api/auth/auth.service');
 
 const passHash = authService.createPasswordHash('qwerty123');
