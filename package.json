@@ -18,7 +18,7 @@
     "db:dev:migrate:down": "cd ./db/sqlite && db-migrate down",
     "db:dev:migrate:reset": "cd ./db/sqlite && db-migrate reset",
     "db:dev:migrate:restart": "npm run db:dev:migrate:reset && npm run db:dev:migrate:up",
-    "db:dev:seeds": "set NODE_ENV=dev && node ./db/sqlite/seeds.js",
+    "db:dev:seeds": "set NODE_ENV=dev && node ./db/sqlite/seeds",
     "db:dev:complete": "npm run db:dev:migrate:restart && npm run db:dev:seeds",
     "---------------------------------": "------------------------------",
     "db:test:migrate:up": "cd ./db/sqlite && db-migrate up -e test",
