@@ -9,8 +9,8 @@ const seedsForNotesTags = require('./notes-tags.seed');
 
 
 seedsForUsers.applyTo(db);
-seedsForNotes.applyTo(db);
-seedsForTags.applyTo(db);
+// seedsForNotes.applyTo(db);
+// seedsForTags.applyTo(db);
 
-seedsForLikes.applyTo(db);
-seedsForNotesTags.applyTo(db);
+// seedsForLikes.applyTo(db);
+// seedsForNotesTags.applyTo(db);
