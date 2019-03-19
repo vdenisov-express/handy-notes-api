@@ -53,6 +53,7 @@
     "joi": "^14.3.1",
     "joi-date-extensions": "^1.2.0",
     "jsonwebtoken": "^8.5.0",
+    "lorem-ipsum": "^2.0.0",
     "module-alias": "^2.2.0",
     "moment": "^2.24.0",
     "mongoose": "^5.4.19",

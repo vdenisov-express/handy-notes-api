@@ -38,9 +38,9 @@ Factory.define('User')
 module.exports.applyTo = (db) => {
 
   console.log('\n ##### Users seeds ##### \n');
-  const total = 4;
+  const usersTotal = 4;
 
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < usersTotal; i++) {
     const newUser = Factory.build('User');
     delete newUser.id;
 
