@@ -1,5 +1,5 @@
-const handlerFor = require('./../../shared/handlers');
 const authService = require('./../auth/auth.service');
+const handlerFor = require('./../../shared/handlers');
 
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
 const { RedisManager } = require('./../../../db/redis/redis-manager');
@@ -76,7 +76,12 @@ module.exports = {
     const { id } = req.params;
 
     try {
+      // (sqlite) delete user from database
       await tableUsers.deleteById(id);
+
+      // (redis) delete rating for user
+      await redisManager.delKey(`user-${ id }`);
+
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -111,16 +116,26 @@ module.exports = {
 
   // REDIS {
 
-  // get total likes for user [ Redis ]
-  async getRating(req, res) {
+  // synchronize raiting for user [ Sqlite & Redis ]
+  async synchronizeRating(req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
-      return handlerFor.SUCCESS(res, 200, { ratingFromRedis });
+      const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
+      redisManager.setKey(`user-${ userId }`, ratingFromSqlite);
+      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+
+      const data = { ratingFromSqlite, ratingFromRedis };
+
+      if (ratingFromSqlite !== ratingFromRedis) {
+        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
+      }
+
+      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
+
   },
 
   // compare raiting for user [ Sqlite vs Redis ]
@@ -129,7 +144,7 @@ module.exports = {
 
     try {
       const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
 
       const data = { ratingFromSqlite, ratingFromRedis };
 
@@ -143,26 +158,28 @@ module.exports = {
     }
   },
 
-  // synchronize raiting for user [ Sqlite & Redis ]
-  async synchronizeRating(req, res) {
+  // get total likes for user [ Redis ]
+  async getRating(req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      redisManager.setData(`user-${ userId }`, ratingFromSqlite);
-      const ratingFromRedis = parseInt( await redisManager.getData(`user-${ userId }`) );
+      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+      return handlerFor.SUCCESS(res, 200, { ratingFromRedis });
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
 
-      const data = { ratingFromSqlite, ratingFromRedis };
+  // delete rating for user [ Redis ]
+  async deleteUserRating(req, res) {
+    const userId = parseInt(req.params.id);
 
-      if (ratingFromSqlite !== ratingFromRedis) {
-        return handlerFor.SUCCESS(res, 200, data, 'user rating in Sqlite and in Redis do not match');
-      }
-
-      return handlerFor.SUCCESS(res, 200, data, 'user rating from Redis is up to date');
+    try {
+      await redisManager.delKey(`user-${ userId }`);
+      return handlerFor.SUCCESS(res, 200, null, 'rating is deleted !');
     } catch (err) {
       return handlerFor.ERROR(res, err);
     }
-
   },
 
   // } REDIS

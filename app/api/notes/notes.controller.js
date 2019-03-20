@@ -129,8 +129,8 @@ module.exports = {
       await tableLikes.create(inputData);
       const { Users_id: ownerId } = await tableNotes.getById(noteId);
       // redis
-      let ratingFromRedis = parseInt( await redisManager.getData(`user-${ ownerId }`) );
-      await redisManager.setData(`user-${ ownerId }`, ratingFromRedis + 1);
+      let ratingFromRedis = parseInt( await redisManager.getKey(`user-${ ownerId }`) );
+      await redisManager.setKey(`user-${ ownerId }`, ratingFromRedis + 1);
       // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is added !');
     } catch (err) {
@@ -148,8 +148,8 @@ module.exports = {
       await tableLikes.deleteByUniquePairOfIds(userId, noteId);
       const { Users_id: ownerId } = await tableNotes.getById(noteId);
       // redis
-      let ratingFromRedis = parseInt( await redisManager.getData(`user-${ ownerId }`) );
-      await redisManager.setData(`user-${ ownerId }`, ratingFromRedis - 1);
+      let ratingFromRedis = parseInt( await redisManager.getKey(`user-${ ownerId }`) );
+      await redisManager.setKey(`user-${ ownerId }`, ratingFromRedis - 1);
       // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
     } catch (err) {

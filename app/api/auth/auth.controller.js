@@ -1,9 +1,12 @@
 const authService = require('./auth.service');
 const handlerFor = require('./../../shared/handlers');
-const { UsersModel } = require('./../../../db/sqlite/models');
 
+const { UsersModel } = require('./../../../db/sqlite/models');
+const { RedisManager } = require('./../../../db/redis/redis-manager');
+const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel();
+const redisManager = new RedisManager();
 
 
 module.exports.login = async (req, res) => {
@@ -58,7 +61,8 @@ module.exports.register = async (req, res) => {
   const hashedPass = authService.createPasswordHash(req.body.password);
 
   try {
-    const userObj = await tableUsers.create({
+    // (sqlite) create user
+    userObj = await tableUsers.create({
       name:       req.body.name,
       email:      req.body.email,
       password:   hashedPass,
@@ -67,9 +71,13 @@ module.exports.register = async (req, res) => {
       birthdate:  req.body.birthdate || null,
     });
 
-    const token = authService.createToken(userObj.id);
-    const result = { user: userObj, token };
+    // (redis) create profile for user
+    await redisManager.setKey(`user-${ userObj.id }`, 0);
 
+    // create token for user
+    const token = authService.createToken(userObj.id);
+
+    const result = { user: userObj, token };
     return handlerFor.SUCCESS(res, 200, result, 'user is registered !');
   } catch (err) {
       return handlerFor.ERROR(res, err);
@@ -77,5 +85,14 @@ module.exports.register = async (req, res) => {
 
 }
 
+// const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+
+// console.log({ratingFromRedis});
+
+// const newProfile = new ProfileSchema({
+//   userId: req.params.id,
+//   rating: req.body.rating,
+// });
+// const createdProfile = await newProfile.save();
 
 module.exports.testJWT = (req, res) => handlerFor.STOPPER(res);

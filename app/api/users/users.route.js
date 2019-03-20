@@ -83,22 +83,28 @@ usersRoute.get('/:id/likes',
 
 // REDIS {
 
-// get total likes for user [ Redis ]
-usersRoute.get('/:id/rating',
+// synchronize raiting for user [ Sqlite & Redis ]
+usersRoute.post('/:id/redis-sync-sqlite',
   usersMiddleware.checkId,
-  usersController.getRating
+  usersController.synchronizeRating
 );
 
 // compare raiting for user [ Sqlite vs Redis ]
-usersRoute.get('/:id/redis-rating',
+usersRoute.get('/:id/redis-vs-sqlite',
   usersMiddleware.checkId,
   usersController.compareRating
 );
 
-// synchronize raiting for user [ Sqlite & Redis ]
-usersRoute.post('/:id/redis-rating',
-  usersMiddleware.checkId,
-  usersController.synchronizeRating
+// get total likes for user [ Redis ]
+usersRoute.get('/:id/redis-rating',
+  // usersMiddleware.checkId,
+  usersController.getRating
+);
+
+// delete rating for user [ Redis ]
+usersRoute.delete('/:id/redis-rating',
+  // usersMiddleware.checkId,
+  usersController.deleteUserRating
 );
 
 // } REDIS
