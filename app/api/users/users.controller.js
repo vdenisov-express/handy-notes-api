@@ -2,13 +2,13 @@ const authService = require('./../auth/auth.service');
 const handlerFor = require('./../../shared/handlers');
 
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
-const { RedisManager } = require('./../../../db/redis/redis-manager');
+const { RatingWorker } = require('./../../../db/redis/workers');
 const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel();
 const tableNotes = new NotesModel();
 const tableLikes = new LikesModel();
-const redisManager = new RedisManager();
+const workerRating = new RatingWorker();
 
 
 module.exports = {
@@ -76,7 +76,7 @@ module.exports = {
       await tableUsers.deleteById(userId);
 
       // (redis) delete rating for user
-      await redisManager.delKey(`user-${ userId }`);
+      await workerRating.delKeyById(userId);
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {
@@ -118,8 +118,8 @@ module.exports = {
 
     try {
       const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      redisManager.setKey(`user-${ userId }`, ratingFromSqlite);
-      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+      workerRating.setKeyById(userId, ratingFromSqlite)
+      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
 
       const data = { ratingFromSqlite, ratingFromRedis };
 
@@ -140,7 +140,7 @@ module.exports = {
 
     try {
       const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
 
       const data = { ratingFromSqlite, ratingFromRedis };
 
@@ -159,7 +159,7 @@ module.exports = {
     const userId = parseInt(req.params.id);
 
     try {
-      const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
+      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
       return handlerFor.SUCCESS(res, 200, { ratingFromRedis });
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -171,7 +171,7 @@ module.exports = {
     const userId = parseInt(req.params.id);
 
     try {
-      await redisManager.delKey(`user-${ userId }`);
+      await workerRating.delKeyById(userId);
       return handlerFor.SUCCESS(res, 200, null, 'rating is deleted !');
     } catch (err) {
       return handlerFor.ERROR(res, err);

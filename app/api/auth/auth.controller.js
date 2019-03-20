@@ -2,11 +2,11 @@ const authService = require('./auth.service');
 const handlerFor = require('./../../shared/handlers');
 
 const { UsersModel } = require('./../../../db/sqlite/models');
-const { RedisManager } = require('./../../../db/redis/redis-manager');
+const { RatingWorker } = require('./../../../db/redis/workers');
 const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel();
-const redisManager = new RedisManager();
+const workerRating = new RatingWorker();
 
 
 module.exports.login = async (req, res) => {
@@ -72,7 +72,8 @@ module.exports.register = async (req, res) => {
     });
 
     // (redis) create profile for user
-    await redisManager.setKey(`user-${ userObj.id }`, 0);
+    // await redisManager.setKeyById(userObj.id, 0);
+    await workerRating.setKeyById(userObj.id, 0);
 
     // create token for user
     const token = authService.createToken(userObj.id);
@@ -84,10 +85,6 @@ module.exports.register = async (req, res) => {
   }
 
 }
-
-// const ratingFromRedis = parseInt( await redisManager.getKey(`user-${ userId }`) );
-
-// console.log({ratingFromRedis});
 
 // const newProfile = new ProfileSchema({
 //   userId: req.params.id,
