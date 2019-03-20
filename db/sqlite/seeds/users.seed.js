@@ -38,15 +38,24 @@ Factory.define('User')
 module.exports.applyTo = (db) => {
 
   console.log('\n ##### Users seeds ##### \n');
-  const usersTotal = 4;
+  const usersTotal = 3;
 
-  for (let i = 0; i < usersTotal; i++) {
+  // // ITERATOR
+  // Array.from( Array(usersTotal).keys() )
+  const indexes = Array.from( new Array(usersTotal), (val,index)=>index+1 );
+
+  indexes.forEach(async (index) => {
     const newUser = Factory.build('User');
     delete newUser.id;
 
-    apiLink.post(`/auth/register`).send(newUser)
-      .end((err, res) => console.log(`#${i+1} => [${res.status}] ${res.body.message}`));
-  }
+    try {
+      const res = await apiLink.post(`/auth/register`).send(newUser);
+      const { user } = res.body.data;
+      console.log(`* ID (${user.id}) => [${res.status}] ${res.body.message}`);
+    } catch(err) {
+      console.log(err);
+    }
+  });
 
 }
 

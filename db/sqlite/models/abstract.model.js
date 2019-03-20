@@ -19,9 +19,11 @@ class AbstractModel {
     const creates = columns.join(', ');
     const questions = Array.from({length: values.length}, () => `(?)`);
 
-    const sql = `INSERT INTO ${ this.tableName } (${ creates }) VALUES (${ questions })`;
+    const sqlCreate = `INSERT INTO ${ this.tableName } (${ creates }) VALUES (${ questions })`;
+    this.database.run(sqlCreate, ...values);
 
-    return await this.database.runAsync(sql, ...values);
+    const sqlGetLast = `SELECT * FROM ${ this.tableName } WHERE RowID = (SELECT last_insert_rowid())`;
+    return await this.database.getAsync(sqlGetLast);
   }
 
   // READ

@@ -20,17 +20,17 @@ module.exports.login = async (req, res) => {
       return handlerFor.ERROR(res, err);
   }
 
-  const dataForLogin = req.body;
-
   // Password verification
-  const checkPass = authService.comparePasswords(dataForLogin.password, userObj.password);
+  const checkPass = authService.comparePasswords(req.body.password, userObj.password);
 
   if (!checkPass) {
     return handlerFor.ERROR_ON_AUTH(res, 'passwords don`t match, try again');
   }
 
   const token = authService.createToken(userObj.id);
-  return handlerFor.SUCCESS(res, 200, {token}, 'user is logged in !');
+  const result = { user: userObj, token };
+
+  return handlerFor.SUCCESS(res, 200, result, 'user is logged in !');
 }
 
 
@@ -57,18 +57,20 @@ module.exports.register = async (req, res) => {
   // Create hash from password
   const hashedPass = authService.createPasswordHash(req.body.password);
 
-  const dataForRegister = {
-    name:       req.body.name,
-    email:      req.body.email,
-    password:   hashedPass,
-
-    phone:      req.body.phone || null,
-    birthdate:  req.body.birthdate || null,
-  };
-
   try {
-    await tableUsers.create(dataForRegister);
-    return handlerFor.SUCCESS(res, 200, null, 'user is registered !');
+    const userObj = await tableUsers.create({
+      name:       req.body.name,
+      email:      req.body.email,
+      password:   hashedPass,
+
+      phone:      req.body.phone || null,
+      birthdate:  req.body.birthdate || null,
+    });
+
+    const token = authService.createToken(userObj.id);
+    const result = { user: userObj, token };
+
+    return handlerFor.SUCCESS(res, 200, result, 'user is registered !');
   } catch (err) {
       return handlerFor.ERROR(res, err);
   }
