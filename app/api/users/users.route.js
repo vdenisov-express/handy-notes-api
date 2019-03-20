@@ -2,6 +2,7 @@ const passport = require('passport');
 const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
+const authMiddleware = require('./../auth/middleware');
 const usersMiddleware = require('./../users/middleware');
 
 
@@ -55,6 +56,7 @@ usersRoute.get('/:id',
 usersRoute.patch('/:id',
   usersMiddleware.checkId,
   passport.authenticate('jwt', {session: false}),
+  authMiddleware.decodeToken,
   usersMiddleware.validateUpdating,
   usersController.updateById
 );

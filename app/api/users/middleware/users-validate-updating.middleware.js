@@ -4,7 +4,7 @@ const handlerFor = require('./../../../shared/handlers');
 
 const usersUpdateSchema = Joi.object().keys({
 
-  name: Joi.string().alphanum().min(3).max(30),
+  name: Joi.string().min(3).max(30),
 
   phone: Joi.string().regex(/^(8-?|\+?7-?)?(\(?\d{3}\)?)-?(\d-?){6}\d$/),
   // copied from http://regexlib.com/REDetails.aspx?regexp_id=3923

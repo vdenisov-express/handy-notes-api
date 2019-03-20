@@ -25,10 +25,10 @@ module.exports = {
   },
 
   async getById(req, res) {
-    const { id } = req.params;
+    const { id: userId } = req.params;
 
     try {
-      const userObj = await tableUsers.getById(id);
+      const userObj = await tableUsers.getById(userId);
       return handlerFor.SUCCESS(res, 200, userObj);
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -38,14 +38,10 @@ module.exports = {
   // UPDATE
 
   async updateById(req, res) {
-    const { id } = req.params;
+    const { id: userId } = req.params;
     const dataForUpdating = req.body;
 
-    const token = req.get('Authorization');
-    const infoFromToken = authService.verifyToken(token);
-    const { userId } = infoFromToken.data;
-
-    if (id !== userId) {
+    if (userId !== req.token.userId) {
       return handlerFor.ERROR_ON_PRIVILEGES(res);
     }
 
@@ -63,7 +59,7 @@ module.exports = {
     }
 
     try {
-      await tableUsers.updateById(333, dataForUpdating);
+      await tableUsers.updateById(userId, dataForUpdating);
       return handlerFor.SUCCESS(res, 200, null, 'user is updated !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
@@ -73,14 +69,14 @@ module.exports = {
   // DELETE
 
   async deleteById(req, res) {
-    const { id } = req.params;
+    const { id: userId } = req.params;
 
     try {
       // (sqlite) delete user from database
-      await tableUsers.deleteById(id);
+      await tableUsers.deleteById(userId);
 
       // (redis) delete rating for user
-      await redisManager.delKey(`user-${ id }`);
+      await redisManager.delKey(`user-${ userId }`);
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {
@@ -92,10 +88,10 @@ module.exports = {
 
   // get notes for user
   async getNotes(req, res) {
-    const { id } = req.params;
+    const { id: userId } = req.params;
 
     try {
-      const notesList = await tableNotes.filterByUserId(id);
+      const notesList = await tableNotes.filterByUserId(userId);
       return handlerFor.SUCCESS(res, 200, notesList);
     } catch (err) {
         return handlerFor.ERROR(res, err);
