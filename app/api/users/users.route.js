@@ -22,25 +22,25 @@ usersRoute.get('/profiles',
 
 // create user profile
 usersRoute.post('/:id/profile',
-  usersMiddleware.checkId,
+  // usersMiddleware.checkId,
   usersController.mongoCreateProfile
 );
 
 // get user profile
 usersRoute.get('/:id/profile',
-  usersMiddleware.checkId,
+  // usersMiddleware.checkId,
   usersController.mongoGetUserProfile
 );
 
 // update user profile
 usersRoute.patch('/:id/profile',
-  usersMiddleware.checkId,
+  // usersMiddleware.checkId,
   usersController.mongoUpdateUserProfile
 );
 
 // delete user profile
 usersRoute.delete('/:id/profile',
-  usersMiddleware.checkId,
+  // usersMiddleware.checkId,
   usersController.mongoRemoveUserProfile
 );
 

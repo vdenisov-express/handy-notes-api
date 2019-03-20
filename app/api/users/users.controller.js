@@ -75,8 +75,11 @@ module.exports = {
       // (sqlite) delete user from database
       await tableUsers.deleteById(userId);
 
-      // (redis) delete rating for user
+      // (redis) delete rating variable for user
       await workerRating.delKeyById(userId);
+
+      // (mongo) delete profile for user
+      await ProfileSchema.findOneAndDelete({ userId: req.params.id });
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {
@@ -239,8 +242,7 @@ module.exports = {
   // create user profile
   async mongoCreateProfile(req, res) {
     const newProfile = new ProfileSchema({
-      userId: req.params.id,
-      rating: req.body.rating,
+      userId: req.params.id
     });
 
     try {
@@ -271,7 +273,7 @@ module.exports = {
     try {
       const updatedProfile = await ProfileSchema.findOneAndUpdate(
         { userId: req.params.id },
-        { rating: req.body.rating },
+        { ratingByAllNotes: req.body.ratingByAllNotes },
         { new: true },
       );
       if (!updatedProfile) {
@@ -286,7 +288,7 @@ module.exports = {
   // delete user profile
   async mongoRemoveUserProfile(req, res) {
     try {
-      const removedProfile = await ProfileSchema.findOneAndRemove({
+      const removedProfile = await ProfileSchema.findOneAndDelete({
         userId: req.params.id
       });
       if (!removedProfile) {

@@ -9,6 +9,8 @@ const tableUsers = new UsersModel();
 const workerRating = new RatingWorker();
 
 
+// LOGIN ////////////////////////////////////////////////////////////////////////////////
+
 module.exports.login = async (req, res) => {
   let userObj;
 
@@ -36,6 +38,7 @@ module.exports.login = async (req, res) => {
   return handlerFor.SUCCESS(res, 200, result, 'user is logged in !');
 }
 
+// REGISTER ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.register = async (req, res) => {
   let userObj;
@@ -71,9 +74,12 @@ module.exports.register = async (req, res) => {
       birthdate:  req.body.birthdate || null,
     });
 
-    // (redis) create profile for user
+    // (redis) create rating variable for user
     // await redisManager.setKeyById(userObj.id, 0);
     await workerRating.setKeyById(userObj.id, 0);
+
+    // (mongo) create profile for user
+    await new ProfileSchema({ userId: userObj.id }).save();
 
     // create token for user
     const token = authService.createToken(userObj.id);
@@ -85,6 +91,8 @@ module.exports.register = async (req, res) => {
   }
 
 }
+
+// ... ////////////////////////////////////////////////////////////////////////////////
 
 // const newProfile = new ProfileSchema({
 //   userId: req.params.id,

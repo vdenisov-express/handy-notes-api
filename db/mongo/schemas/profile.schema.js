@@ -8,10 +8,6 @@ const ProfileSchema = new Schema({
     unique: true,
     index: true,
   },
-  rating: {
-    type: Number,
-    required: true,
-  },
   tags: {
     type: [{
       id: Number,
@@ -26,7 +22,19 @@ const ProfileSchema = new Schema({
       Users_id: Number,
     }],
     default: [],
-  }
+  },
+  ratingByAllNotes: {
+    type: Number,
+    default: 0,
+  },
+  ratingByLast10Notes: {
+    type: Number,
+    default: 0,
+  },
+  activityRate: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model('Profiles', ProfileSchema);
