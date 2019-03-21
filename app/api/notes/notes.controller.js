@@ -16,23 +16,26 @@ module.exports = {
   // CREATE
 
   async create(req, res) {
-    const newNote = {
-      title:    req.body.title,
-      text:     req.body.text,
-      Users_id: req.body.userId,
-    };
-
     try {
       // (sqlite) add note for user
-      await tableNotes.create(newNote);
+      const noteObj = await tableNotes.create({
+        title:    req.body.title,
+        text:     req.body.text,
+        Users_id: req.body.userId,
+      });
 
-      // (mongo) add note for user
-      await ProfileSchema.findOneAndUpdate(
-        { userId: req.body.userId },
-        { $addToSet: {last10Notes: newNote} },
-      );
+      // // TODO: uncomment this {
 
-      return handlerFor.SUCCESS(res, 200, null, 'note is created !');
+      // // (mongo) add note for user
+      // await ProfileSchema.findOneAndUpdate(
+      //   { userId: req.body.userId },
+      //   { $addToSet: {last10Notes: newNote} },
+      // );
+
+      // // } TODO: uncomment this
+
+      const result = { note: noteObj };
+      return handlerFor.SUCCESS(res, 200, result, 'note is created !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
@@ -108,6 +111,15 @@ module.exports = {
       );
 
       return handlerFor.SUCCESS(res, 200, null, 'note is deleted !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  async deleteAll(req, res) {
+    try {
+      await tableNotes.deleteAll();
+      return handlerFor.SUCCESS(res, 200, null, 'all notes was deleted !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }

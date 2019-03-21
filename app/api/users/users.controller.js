@@ -75,13 +75,26 @@ module.exports = {
       // (sqlite) delete user from database
       await tableUsers.deleteById(userId);
 
-      // (redis) delete rating variable for user
-      await workerRating.delKeyById(userId);
+      // // TODO: uncomment this {
 
-      // (mongo) delete profile for user
-      await ProfileSchema.findOneAndDelete({ userId: req.params.id });
+      // // (redis) delete rating variable for user
+      // await workerRating.delKeyById(userId);
+
+      // // (mongo) delete profile for user
+      // await ProfileSchema.findOneAndDelete({ userId: req.params.id });
+
+      // // } TODO: uncomment this
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  async deleteAll(req, res) {
+    try {
+      await tableUsers.deleteAll();
+      return handlerFor.SUCCESS(res, 200, null, 'all users were deleted !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }

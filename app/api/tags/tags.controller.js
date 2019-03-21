@@ -12,15 +12,13 @@ module.exports = {
   // CREATE
 
   async create(req, res) {
-    const reqBody = req.body;
-
-    const inputData = {
-      value:    `${ reqBody.value }`,
-    };
-
     try {
-      await tableTags.create(inputData);
-      return handlerFor.SUCCESS(res, 200, null, 'tag is created !');
+      const tagObj = await tableTags.create({
+        value: req.body.value
+      });
+
+      const result = { tag: tagObj };
+      return handlerFor.SUCCESS(res, 200, result, 'tag is created !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }
@@ -72,6 +70,15 @@ module.exports = {
     try {
       await tableTags.deleteById(id);
       return handlerFor.SUCCESS(res, 200, null, 'tag is deleted !');
+    } catch (err) {
+        return handlerFor.ERROR(res, err);
+    }
+  },
+
+  async deleteAll(req, res) {
+    try {
+      await tableTags.deleteAll();
+      return handlerFor.SUCCESS(res, 200, null, 'all tags were deleted !');
     } catch (err) {
         return handlerFor.ERROR(res, err);
     }

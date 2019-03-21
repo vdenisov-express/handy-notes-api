@@ -34,6 +34,10 @@ notesRoute.delete('/:id',
   notesController.deleteById
 );
 
+notesRoute.delete('/',
+  notesController.deleteAll
+);
+
 // ##################################################
 
 /* NOTES => LIKES */

@@ -1,42 +1,45 @@
+const Promise = require('bluebird');
+
+
 const { Factory } = require('rosie');
 const { LoremIpsum } = require('lorem-ipsum');
 
-const supertest = require('supertest');
-const apiLink = supertest('http://localhost:3000/api/v1');
-
 const lorem = new LoremIpsum({
-  sentencesPerParagraph: { min: 4, max: 8 },
   wordsPerSentence: { min: 4, max: 16 }
 });
 
 
 Factory.define('Note')
-  .sequence('id')
-  .option('defaultTitle', 'ABC')
-  .option('defaultText', 'abcdefghijklmnopqrstuvwxyz')
   // attributes
-  .attr('title', () => lorem.generateWords(2))
+  .attr('userId', 0)
+  .attr('title', () => lorem.generateWords(3).toLowerCase())
   .attr('text', () => lorem.generateSentences(3));
 
 
-module.exports.applyTo = (db) => {
+module.exports.apply = (apiLink, usersTotal, notesForEachUser) => {
 
   console.log('\n ##### Notes seeds ##### \n');
-  const usersTotal = 4;
-  const notesForEachUser = 2;
+  let counter = 0;
 
-  for (let i = 0; i < usersTotal; i++) {
-    console.log(`--- user #${i+1} ---`);
+  // ITERATOR for Users
+  const usersIndexes = Array.from( new Array(usersTotal), (val,index)=>index+1 );
 
-    for (let j = 0; j < notesForEachUser; j++) {
-      const newNote = Factory.build('Note');
-      delete newNote.id;
+  // ITERATOR for Notes
+  const notesIndexes = Array.from( new Array(notesForEachUser), (val,index)=>index+1 );
 
-      console.log('newNote =>', newNote);
-    }
+  return Promise.each(usersIndexes, (userIndex) => {
+    console.log(`\n---> user (${ userIndex })\n`);
 
-    // TODO: i need to create profile in "Mongo" and "Redis" after user register
-  }
+    return Promise.each(notesIndexes, (noteIndex) => {
+      const newNote = Factory.build('Note', {userId: userIndex});
+
+      return apiLink.post(`/notes`).send(newNote).then((res) => {
+        const { note } = res.body.data;
+        console.log(`§ {${ ++counter }} NOTES § [creation] => <${ res.status }> Users_id(${ note.Users_id }) Notes_id(${ note.id }) Notes_title("${ note.title }")`);
+      });
+    });
+
+  });
 
 }
 

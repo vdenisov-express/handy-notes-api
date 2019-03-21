@@ -67,6 +67,10 @@ usersRoute.delete('/:id',
   usersController.deleteById
 );
 
+usersRoute.delete('/',
+  usersController.deleteAll
+);
+
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */

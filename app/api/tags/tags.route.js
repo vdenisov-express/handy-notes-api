@@ -30,6 +30,10 @@ tagsRoute.delete('/:id',
   tagsController.deleteById
 );
 
+tagsRoute.delete('/',
+  tagsController.deleteAll
+);
+
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */

@@ -1,3 +1,6 @@
+const Promise = require('bluebird');
+
+
 const { Factory } = require('rosie');
 const RandExp = require('randexp');
 
@@ -7,14 +10,9 @@ moment.suppressDeprecationWarnings = true;
 const faker = require('faker');
 faker.locale = 'en';
 
-const supertest = require('supertest');
-const apiLink = supertest('http://localhost:3000/api/v1');
-
 
 Factory.define('User')
   .sequence('id')
-  .option('defaultName', 'Vladimir Denisov')
-  .option('defaultPassword', 'qwerty123')
   // attributes
   .attr('name', () => faker.name.firstName() + ' ' + faker.name.lastName())
   .attr('email', ['name'], (name) => {
@@ -22,7 +20,7 @@ Factory.define('User')
     const email = `${firstName.charAt(0)}.${lastName.slice(0,7)}@gmail.com`;
     return email;
   })
-  .attr('password', ['defaultPassword'], (defaultPassword) => defaultPassword)
+  .attr('password', 'qwerty123')
   .attr('phone', () => new RandExp(/^(8-|\+7-)(\(\d{3}\))-(\d){3}-(\d){2}-(\d){2}$/).gen())
   // .attr('birthdate', () => new RandExp(/^(0[1-9]|1[012])[./](0[1-9]|[12][0-9]|3[01])[./]20(15|16|17|18|19)$/).gen())
   .attr('birthdate', ['id'], (id) => {
@@ -35,26 +33,22 @@ Factory.define('User')
   });
 
 
-module.exports.applyTo = (db) => {
+module.exports.apply = (apiLink, usersTotal) => {
 
   console.log('\n ##### Users seeds ##### \n');
-  const usersTotal = 3;
+  let counter = 0;
 
-  // // ITERATOR
-  // Array.from( Array(usersTotal).keys() )
-  const indexes = Array.from( new Array(usersTotal), (val,index)=>index+1 );
+  // ITERATOR for Users
+  const usersIndexes = Array.from( new Array(usersTotal), (val,index)=>index+1 );
 
-  indexes.forEach(async (index) => {
+  return Promise.each(usersIndexes, (userIndex) => {
     const newUser = Factory.build('User');
     delete newUser.id;
 
-    try {
-      const res = await apiLink.post(`/auth/register`).send(newUser);
+    return apiLink.post(`/auth/register`).send(newUser).then((res) => {
       const { user } = res.body.data;
-      console.log(`* ID (${user.id}) => [${res.status}] ${res.body.message}`);
-    } catch(err) {
-      console.log(err);
-    }
+      console.log(`@ {${ ++counter }} USERS @ [registration] => <${ res.status }> Users_id(${ user.id }) Users_name("${ user.name }")`);
+    });
   });
 
 }

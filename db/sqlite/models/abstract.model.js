@@ -62,6 +62,11 @@ class AbstractModel {
     return await this.database.runAsync(sql);
   }
 
+  async deleteAll() {
+    const sql = `DELETE FROM ${ this.tableName }`;
+    return await this.database.runAsync(sql);
+  }
+
   // ADDITIONALLY
 
   // check id
