@@ -16,9 +16,13 @@ class LikesModel extends AbstractModel {
   }
 
   async filterUsersByIdOfLikedNote(noteId) {
-    const sql =  `SELECT Users.* FROM Likes
-                  INNER JOIN Users ON Likes.Users_id = Users.id
-                  WHERE Likes.Notes_id = ${noteId}`;
+    const sql =  `
+      WITH my_fans AS (
+        SELECT Users.* FROM Likes
+        INNER JOIN Users ON Likes.Users_id = Users.id
+        WHERE Likes.Notes_id = ${noteId}
+      ) SELECT id, name, email, phone, birthdate, notes_count from my_fans;
+    `;
     return await db.allAsync(sql);
   }
 

@@ -48,16 +48,16 @@ notesRoute.post('/:id/likes',
   notesController.addLikeToNote
 );
 
-// remove like from note
-notesRoute.delete('/:id/likes',
-  notesMiddleware.checkId,
-  notesController.removeLikeFromNote
-);
-
 // get user who liked this note
 notesRoute.get('/:id/likers',
   notesMiddleware.checkId,
   notesController.getLikers
+);
+
+// remove like from note
+notesRoute.delete('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.removeLikeFromNote
 );
 
 // ##################################################
