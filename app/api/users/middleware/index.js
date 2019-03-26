@@ -1,5 +1,5 @@
 module.exports = {
-  checkId:          require('./users-check-id.middleware'),
+  checkId: require('./users-check-id.middleware'),
 
-  validateUpdating: require('./users-validate-updating.middleware'),
-}
+  validateUpdating: require('./users-validate-updating.middleware')
+};

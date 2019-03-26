@@ -1,12 +1,11 @@
-const handlerFor = require('./../../api-shared/handlers');
-const { NotesModel } = require('./../notes.model');
+const handlerFor = require('./../../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
+const { NotesModel } = require('./../../../../db/sqlite/models');
 
-const tableNotes = new NotesModel();
-
+const tableNotes = new NotesModel(db);
 
 module.exports = (req, res, next) => {
-
   const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
@@ -20,13 +19,10 @@ module.exports = (req, res, next) => {
       if (noteObj) {
         req.params.id = searchId;
         next();
-      }
-
-      else {
+      } else {
         return handlerFor.ERROR_NOT_FOUND(res, 'note with this `id` not found !');
       }
     })
 
     .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
-
-}
+};

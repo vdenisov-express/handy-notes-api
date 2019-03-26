@@ -1,3 +1,3 @@
 module.exports = {
-  checkId: require('./notes-check-id.middleware'),
-}
+  checkId: require('./notes-check-id.middleware')
+};

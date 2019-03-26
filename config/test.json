@@ -6,13 +6,13 @@
     },
 
     "REDIS": {
-      "HOST": "redis-19213.c57.us-east-1-4.ec2.cloud.redislabs.com",
-      "PORT": 19213,
-      "PASS": "ONVvgbiDiEzW76lLSkP6dC1b92R2Q1gI"
+      "HOST": "redis-18627.c62.us-east-1-4.ec2.cloud.redislabs.com",
+      "PORT": 18627,
+      "PASS": "FP7gJo5DBgP5k8t6q3iqeTvQRn08L8Bi"
     },
 
     "MONGO": {
-      "": ""
+      "URL": "mongodb://admin:Kriogen531@ds151805.mlab.com:51805/test-memory"
     }
 
   },

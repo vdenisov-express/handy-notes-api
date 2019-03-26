@@ -1,12 +1,11 @@
-const handlerFor = require('./../../api-shared/handlers');
-const { UsersModel } = require('./../../users/users.model');
+const handlerFor = require('./../../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
+const { UsersModel } = require('./../../../../db/sqlite/models');
 
-const tableUsers = new UsersModel();
-
+const tableUsers = new UsersModel(db);
 
 module.exports = (req, res, next) => {
-
   const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
@@ -20,13 +19,10 @@ module.exports = (req, res, next) => {
       if (userObj) {
         req.params.id = searchId;
         next();
-      }
-
-      else {
+      } else {
         return handlerFor.ERROR_NOT_FOUND(res, 'user with this `id` not found !');
       }
     })
 
     .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
-
-}
+};

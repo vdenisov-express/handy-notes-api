@@ -1,10 +1,15 @@
 const authService = require('./auth.service');
-const handlerFor = require('./../api-shared/handlers');
-const { UsersModel } = require('./../users/users.model');
+const handlerFor = require('./../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
+const { UsersModel } = require('./../../../db/sqlite/models');
+const { RatingWorker } = require('./../../../db/redis/workers');
+const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
-const tableUsers = new UsersModel();
+const tableUsers = new UsersModel(db);
+const workerRating = new RatingWorker();
 
+// LOGIN ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.login = async (req, res) => {
   let userObj;
@@ -17,22 +22,23 @@ module.exports.login = async (req, res) => {
     }
     // } check email
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
 
-  const dataForLogin = req.body;
-
   // Password verification
-  const checkPass = authService.comparePasswords(dataForLogin.password, userObj.password);
+  const checkPass = authService.comparePasswords(req.body.password, userObj.password);
 
   if (!checkPass) {
     return handlerFor.ERROR_ON_AUTH(res, 'passwords don`t match, try again');
   }
 
   const token = authService.createToken(userObj.id);
-  return handlerFor.SUCCESS(res, 200, {token}, 'user is logged in !');
-}
+  const result = { user: userObj, token };
 
+  return handlerFor.SUCCESS(res, 200, result, 'user is logged in !');
+};
+
+// REGISTER ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.register = async (req, res) => {
   let userObj;
@@ -47,33 +53,42 @@ module.exports.register = async (req, res) => {
 
     // check email {
     userObj = await tableUsers.checkEmail(req.body.email);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    if (userObj) { return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use'); }
     // } check email
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
 
   // Create hash from password
   const hashedPass = authService.createPasswordHash(req.body.password);
 
-  const dataForRegister = {
-    name:       req.body.name,
-    email:      req.body.email,
-    password:   hashedPass,
-
-    phone:      req.body.phone || null,
-    birthdate:  req.body.birthdate || null,
-  };
-
   try {
-    await tableUsers.create(dataForRegister);
-    return handlerFor.SUCCESS(res, 200, null, 'user is registered !');
+    // (sqlite) create user
+    userObj = await tableUsers.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPass,
+
+      phone: req.body.phone || null,
+      birthdate: req.body.birthdate || null
+    });
+
+    // (redis) create rating variable for user
+    await workerRating.setKeyById(userObj.id, 0);
+
+    // (mongo) create profile for user
+    await new ProfileSchema({ userId: userObj.id }).save();
+
+    // create token for user
+    const token = authService.createToken(userObj.id);
+
+    const result = { user: userObj, token };
+    return handlerFor.SUCCESS(res, 200, result, 'user is registered !');
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
+};
 
-}
-
+// ... ////////////////////////////////////////////////////////////////////////////////
 
 module.exports.testJWT = (req, res) => handlerFor.STOPPER(res);

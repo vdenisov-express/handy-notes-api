@@ -1,14 +1,12 @@
 const cors = require('cors');
 const helmet = require('helmet');
 
-const initAPI  = require('./api/api.init');
+const initAPI = require('./api/api.init');
 const initSite = require('./site/site.init');
 const initSocket = require('./socket/socket.init');
 
-
 const app = require('express')();
 const server = require('http').Server(app);
-
 
 // CORS
 app.use(cors());
@@ -17,17 +15,19 @@ app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
-// connecting the API to the application
+// connecting databases
+require('@db-sqlite/sqlite.init');
+require('@db-redis/redis.init');
+require('@db-mongo/mongo.init');
+
+// connect features
 initAPI(app);
-console.log('* app => server API initialized');
-
-// connecting static pages to the application
 initSite(app);
-console.log('* app => static site initialized');
-
-// add socket connection to the application
 initSocket(server);
-console.log('* app => socket connection initialized');
 
+// handle error 404
+app.use('**', (req, res) => {
+  res.status(404).send('404 - Not Found :(');
+});
 
 module.exports = server;

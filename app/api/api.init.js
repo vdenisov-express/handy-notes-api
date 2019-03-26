@@ -13,12 +13,11 @@ const passport = require('passport');
 const authMiddleware = require('./auth/middleware');
 // } AUTH
 
-
-module.exports = function initialize(app) {
-
+module.exports = function initialize (app) {
   // API: config {
+  app.use(helmet());
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }) );
+  app.use(bodyParser.urlencoded({ extended: true }));
   // } API: config
 
   // AUTH: config {
@@ -31,4 +30,5 @@ module.exports = function initialize(app) {
   app.use('/api/v1', apiV1);
   // } API: routes
 
-}
+  console.log('* app => server API initialized');
+};

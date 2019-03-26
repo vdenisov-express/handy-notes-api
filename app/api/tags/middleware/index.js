@@ -1,3 +1,3 @@
 module.exports = {
-  checkId: require('./tags-check-id.middleware'),
-}
+  checkId: require('./tags-check-id.middleware')
+};

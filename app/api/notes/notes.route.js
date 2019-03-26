@@ -2,16 +2,16 @@ const passport = require('passport');
 const notesRoute = require('express').Router();
 const notesController = require('./notes.controller');
 
+const authMiddleware = require('./../auth/middleware');
 const notesMiddleware = require('./../notes/middleware');
-
 
 /* BASE CRUD */
 
 // CREATE
-notesRoute.post('/',      notesController.create);
+notesRoute.post('/', notesController.create);
 
 // READ
-notesRoute.get('/',       notesController.getAll);
+notesRoute.get('/', notesController.getAll);
 
 // READ
 notesRoute.get('/:id',
@@ -22,7 +22,8 @@ notesRoute.get('/:id',
 // UPDATE
 notesRoute.patch('/:id',
   notesMiddleware.checkId,
-  passport.authenticate('jwt', {session: false}),
+  passport.authenticate('jwt', { session: false }),
+  authMiddleware.decodeToken,
   notesController.updateById
 );
 
@@ -30,6 +31,10 @@ notesRoute.patch('/:id',
 notesRoute.delete('/:id',
   notesMiddleware.checkId,
   notesController.deleteById
+);
+
+notesRoute.delete('/',
+  notesController.deleteAll
 );
 
 // ##################################################
@@ -42,16 +47,16 @@ notesRoute.post('/:id/likes',
   notesController.addLikeToNote
 );
 
-// remove like from note
-notesRoute.delete('/:id/likes',
-  notesMiddleware.checkId,
-  notesController.removeLikeFromNote
-);
-
 // get user who liked this note
 notesRoute.get('/:id/likers',
   notesMiddleware.checkId,
   notesController.getLikers
+);
+
+// remove like from note
+notesRoute.delete('/:id/likes',
+  notesMiddleware.checkId,
+  notesController.removeLikeFromNote
 );
 
 // ##################################################
@@ -61,7 +66,8 @@ notesRoute.get('/:id/likers',
 // attach tag to note
 notesRoute.post('/:id/tags',
   notesMiddleware.checkId,
-  passport.authenticate('jwt', {session: false}),
+  passport.authenticate('jwt', { session: false }),
+  authMiddleware.decodeToken,
   notesController.attachTag
 );
 
@@ -74,11 +80,11 @@ notesRoute.get('/:id/tags',
 // detach tag from note
 notesRoute.delete('/:id/tags',
   notesMiddleware.checkId,
-  passport.authenticate('jwt', {session: false}),
+  passport.authenticate('jwt', { session: false }),
+  authMiddleware.decodeToken,
   notesController.detachTag
 );
 
 // ##################################################
-
 
 module.exports = { notesRoute };

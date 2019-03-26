@@ -3,14 +3,13 @@ const tagsController = require('./tags.controller');
 
 const tagsMiddleware = require('./../tags/middleware');
 
-
 /* BASE CRUD */
 
 // CREATE
-tagsRoute.post('/',      tagsController.create);
+tagsRoute.post('/', tagsController.create);
 
 // READ
-tagsRoute.get('/',       tagsController.getAll);
+tagsRoute.get('/', tagsController.getAll);
 
 // READ
 tagsRoute.get('/:id',
@@ -30,6 +29,10 @@ tagsRoute.delete('/:id',
   tagsController.deleteById
 );
 
+tagsRoute.delete('/',
+  tagsController.deleteAll
+);
+
 // ##################################################
 
 /* ADDITIONAL FUNCTIONALITY */
@@ -41,6 +44,5 @@ tagsRoute.get('/:id/notes',
 );
 
 // ##################################################
-
 
 module.exports = { tagsRoute };
