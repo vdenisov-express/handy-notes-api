@@ -1,8 +1,9 @@
 const handlerFor = require('./../../../shared/handlers');
+
+const { db } = require('@db-sqlite/sqlite.init');
 const { NotesModel } = require('./../../../../db/sqlite/models');
 
-
-const tableNotes = new NotesModel();
+const tableNotes = new NotesModel(db);
 
 
 module.exports = (req, res, next) => {

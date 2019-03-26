@@ -1,10 +1,11 @@
 const handlerFor = require('./../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
 const { TagsModel, NotesTagsModel } = require('./../../../db/sqlite/models');
 
 
-const tableTags = new TagsModel();
-const tableNotesTags = new NotesTagsModel();
+const tableTags = new TagsModel(db);
+const tableNotesTags = new NotesTagsModel(db);
 
 
 module.exports = {

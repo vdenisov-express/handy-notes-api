@@ -1,13 +1,14 @@
-const authService = require('./../auth/auth.service');
 const handlerFor = require('./../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
 const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/models');
 const { RatingWorker } = require('./../../../db/redis/workers');
 const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
-const tableUsers = new UsersModel();
-const tableNotes = new NotesModel();
-const tableLikes = new LikesModel();
+
+const tableUsers = new UsersModel(db);
+const tableNotes = new NotesModel(db);
+const tableLikes = new LikesModel(db);
 const workerRating = new RatingWorker();
 
 

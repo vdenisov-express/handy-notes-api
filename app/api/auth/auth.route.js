@@ -21,4 +21,4 @@ authRoute.get('/testJWT',
 );
 
 
-module.exports = authRoute;
+module.exports = { authRoute };

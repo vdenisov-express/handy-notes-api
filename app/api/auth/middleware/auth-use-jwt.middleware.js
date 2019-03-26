@@ -2,9 +2,10 @@ const config = require('config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 
 const APP_CONFIG = config.get('APP');
+const { db } = require('@db-sqlite/sqlite.init');
 const { UsersModel } = require('./../../../../db/sqlite/models');
 
-const tableUsers = new UsersModel();
+const tableUsers = new UsersModel(db);
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

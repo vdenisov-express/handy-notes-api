@@ -1,7 +1,7 @@
 class AbstractModel {
 
-  constructor(dbConnection, tableName) {
-    this.database = dbConnection;
+  constructor(database, tableName) {
+    this.database = database;
     this.tableName = tableName;
   }
 

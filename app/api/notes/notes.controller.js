@@ -1,13 +1,15 @@
 const handlerFor = require('./../../shared/handlers');
 
+const { db } = require('@db-sqlite/sqlite.init');
 const { NotesModel, TagsModel, LikesModel, NotesTagsModel } = require('./../../../db/sqlite/models');
 const { RatingWorker } = require('./../../../db/redis/workers');
 const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
-const tableNotes = new NotesModel();
-const tableTags = new TagsModel();
-const tableLikes = new LikesModel();
-const tableNotesTags = new NotesTagsModel();
+
+const tableNotes = new NotesModel(db);
+const tableTags = new TagsModel(db);
+const tableLikes = new LikesModel(db);
+const tableNotesTags = new NotesTagsModel(db);
 const workerRating = new RatingWorker();
 
 
