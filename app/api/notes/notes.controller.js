@@ -26,15 +26,13 @@ module.exports = {
         Users_id: req.body.userId,
       });
 
-      // // TODO: uncomment this {
+      // // TODO: uncomment this
 
       // // (mongo) add note for user
       // await ProfileSchema.findOneAndUpdate(
       //   { userId: req.body.userId },
       //   { $addToSet: {last10Notes: newNote} },
       // );
-
-      // // } TODO: uncomment this
 
       const result = { note: noteObj };
       return handlerFor.SUCCESS(res, 200, result, 'note is created !');
@@ -106,11 +104,13 @@ module.exports = {
       // (sqlite) delete user's note
       await tableNotes.deleteById(noteId);
 
-      // (mongo) add note for user
-      await ProfileSchema.findOneAndUpdate(
-        { userId: String(noteObj.Users_id) },
-        { $pull: {last10Notes: {title: noteObj.title}} },
-      );
+      // // TODO: uncomment this
+
+      // // (mongo) add note for user
+      // await ProfileSchema.findOneAndUpdate(
+      //   { userId: String(noteObj.Users_id) },
+      //   { $pull: {last10Notes: {title: noteObj.title}} },
+      // );
 
       return handlerFor.SUCCESS(res, 200, null, 'note is deleted !');
     } catch (err) {
@@ -141,9 +141,13 @@ module.exports = {
       // sqlite
       await tableLikes.create(inputData);
       const { Users_id: ownerId } = await tableNotes.getById(noteId);
-      // redis
-      let ratingFromRedis = parseInt( await workerRating.getKeyById(ownerId) );
-      await workerRating.setKeyById(ownerId, ratingFromRedis + 1);
+
+      // // TODO: uncomment this
+
+      // // redis
+      // let ratingFromRedis = parseInt( await workerRating.getKeyById(ownerId) );
+      // await workerRating.setKeyById(ownerId, ratingFromRedis + 1);
+
       // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is added !');
     } catch (err) {
@@ -160,9 +164,13 @@ module.exports = {
       // sqlite
       await tableLikes.deleteByUniquePairOfIds(userId, noteId);
       const { Users_id: ownerId } = await tableNotes.getById(noteId);
-      // redis
-      let ratingFromRedis = parseInt( await workerRating.getKeyById(ownerId) );
-      await workerRating.setKeyById(ownerId, ratingFromRedis - 1);
+
+      // // TODO: uncomment this
+
+      // // redis
+      // let ratingFromRedis = parseInt( await workerRating.getKeyById(ownerId) );
+      // await workerRating.setKeyById(ownerId, ratingFromRedis - 1);
+
       // ...
       return handlerFor.SUCCESS(res, 200, null, 'like is removed !');
     } catch (err) {
@@ -210,11 +218,13 @@ module.exports = {
         Tags_id: tagId,
       });
 
-      // (mongo) attach tag
-      await ProfileSchema.findOneAndUpdate(
-        { userId: req.token.userId },
-        { $addToSet: {tags: tagObj} },
-      );
+      // // TODO: uncomment this
+
+      // // (mongo) attach tag
+      // await ProfileSchema.findOneAndUpdate(
+      //   { userId: req.token.userId },
+      //   { $addToSet: {tags: tagObj} },
+      // );
 
       return handlerFor.SUCCESS(res, 200, null, 'tag is attached !');
     } catch (err) {
@@ -260,11 +270,13 @@ module.exports = {
 
       // if none of user's notes contain this tag - delete it from mongo profile
       if (!isTagInUserNotes) {
-        // (mongo) detach tag
-        await ProfileSchema.findOneAndUpdate(
-          { userId: req.token.userId },
-          { $pull: {tags: {value: tagObj.value}} },
-        );
+        // // TODO: uncomment this
+
+        // // (mongo) detach tag
+        // await ProfileSchema.findOneAndUpdate(
+        //   { userId: req.token.userId },
+        //   { $pull: {tags: {value: tagObj.value}} },
+        // );
       }
 
       return handlerFor.SUCCESS(res, 200, null, 'tag is detached !');

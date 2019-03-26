@@ -76,15 +76,13 @@ module.exports = {
       // (sqlite) delete user from database
       await tableUsers.deleteById(userId);
 
-      // // TODO: uncomment this {
+      // // TODO: uncomment this
 
       // // (redis) delete rating variable for user
       // await workerRating.delKeyById(userId);
 
       // // (mongo) delete profile for user
       // await ProfileSchema.findOneAndDelete({ userId: req.params.id });
-
-      // // } TODO: uncomment this
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {

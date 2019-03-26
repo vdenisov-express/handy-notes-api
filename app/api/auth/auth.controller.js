@@ -75,15 +75,13 @@ module.exports.register = async (req, res) => {
       birthdate:  req.body.birthdate || null,
     });
 
-    // // TODO: uncomment this {
+    // // TODO: uncomment this
 
     // // (redis) create rating variable for user
     // await workerRating.setKeyById(userObj.id, 0);
 
     // // (mongo) create profile for user
     // await new ProfileSchema({ userId: userObj.id }).save();
-
-    // // } TODO: uncomment this
 
     // create token for user
     const token = authService.createToken(userObj.id);
