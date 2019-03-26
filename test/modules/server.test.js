@@ -1,7 +1,7 @@
+const { it } = require('mocha');
 const { assert } = require('chai');
+
 const supertest = require('supertest');
-
-
 const request = supertest('http://localhost:3000');
 
 it('GET / should return status 404', (done) => {

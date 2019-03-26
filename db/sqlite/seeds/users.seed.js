@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
 
-
 const { Factory } = require('rosie');
 const RandExp = require('randexp');
 
@@ -10,14 +9,13 @@ moment.suppressDeprecationWarnings = true;
 const faker = require('faker');
 faker.locale = 'en';
 
-
 Factory.define('User')
   .sequence('id')
   // attributes
   .attr('name', () => faker.name.firstName() + ' ' + faker.name.lastName())
   .attr('email', ['name'], (name) => {
     const [firstName, lastName] = name.toLowerCase().replace(/'/g, '').split(' ');
-    const email = `${firstName.charAt(0)}.${lastName.slice(0,7)}@gmail.com`;
+    const email = `${firstName.charAt(0)}.${lastName.slice(0, 7)}@gmail.com`;
     return email;
   })
   .attr('password', 'qwerty123')
@@ -26,20 +24,18 @@ Factory.define('User')
   .attr('birthdate', ['id'], (id) => {
     const dateSeveralDaysAgo = moment().subtract(365 - id, 'days').calendar();
     // format definition
-    const dateInterim = moment(dateSeveralDaysAgo, "MM/DD/YYYY");
+    const dateInterim = moment(dateSeveralDaysAgo, 'MM/DD/YYYY');
     // reformatting
-    const dateFormatted = moment(dateInterim).format("DD.MM.YYYY");
+    const dateFormatted = moment(dateInterim).format('DD.MM.YYYY');
     return dateFormatted;
   });
 
-
 module.exports.apply = (apiLink, usersTotal) => {
-
   console.log('\n ##### Users seeds ##### \n');
   let counter = 0;
 
   // ITERATOR for Users
-  const usersIndexes = Array.from( new Array(usersTotal), (val,index)=>index+1 );
+  const usersIndexes = Array.from(new Array(usersTotal), (val, index) => index + 1);
 
   return Promise.each(usersIndexes, (userIndex) => {
     const newUser = Factory.build('User');
@@ -47,12 +43,10 @@ module.exports.apply = (apiLink, usersTotal) => {
 
     return apiLink.post(`/auth/register`).send(newUser).then((res) => {
       const { user } = res.body.data;
-      console.log(`@ {${ ++counter }} USERS @ [registration] => <${ res.status }> Users_id(${ user.id }) Users_name("${ user.name }")`);
+      console.log(`@ {${++counter}} USERS @ [registration] => <${res.status}> Users_id(${user.id}) Users_name("${user.name}")`);
     });
   });
-
-}
-
+};
 
 // // ============
 // // old sql seed

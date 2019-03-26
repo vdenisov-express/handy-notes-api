@@ -6,5 +6,5 @@ module.exports = {
   TagsModel: require('./tags.model').TagsModel,
 
   LikesModel: require('./likes.model').LikesModel,
-  NotesTagsModel: require('./notes-tags.model').NotesTagsModel,
-}
+  NotesTagsModel: require('./notes-tags.model').NotesTagsModel
+};

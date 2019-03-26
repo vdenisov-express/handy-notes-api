@@ -1,23 +1,21 @@
 const { AbstractModel } = require('./abstract.model');
 
-
 class NotesModel extends AbstractModel {
-
-  constructor(db) {
+  constructor (db) {
     super(db, 'Notes');
   }
 
-  async filterByUserId(id) {
+  async filterByUserId (id) {
     const sql = `SELECT * FROM Notes WHERE Users_id = ${id}`;
-    return await this.database.allAsync(sql);
+    return this.database.allAsync(sql);
   }
 
-  async getSumLikesForNotesByUserId(userId) {
+  async getSumLikesForNotesByUserId (userId) {
     const sql = `SELECT SUM(likes_count) AS "rating" FROM Notes WHERE Users_id = ${userId}`;
-    return await this.database.getAsync(sql);
+    return this.database.getAsync(sql);
   }
 
-  async getTagsForNotesByUserId(userId) {
+  async getTagsForNotesByUserId (userId) {
     const sql = `
       SELECT DISTINCT Tags.* FROM Notes
         INNER JOIN NotesTags ON NotesTags.Notes_id = Notes.id
@@ -25,15 +23,15 @@ class NotesModel extends AbstractModel {
       WHERE Notes.Users_id = ${userId} ORDER BY Tags.id ASC;
     `;
 
-    return await this.database.allAsync(sql);
+    return this.database.allAsync(sql);
   }
 
-  async getLimitedNumberOfLastUserNotes(userId, limit) {
+  async getLimitedNumberOfLastUserNotes (userId, limit) {
     const sql = `SELECT * FROM Notes WHERE Users_id = ${userId} LIMIT ${limit}`;
-    return await this.database.allAsync(sql);
+    return this.database.allAsync(sql);
   }
 
-  async getTotalRatingAmongAllUsersByLikes() {
+  async getTotalRatingAmongAllUsersByLikes () {
     const sql = `
       SELECT
         Users.id,
@@ -46,10 +44,8 @@ class NotesModel extends AbstractModel {
       GROUP BY Users.id
       ORDER BY "rating" DESC;
     `;
-    return await this.database.allAsync(sql);
+    return this.database.allAsync(sql);
   }
-
 }
-
 
 module.exports = { NotesModel };

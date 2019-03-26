@@ -1,18 +1,16 @@
 const Promise = require('bluebird');
 
-
 module.exports.apply = (apiLink, mockNotesTags) => {
-
   console.log('\n ##### NotesTags seeds ##### \n');
   let counter = 0;
   let res = null;
 
   return Promise.each(mockNotesTags, async (mockNoteTag) => {
     const { noteId, tagsIds } = mockNoteTag;
-    console.log(`\n---> note (${ noteId })\n`);
+    console.log(`\n---> note (${noteId})\n`);
 
     // Step 1: get (id) of author of this note
-    res = await apiLink.get(`/notes/${noteId}`)
+    res = await apiLink.get(`/notes/${noteId}`);
     const { Users_id: userId } = res.body.data;
     // ---
 
@@ -28,17 +26,12 @@ module.exports.apply = (apiLink, mockNotesTags) => {
     // ---
 
     return Promise.each(tagsIds, (tagId) => {
-
       return apiLink.post(`/notes/${noteId}/tags`).set({ Authorization: userToken }).send({ tagId }).then((res) => {
-        console.log(`§+# {${ ++counter }} NOTES-TAGS => <${ res.status }> Notes_id(${ noteId }) Tags_id(${ tagId })`);
+        console.log(`§+# {${++counter}} NOTES-TAGS => <${res.status}> Notes_id(${noteId}) Tags_id(${tagId})`);
       });
-
     });
-
   });
-
-}
-
+};
 
 // // ============
 // // old sql seed

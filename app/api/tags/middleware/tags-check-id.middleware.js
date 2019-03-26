@@ -3,12 +3,9 @@ const handlerFor = require('./../../../shared/handlers');
 const { db } = require('@db-sqlite/sqlite.init');
 const { TagsModel } = require('./../../../../db/sqlite/models');
 
-
 const tableTags = new TagsModel(db);
 
-
 module.exports = (req, res, next) => {
-
   const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
@@ -22,13 +19,10 @@ module.exports = (req, res, next) => {
       if (tagObj) {
         req.params.id = searchId;
         next();
-      }
-
-      else {
+      } else {
         return handlerFor.ERROR_NOT_FOUND(res, 'tag with this `id` not found !');
       }
     })
 
     .catch(err => handlerFor.ERROR_ON_DATABASE(res, err));
-
-}
+};

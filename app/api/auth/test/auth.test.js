@@ -1,18 +1,15 @@
+const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const supertest = require('supertest');
-
 
 const apiLink = supertest('http://localhost:3000/api/v1');
 const mockAuth = require('./auth.mock.json');
 
-
 const globalStorage = {
-  token: null,
+  token: null
 };
 
-
 describe('Auth', () => {
-
   it('POST /auth/register => should register new user', async () => {
     // execute query
     const res = await apiLink
@@ -44,12 +41,9 @@ describe('Auth', () => {
     // save token to object "globalStorage"
     globalStorage.token = res.body.data.token;
   });
-
 });
 
-
 describe('Token', () => {
-
   it('GET /auth/testJWT [without token] => should error `Unauthorized`', async () => {
     // execute query
     const res = await apiLink
@@ -84,21 +78,17 @@ describe('Token', () => {
     expect(res).to.have.property('text');
     expect(res.text).to.equal('All is okay ;)');
   });
-
 });
 
-
 describe('< delete useless data >', () => {
-
   it('=> delete useless user', async () => {
     // execute query
     const res = await apiLink
-      .delete(`/users/${ mockAuth.userId }`);
+      .delete(`/users/${mockAuth.userId}`);
 
     // check response
     expect(res.status).to.equal(200, 'res.status');
     expect(res.body).to.have.property('message');
     expect(res.body.message).to.equal('user is deleted !');
   });
-
 });

@@ -3,12 +3,11 @@ const handlerFor = require('./../../shared/handlers');
 
 const { db } = require('@db-sqlite/sqlite.init');
 const { UsersModel } = require('./../../../db/sqlite/models');
-const { RatingWorker } = require('./../../../db/redis/workers');
-const { ProfileSchema } = require('./../../../db/mongo/schemas');
+// const { RatingWorker } = require('./../../../db/redis/workers');
+// const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel(db);
-const workerRating = new RatingWorker();
-
+// const workerRating = new RatingWorker();
 
 // LOGIN ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +22,7 @@ module.exports.login = async (req, res) => {
     }
     // } check email
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
 
   // Password verification
@@ -37,7 +36,7 @@ module.exports.login = async (req, res) => {
   const result = { user: userObj, token };
 
   return handlerFor.SUCCESS(res, 200, result, 'user is logged in !');
-}
+};
 
 // REGISTER ////////////////////////////////////////////////////////////////////////////////
 
@@ -54,11 +53,10 @@ module.exports.register = async (req, res) => {
 
     // check email {
     userObj = await tableUsers.checkEmail(req.body.email);
-    if (userObj)
-      return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use');
+    if (userObj) { return handlerFor.ERROR_ON_VALIDATION(res, 'this `email` is already in use'); }
     // } check email
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
 
   // Create hash from password
@@ -67,12 +65,12 @@ module.exports.register = async (req, res) => {
   try {
     // (sqlite) create user
     userObj = await tableUsers.create({
-      name:       req.body.name,
-      email:      req.body.email,
-      password:   hashedPass,
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPass,
 
-      phone:      req.body.phone || null,
-      birthdate:  req.body.birthdate || null,
+      phone: req.body.phone || null,
+      birthdate: req.body.birthdate || null
     });
 
     // // TODO: uncomment this
@@ -89,10 +87,9 @@ module.exports.register = async (req, res) => {
     const result = { user: userObj, token };
     return handlerFor.SUCCESS(res, 200, result, 'user is registered !');
   } catch (err) {
-      return handlerFor.ERROR(res, err);
+    return handlerFor.ERROR(res, err);
   }
-
-}
+};
 
 // ... ////////////////////////////////////////////////////////////////////////////////
 

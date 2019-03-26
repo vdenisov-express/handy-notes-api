@@ -5,40 +5,38 @@ const { UsersModel, NotesModel, LikesModel } = require('./../../../db/sqlite/mod
 const { RatingWorker } = require('./../../../db/redis/workers');
 const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
-
 const tableUsers = new UsersModel(db);
 const tableNotes = new NotesModel(db);
 const tableLikes = new LikesModel(db);
 const workerRating = new RatingWorker();
 
-
 module.exports = {
 
   // READ
 
-  async getAll(req, res) {
+  async getAll (req, res) {
     try {
       const usersList = await tableUsers.getAll();
       return handlerFor.SUCCESS(res, 200, usersList);
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
-  async getById(req, res) {
+  async getById (req, res) {
     const { id: userId } = req.params;
 
     try {
       const userObj = await tableUsers.getById(userId);
       return handlerFor.SUCCESS(res, 200, userObj);
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // UPDATE
 
-  async updateById(req, res) {
+  async updateById (req, res) {
     const { id: userId } = req.params;
     const dataForUpdating = req.body;
 
@@ -55,7 +53,7 @@ module.exports = {
         }
         // } check name
       } catch (err) {
-          return handlerFor.ERROR(res, err);
+        return handlerFor.ERROR(res, err);
       }
     }
 
@@ -63,13 +61,13 @@ module.exports = {
       await tableUsers.updateById(userId, dataForUpdating);
       return handlerFor.SUCCESS(res, 200, null, 'user is updated !');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // DELETE
 
-  async deleteById(req, res) {
+  async deleteById (req, res) {
     const { id: userId } = req.params;
 
     try {
@@ -86,55 +84,55 @@ module.exports = {
 
       return handlerFor.SUCCESS(res, 200, null, 'user is deleted !');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
-  async deleteAll(req, res) {
+  async deleteAll (req, res) {
     try {
       await tableUsers.deleteAll();
       return handlerFor.SUCCESS(res, 200, null, 'all users were deleted !');
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // ##################################################
 
   // get notes for user
-  async getNotes(req, res) {
+  async getNotes (req, res) {
     const { id: userId } = req.params;
 
     try {
       const notesList = await tableNotes.filterByUserId(userId);
       return handlerFor.SUCCESS(res, 200, notesList);
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // get notes that user likes
-  async getLikedNotes(req, res) {
+  async getLikedNotes (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
       const notesList = await tableLikes.filterNotesByLikedCondition(userId);
       return handlerFor.SUCCESS(res, 200, notesList);
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // REDIS {
 
   // synchronize raiting for user [ Sqlite & Redis ]
-  async synchronizeRating(req, res) {
+  async synchronizeRating (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
       const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      workerRating.setKeyById(userId, ratingFromSqlite)
-      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
+      workerRating.setKeyById(userId, ratingFromSqlite);
+      const ratingFromRedis = parseInt(await workerRating.getKeyById(userId));
 
       const data = { ratingFromSqlite, ratingFromRedis };
 
@@ -146,16 +144,15 @@ module.exports = {
     } catch (err) {
       return handlerFor.ERROR(res, err);
     }
-
   },
 
   // compare raiting for user [ Sqlite vs Redis ]
-  async compareRating(req, res) {
+  async compareRating (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
       const { rating: ratingFromSqlite } = await tableNotes.getSumLikesForNotesByUserId(userId);
-      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
+      const ratingFromRedis = parseInt(await workerRating.getKeyById(userId));
 
       const data = { ratingFromSqlite, ratingFromRedis };
 
@@ -170,19 +167,19 @@ module.exports = {
   },
 
   // get total likes for user [ Redis ]
-  async getRating(req, res) {
+  async getRating (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
-      const ratingFromRedis = parseInt( await workerRating.getKeyById(userId) );
+      const ratingFromRedis = parseInt(await workerRating.getKeyById(userId));
       return handlerFor.SUCCESS(res, 200, { ratingFromRedis });
     } catch (err) {
-        return handlerFor.ERROR(res, err);
+      return handlerFor.ERROR(res, err);
     }
   },
 
   // delete rating for user [ Redis ]
-  async deleteUserRating(req, res) {
+  async deleteUserRating (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
@@ -198,7 +195,7 @@ module.exports = {
   // STATISTIC {
 
   // get tags for all user notes
-  async getTagsForNotes(req, res) {
+  async getTagsForNotes (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
@@ -210,7 +207,7 @@ module.exports = {
   },
 
   // get last notes for user
-  async getLastNotes(req, res) {
+  async getLastNotes (req, res) {
     const userId = parseInt(req.params.id);
     const limit = parseInt(req.query.limit) || 10;
 
@@ -223,7 +220,7 @@ module.exports = {
   },
 
   // get rating among all users
-  async getTotalRating(req, res) {
+  async getTotalRating (req, res) {
     const userId = parseInt(req.params.id);
 
     try {
@@ -242,7 +239,7 @@ module.exports = {
   // MONGO {
 
   // get all profiles
-  async mongoGetAllProfiles(req, res) {
+  async mongoGetAllProfiles (req, res) {
     try {
       const profilesList = await ProfileSchema.find({});
       return handlerFor.SUCCESS(res, 200, profilesList);
@@ -252,7 +249,7 @@ module.exports = {
   },
 
   // create user profile
-  async mongoCreateProfile(req, res) {
+  async mongoCreateProfile (req, res) {
     const newProfile = new ProfileSchema({
       userId: req.params.id
     });
@@ -266,7 +263,7 @@ module.exports = {
   },
 
   // get user profile
-  async mongoGetUserProfile(req, res) {
+  async mongoGetUserProfile (req, res) {
     try {
       const dataProfile = await ProfileSchema.findOne({
         userId: req.params.id
@@ -281,12 +278,12 @@ module.exports = {
   },
 
   // update user profile
-  async mongoUpdateUserProfile(req, res) {
+  async mongoUpdateUserProfile (req, res) {
     try {
       const updatedProfile = await ProfileSchema.findOneAndUpdate(
         { userId: req.params.id },
         { ratingByAllNotes: req.body.ratingByAllNotes },
-        { new: true },
+        { new: true }
       );
       if (!updatedProfile) {
         return handlerFor.ERROR_NOT_FOUND(res, 'profile not found !');
@@ -298,7 +295,7 @@ module.exports = {
   },
 
   // delete user profile
-  async mongoRemoveUserProfile(req, res) {
+  async mongoRemoveUserProfile (req, res) {
     try {
       const removedProfile = await ProfileSchema.findOneAndDelete({
         userId: req.params.id
@@ -310,8 +307,8 @@ module.exports = {
     } catch (err) {
       return handlerFor.ERROR(res, err);
     }
-  },
+  }
 
   // } MONGO
 
-}
+};

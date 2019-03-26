@@ -1,8 +1,7 @@
 const cool = require('cool-ascii-faces');
-const random_name = require('node-random-name');
+const randomName = require('node-random-name');
 
-
-module.exports = function initialize(server) {
+module.exports = function initialize (server) {
   const io = require('socket.io')(server);
 
   io.on('connection', client => {
@@ -13,7 +12,7 @@ module.exports = function initialize(server) {
       client.emit('signup', {
         id: ++i,
         face: cool(),
-        name: random_name(),
+        name: randomName()
       });
     }, 1000);
 
@@ -23,4 +22,4 @@ module.exports = function initialize(server) {
   });
 
   console.log('* app => socket connection initialized');
-}
+};

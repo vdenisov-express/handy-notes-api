@@ -22,7 +22,7 @@ db.serialize(() => {
 
   db.get('PRAGMA foreign_keys', (err, res) => {
     if (err) throw err;
-    console.log(`* db Sqlite => connected !\n(foreign keys ${ res.foreign_keys ? 'enabled' : 'disabled' })`);
+    console.log(`* db Sqlite => connected !\n(foreign keys ${res.foreign_keys ? 'enabled' : 'disabled'})`);
   });
 });
 

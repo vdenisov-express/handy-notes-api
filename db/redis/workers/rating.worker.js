@@ -1,13 +1,9 @@
 const { AbstractWorker } = require('./abstract.worker');
 
-
 class RatingWorker extends AbstractWorker {
-
-  constructor() {
+  constructor () {
     super('rating');
   }
-
 }
-
 
 module.exports = { RatingWorker };

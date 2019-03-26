@@ -1,29 +1,26 @@
 const { redisClient } = require('./../redis.init');
 
-
 class AbstractWorker {
   // read more: https://redis.io/commands#generic
 
-  constructor(nameOfKeysGroup) {
+  constructor (nameOfKeysGroup) {
     this.group = nameOfKeysGroup;
   }
 
-  async getKeyById(id) {
+  async getKeyById (id) {
     const uniqueKey = `${this.group}-${id}`;
-    return await redisClient.getAsync(uniqueKey);
+    return redisClient.getAsync(uniqueKey);
   }
 
-  async setKeyById(id, value) {
+  async setKeyById (id, value) {
     const uniqueKey = `${this.group}-${id}`;
-    return await redisClient.setAsync(uniqueKey, value);
+    return redisClient.setAsync(uniqueKey, value);
   }
 
-  async delKeyById(id) {
+  async delKeyById (id) {
     const uniqueKey = `${this.group}-${id}`;
-    return await redisClient.delAsync(uniqueKey);
+    return redisClient.delAsync(uniqueKey);
   }
-
 }
-
 
 module.exports = { AbstractWorker };

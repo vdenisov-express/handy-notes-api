@@ -1,14 +1,12 @@
 const cors = require('cors');
 const helmet = require('helmet');
 
-const initAPI  = require('./api/api.init');
+const initAPI = require('./api/api.init');
 const initSite = require('./site/site.init');
 const initSocket = require('./socket/socket.init');
 
-
 const app = require('express')();
 const server = require('http').Server(app);
-
 
 // CORS
 app.use(cors());
@@ -31,6 +29,5 @@ initSocket(server);
 app.use('**', (req, res) => {
   res.status(404).send('404 - Not Found :(');
 });
-
 
 module.exports = server;

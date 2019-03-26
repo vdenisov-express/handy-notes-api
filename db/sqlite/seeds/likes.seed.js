@@ -1,28 +1,20 @@
 const Promise = require('bluebird');
 
-
 module.exports.apply = (apiLink, mockLikes) => {
-
   console.log('\n ##### Likes seeds ##### \n');
   let counter = 0;
-  let res = null;
 
   return Promise.each(mockLikes, async (mockLike) => {
     const { noteId, usersIds } = mockLike;
-    console.log(`\n---> note (${ noteId })\n`);
+    console.log(`\n---> note (${noteId})\n`);
 
     return Promise.each(usersIds, (userId) => {
-
       return apiLink.post(`/notes/${noteId}/likes`).send({ userId }).then((res) => {
-        console.log(`@+§ {${ ++counter }} LIKES => <${ res.status }> Notes_id(${ noteId }) Users_id(${ userId })`);
+        console.log(`@+§ {${++counter}} LIKES => <${res.status}> Notes_id(${noteId}) Users_id(${userId})`);
       });
-
     });
-
   });
-
-}
-
+};
 
 // // ============
 // // old sql seed

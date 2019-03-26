@@ -1,3 +1,3 @@
 module.exports = {
-  ProfileSchema: require('./profile.schema'),
-}
+  ProfileSchema: require('./profile.schema')
+};

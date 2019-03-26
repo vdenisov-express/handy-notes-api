@@ -5,7 +5,6 @@ const usersController = require('./users.controller');
 const authMiddleware = require('./../auth/middleware');
 const usersMiddleware = require('./../users/middleware');
 
-
 /* BASE CRUD */
 
 // READ
@@ -55,7 +54,7 @@ usersRoute.get('/:id',
 // UPDATE
 usersRoute.patch('/:id',
   usersMiddleware.checkId,
-  passport.authenticate('jwt', {session: false}),
+  passport.authenticate('jwt', { session: false }),
   authMiddleware.decodeToken,
   usersMiddleware.validateUpdating,
   usersController.updateById
@@ -138,6 +137,5 @@ usersRoute.get('/:id/total-rating',
 // } STATISTIC
 
 // ##################################################
-
 
 module.exports = { usersRoute };

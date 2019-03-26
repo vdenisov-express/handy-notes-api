@@ -1,16 +1,14 @@
 const path = require('path');
-const exphbs  = require('express-handlebars');
+const exphbs = require('express-handlebars');
 const express = require('express');
 
-
-module.exports = function initialize(app) {
-
+module.exports = function initialize (app) {
   // handlebars: configs {
 
   const hbsConfig = exphbs.create({
     layoutsDir: path.join(__dirname, 'views/layouts'),
     defaultLayout: 'main',
-    extname: '.hbs',
+    extname: '.hbs'
   });
 
   app.engine('.hbs', hbsConfig.engine);
@@ -43,7 +41,4 @@ module.exports = function initialize(app) {
   // } pages: routes
 
   console.log('* app => static site initialized');
-
-}
-
-
+};

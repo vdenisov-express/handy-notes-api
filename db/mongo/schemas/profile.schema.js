@@ -6,35 +6,35 @@ const ProfileSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    index: true,
+    index: true
   },
   tags: {
     type: [{
       id: Number,
-      value: String,
+      value: String
     }],
-    default: [],
+    default: []
   },
   last10Notes: {
     type: [{
       title: String,
       text: String,
-      Users_id: Number,
+      Users_id: Number
     }],
-    default: [],
+    default: []
   },
   ratingByAllNotes: {
     type: Number,
-    default: 0,
+    default: 0
   },
   ratingByLast10Notes: {
     type: Number,
-    default: 0,
+    default: 0
   },
   activityRate: {
     type: Number,
-    default: 0,
-  },
+    default: 0
+  }
 });
 
 module.exports = mongoose.model('Profiles', ProfileSchema);

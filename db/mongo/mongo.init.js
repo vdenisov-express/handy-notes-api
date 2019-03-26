@@ -6,10 +6,10 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
 mongoose
-  .connect(MONGO_CONFIG.URL, {useNewUrlParser: true})
+  .connect(MONGO_CONFIG.URL, { useNewUrlParser: true })
   .then(() => console.log('* db Mongo => connected !'))
   .catch(() => console.log('* db Mongo => error !!!'));
 
 const mongoClient = mongoose.connection;
 
-module.exports = { mongoClient }
+module.exports = { mongoClient };
