@@ -10,36 +10,36 @@ const globalStorage = { token: null };
 
 describe('< create needed data >', () => {
 
-  it('=> register user (for creating notes)', (done) => {
-    apiLink
+  it('=> register user (for creating notes)', async () => {
+    // execute query
+    const res = await apiLink
       .post(`/auth/register`)
-      .send(mockUsers.dataForRegister)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('user is registered !');
-        done(err);
-      });
+      .send(mockUsers.dataForRegister);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('user is registered !');
   });
 
-  it('=> login user (for getting token)', (done) => {
-    apiLink
+  it('=> login user (for getting token)', async () => {
+    // execute query
+    const res = await apiLink
       .post(`/auth/login`)
-      .send(mockUsers.dataForLogin)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
+      .send(mockUsers.dataForLogin);
 
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('user is logged in !');
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
 
-        expect(res.body).to.have.property('data');
-        expect(res.body.data).to.have.property('token');
-        expect(res.body.data.token).to.be.a('string');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('user is logged in !');
 
-        // save token to object "globalStorage"
-        globalStorage.token = res.body.data.token;
-        done(err);
-      });
+    expect(res.body).to.have.property('data');
+    expect(res.body.data).to.have.property('token');
+    expect(res.body.data.token).to.be.a('string');
+
+    // save token to object "globalStorage"
+    globalStorage.token = res.body.data.token;
   });
 
 });
@@ -47,61 +47,61 @@ describe('< create needed data >', () => {
 
 describe('Notes:basic', () => {
 
-  it('POST /notes => should create new note', (done) => {
-    apiLink
+  it('POST /notes => should create new note', async () => {
+    // execute query
+    const res = await apiLink
       .post(`/notes`)
-      .send(mockNotes.dataForCreating)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('note is created !');
-        done(err);
-      });
+      .send(mockNotes.dataForCreating);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('note is created !');
   });
 
-  it('GET /notes => should return all notes', (done) => {
-    apiLink
-      .get(`/notes`)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('data');
-        expect(res.body).to.have.property('total');
-        done(err);
-      });
+  it('GET /notes => should return all notes', async () => {
+    // execute query
+    const res = await apiLink
+      .get(`/notes`);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('data');
+    expect(res.body).to.have.property('total');
   });
 
-  it('GET /notes/:id => should return note with id === (:id)', (done) => {
-    apiLink
-      .get(`/notes/${ mockNotes.id }`)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('data');
-        done(err);
-      });
+  it('GET /notes/:id => should return note with id === (:id)', async () => {
+    // execute query
+    const res = await apiLink
+      .get(`/notes/${ mockNotes.id }`);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('data');
   });
 
-  it('(token) PATCH /notes/:id => should update note with id === (:id)', (done) => {
-    apiLink
+  it('(token) PATCH /notes/:id => should update note with id === (:id)', async () => {
+    // execute query
+    const res = await apiLink
       .patch(`/notes/${ mockNotes.id }`)
       .set({ Authorization: globalStorage.token })
-      .send(mockNotes.dataForUpdating)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('note is updated !');
-        done(err);
-      });
+      .send(mockNotes.dataForUpdating);
+
+
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('note is updated !');
   });
 
-  it('DELETE /notes/:id => should delete note with id === (:id)', (done) => {
-    apiLink
-      .delete(`/notes/${ mockNotes.id }`)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('note is deleted !');
-        done(err);
-      });
+  it('DELETE /notes/:id => should delete note with id === (:id)', async () => {
+    // execute query
+    const res = await apiLink
+      .delete(`/notes/${ mockNotes.id }`);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('note is deleted !');
   });
 
 });
@@ -109,15 +109,15 @@ describe('Notes:basic', () => {
 
 describe('< delete useless data >', () => {
 
-  it('=> delete useless user', (done) => {
-    apiLink
-      .delete(`/users/${ mockUsers.id }`)
-      .end((err, res) => {
-        expect(res.status).to.equal(200, 'res.status');
-        expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('user is deleted !');
-        done(err);
-      });
+  it('=> delete useless user', async () => {
+    // execute query
+    const res = await apiLink
+      .delete(`/users/${ mockUsers.id }`);
+
+    // check response
+    expect(res.status).to.equal(200, 'res.status');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('user is deleted !');
   });
 
 });
