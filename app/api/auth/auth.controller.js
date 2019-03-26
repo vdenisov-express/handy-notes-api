@@ -3,11 +3,11 @@ const handlerFor = require('./../../shared/handlers');
 
 const { db } = require('@db-sqlite/sqlite.init');
 const { UsersModel } = require('./../../../db/sqlite/models');
-// const { RatingWorker } = require('./../../../db/redis/workers');
-// const { ProfileSchema } = require('./../../../db/mongo/schemas');
+const { RatingWorker } = require('./../../../db/redis/workers');
+const { ProfileSchema } = require('./../../../db/mongo/schemas');
 
 const tableUsers = new UsersModel(db);
-// const workerRating = new RatingWorker();
+const workerRating = new RatingWorker();
 
 // LOGIN ////////////////////////////////////////////////////////////////////////////////
 
@@ -73,13 +73,11 @@ module.exports.register = async (req, res) => {
       birthdate: req.body.birthdate || null
     });
 
-    // // TODO: uncomment this
+    // (redis) create rating variable for user
+    await workerRating.setKeyById(userObj.id, 0);
 
-    // // (redis) create rating variable for user
-    // await workerRating.setKeyById(userObj.id, 0);
-
-    // // (mongo) create profile for user
-    // await new ProfileSchema({ userId: userObj.id }).save();
+    // (mongo) create profile for user
+    await new ProfileSchema({ userId: userObj.id }).save();
 
     // create token for user
     const token = authService.createToken(userObj.id);
@@ -92,11 +90,5 @@ module.exports.register = async (req, res) => {
 };
 
 // ... ////////////////////////////////////////////////////////////////////////////////
-
-// const newProfile = new ProfileSchema({
-//   userId: req.params.id,
-//   rating: req.body.rating,
-// });
-// const createdProfile = await newProfile.save();
 
 module.exports.testJWT = (req, res) => handlerFor.STOPPER(res);
