@@ -1,11 +1,10 @@
-const handlerFor = require('./../../../shared/handlers');
-
+const handlerFor = require('./../../shared/handlers');
 const { db } = require('@db-sqlite/sqlite.init');
-const { TagsModel } = require('./../../../../db/sqlite/models');
+const { TagsModel } = require('./../../../db/sqlite/models');
 
 const tableTags = new TagsModel(db);
 
-module.exports = (req, res, next) => {
+module.exports.checkId = (req, res, next) => {
   const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
