@@ -1,8 +1,8 @@
 const { describe } = require('mocha');
 
-describe.only(`\n### AUTH ###\n`, () => { require('./../../app/api/auth/auth.test'); });
+describe(`\n### AUTH ###\n`, () => { require('./../../app/api/auth/auth.test'); });
 
-describe(`\n### USERS ###\n`, () => { require('./../../app/api/users/test/users.test'); });
+describe.only(`\n### USERS ###\n`, () => { require('./../../app/api/users/users.test'); });
 
 describe(`\n### NOTES ###\n`, () => { require('./../../app/api/notes/test/notes.test'); });
 

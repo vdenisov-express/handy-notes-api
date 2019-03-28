@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 
 const apiLink = supertest('http://localhost:3000/api');
-const mockUsers = require('./../../users/test/users.mock.json');
+const mockUsers = require('./../../users/users.mock.json');
 const mockNotes = require('./../../notes/test/notes.mock.json');
 const mockTags = require('./tags.mock.json');
 const globalStorage = { token: null };
