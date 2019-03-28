@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const supertest = require('supertest');
 
-const apiLink = supertest('http://localhost:3000/api/v1');
+const apiLink = supertest('http://localhost:3000/api');
 const mockUsers = require('./users.mock.json');
 const globalStorage = { token: null };
 

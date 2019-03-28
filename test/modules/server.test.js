@@ -15,9 +15,9 @@ it('GET / should return status 404', (done) => {
     });
 });
 
-it('GET /api/v1 should return status 200', (done) => {
+it('GET /api should return status 200', (done) => {
   request
-    .get('/api/v1')
+    .get('/api')
     .end((err, res) => {
       assert.equal(res.status, 200);
       assert.typeOf(res.text, 'string');

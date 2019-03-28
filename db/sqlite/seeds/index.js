@@ -10,7 +10,7 @@ const seedsForTags = require('./tags.seed');
 const seedsForNotesTags = require('./notes-tags.seed');
 const seedsForLikes = require('./likes.seed');
 
-const apiLink = supertest('http://localhost:3000/api/v1');
+const apiLink = supertest('http://localhost:3000/api');
 
 const mocks = {
   usersTotal: 4,
