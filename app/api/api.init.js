@@ -10,7 +10,7 @@ const { apiV1 } = require('./api.route');
 
 // AUTH {
 const passport = require('passport');
-const authMiddleware = require('./auth/middleware');
+const authMiddleware = require('./auth/auth.middleware');
 // } AUTH
 
 module.exports = function initialize (app) {
