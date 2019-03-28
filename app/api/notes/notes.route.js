@@ -1,17 +1,21 @@
 const passport = require('passport');
 const notesRoute = require('express').Router();
-const notesController = require('./notes.controller');
 
 const authMiddleware = require('./../auth/auth.middleware');
-const notesMiddleware = require('./../notes/middleware');
+const notesMiddleware = require('./notes.middleware');
+const notesController = require('./notes.controller');
 
 /* BASE CRUD */
 
 // CREATE
-notesRoute.post('/', notesController.create);
+notesRoute.post('/',
+  notesController.create
+);
 
 // READ
-notesRoute.get('/', notesController.getAll);
+notesRoute.get('/',
+  notesController.getAll
+);
 
 // READ
 notesRoute.get('/:id',
