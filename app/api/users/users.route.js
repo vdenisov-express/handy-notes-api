@@ -3,7 +3,7 @@ const usersRoute = require('express').Router();
 const usersController = require('./users.controller');
 
 const authMiddleware = require('./../auth/auth.middleware');
-const usersMiddleware = require('./../users/middleware');
+const usersMiddleware = require('./users.middleware');
 
 /* BASE CRUD */
 
