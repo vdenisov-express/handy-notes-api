@@ -4,7 +4,7 @@ const supertest = require('supertest');
 
 const apiLink = supertest('http://localhost:3000/api');
 const mockUsers = require('./../../users/users.mock.json');
-const mockNotes = require('./../../notes/test/notes.mock.json');
+const mockNotes = require('./../../notes/notes.mock.json');
 const mockTags = require('./tags.mock.json');
 const globalStorage = { token: null };
 
