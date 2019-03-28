@@ -1,6 +1,6 @@
 const { describe } = require('mocha');
 
-describe(`\n### AUTH ###\n`, () => { require('./../../app/api/auth/test/auth.test'); });
+describe.only(`\n### AUTH ###\n`, () => { require('./../../app/api/auth/auth.test'); });
 
 describe(`\n### USERS ###\n`, () => { require('./../../app/api/users/test/users.test'); });
 
