@@ -1,6 +1,10 @@
 # Copied from GitHub:
 # https://github.com/github/gitignore/blob/master/Node.gitignore
 
+# CUSTOM {
+*.sqlite
+.DS_Store
+# } CUSTOM
 
 # Logs
 logs

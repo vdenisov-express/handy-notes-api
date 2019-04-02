@@ -1,0 +1,22 @@
+{
+
+  "id": 1,
+
+  "dataForRegister": {
+    "name": "Vladimir Denisov",
+    "email": "v.denisov@gmail.com",
+    "password": "qwerty123",
+    "phone": "8-(938)-147-57-47",
+    "birthdate": "24.04.1997"
+  },
+
+  "dataForLogin": {
+    "email": "v.denisov@gmail.com",
+    "password": "qwerty123"
+  },
+
+  "dataForUpdating": {
+    "name": "John Green"
+  }
+
+}

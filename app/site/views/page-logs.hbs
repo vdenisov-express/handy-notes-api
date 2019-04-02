@@ -1,0 +1,41 @@
+<h4>Table of new users</h4>
+
+<table id="table-of-users" border="1">
+  <tr>
+    <th>ID</th>
+    <th>Photo</th>
+    <th>Name</th>
+  </tr>
+</table>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  const socket = io('http://localhost:3000');
+
+  socket.on('connect', () => {
+    console.log('Connection with server is established!');
+  });
+
+  const usersTable = document.getElementById('table-of-users')
+
+  socket.on('signup', user => {
+    const new_tr = document.createElement('tr');
+
+    const td_number = document.createElement('td');
+    td_number.innerText = user.id;
+    console.log('user.id =>', user.id);
+    new_tr.appendChild(td_number);
+
+    const td_face = document.createElement('td');
+    td_face.innerText = user.face;
+    new_tr.appendChild(td_face);
+
+    const td_name = document.createElement('td');
+    td_name.innerText = user.name;
+    new_tr.appendChild(td_name);
+
+    usersTable.appendChild(new_tr);
+  });
+</script>

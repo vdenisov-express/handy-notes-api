@@ -13,3 +13,6 @@ tools/node-lint-md-cli-rollup/dist
 benchmark/tmp
 doc/**/*.js
 !.eslintrc.js
+
+# custom settings
+db/sqlite/migrations/*.js

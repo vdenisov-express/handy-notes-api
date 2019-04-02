@@ -1,0 +1,13 @@
+{
+
+  "id": 1,
+
+  "dataForCreating": {
+    "value": "work"
+  },
+
+  "dataForUpdating": {
+    "value": "home"
+  }
+
+}

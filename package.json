@@ -1,11 +1,74 @@
 {
+  ">>> PART #1 <<<": "========================= BASIC INFO =========================",
   "name": "lds-project-notes",
   "version": "1.0.0",
-  "description": "Training project \"Notes\"",
-  "main": "index.js",
+  "description": "Training project Notes",
+  "main": "bin/www.js",
+  ">>> PART #2 <<<": "========================= SCRIPTS ============================",
   "scripts": {
-    "start": "node index.js"
+    "start:dev": "npm run db:dev:restart && cross-env NODE_ENV=dev nodemon bin/www.js",
+    "start:test": "npm run db:test:restart && cross-env NODE_ENV=test nodemon bin/www.js",
+    "-------------------------------": "------------------------------",
+    "test": "mocha test/",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "--------------------------------": "------------------------------",
+    "db:dev:up": "cd ./db/sqlite && db-migrate up",
+    "db:dev:reset": "cd ./db/sqlite && db-migrate reset",
+    "db:dev:restart": "npm run db:dev:reset && npm run db:dev:up",
+    "db:dev:seeds": "cross-env NODE_ENV=dev && node ./db/sqlite/seeds",
+    "---------------------------------": "------------------------------",
+    "db:test:up": "cd ./db/sqlite && db-migrate up -e test",
+    "db:test:reset": "cd ./db/sqlite && db-migrate reset -e test",
+    "db:test:restart": "npm run db:test:reset && npm run db:test:up"
   },
+  ">>> PART #3 <<<": "========================= DEPENDENCIES =======================",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "colors": "^1.3.3",
+    "config": "^3.0.1",
+    "cool-ascii-faces": "^1.3.4",
+    "cors": "^2.8.5",
+    "db-migrate": "^0.11.5",
+    "db-migrate-sqlite3": "^0.3.1",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "faker": "^4.1.0",
+    "helmet": "^3.15.1",
+    "joi": "^14.3.1",
+    "joi-date-extensions": "^1.2.0",
+    "jsonwebtoken": "^8.5.0",
+    "lorem-ipsum": "^2.0.0",
+    "module-alias": "^2.2.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.19",
+    "node-random-name": "^1.0.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "randexp": "^0.5.3",
+    "redis": "^2.8.0",
+    "rosie": "^2.0.1",
+    "socket.io": "^2.2.0",
+    "sqlite3": "^4.0.6",
+    "swagger-ui-express": "^4.0.2"
+  },
+  ">>> PART #4 <<<": "========================= DEV-DEPENDENCIES ===================",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.15.3",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^6.0.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
+  },
+  ">>> PART #5 <<<": "========================= EXTRA INFO =========================",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vdenisov-dev/lds-project-notes.git"
@@ -16,7 +79,11 @@
     "url": "https://github.com/vdenisov-dev/lds-project-notes/issues"
   },
   "homepage": "https://github.com/vdenisov-dev/lds-project-notes#readme",
-  "dependencies": {
-    "express": "^4.16.4"
-  }
+  ">>> PART #6 <<<": "========================= ALIASES ============================",
+  "_moduleAliases": {
+    "@db-sqlite": "./db/sqlite",
+    "@db-redis": "./db/redis",
+    "@db-mongo": "./db/mongo"
+  },
+  ">>> PART #7 <<<": "========================= THE END ============================"
 }
