@@ -1,4 +1,5 @@
 {
+  "MODE": "test",
   "DATABASE": {
 
     "SQLITE": {

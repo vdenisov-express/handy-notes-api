@@ -1,15 +1,19 @@
 const tagsRoute = require('express').Router();
-const tagsController = require('./tags.controller');
 
-const tagsMiddleware = require('./../tags/middleware');
+const tagsMiddleware = require('./tags.middleware');
+const tagsController = require('./tags.controller');
 
 /* BASE CRUD */
 
 // CREATE
-tagsRoute.post('/', tagsController.create);
+tagsRoute.post('/',
+  tagsController.create
+);
 
 // READ
-tagsRoute.get('/', tagsController.getAll);
+tagsRoute.get('/',
+  tagsController.getAll
+);
 
 // READ
 tagsRoute.get('/:id',

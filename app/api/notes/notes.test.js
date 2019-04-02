@@ -2,10 +2,9 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const supertest = require('supertest');
 
-const apiLink = supertest('http://localhost:3000/api/v1');
-const mockUsers = require('./../../users/test/users.mock.json');
-const mockNotes = require('./../../notes/test/notes.mock.json');
-const mockTags = require('./tags.mock.json');
+const apiLink = supertest('http://localhost:3000/api');
+const mockUsers = require('./../users/users.mock.json');
+const mockNotes = require('./notes.mock.json');
 const globalStorage = { token: null };
 
 describe('< create needed data >', () => {
@@ -40,8 +39,10 @@ describe('< create needed data >', () => {
     // save token to object "globalStorage"
     globalStorage.token = res.body.data.token;
   });
+});
 
-  it('=> create note for tags', async () => {
+describe('Notes:basic', () => {
+  it('POST /notes => should create new note', async () => {
     // execute query
     const res = await apiLink
       .post(`/notes`)
@@ -52,25 +53,11 @@ describe('< create needed data >', () => {
     expect(res.body).to.have.property('message');
     expect(res.body.message).to.equal('note is created !');
   });
-});
 
-describe('Tags:basic', () => {
-  it('POST /tags => should create new tag', async () => {
+  it('GET /notes => should return all notes', async () => {
     // execute query
     const res = await apiLink
-      .post(`/tags`)
-      .send(mockTags.dataForCreating);
-
-    // check response
-    expect(res.status).to.equal(200, 'res.status');
-    expect(res.body).to.have.property('message');
-    expect(res.body.message).to.equal('tag is created !');
-  });
-
-  it('GET /tags => should return all tags', async () => {
-    // execute query
-    const res = await apiLink
-      .get(`/tags`);
+      .get(`/notes`);
 
     // check response
     expect(res.status).to.equal(200, 'res.status');
@@ -78,42 +65,29 @@ describe('Tags:basic', () => {
     expect(res.body).to.have.property('total');
   });
 
-  it('GET /tags/:id => should return tag with id === (:id)', async () => {
+  it('GET /notes/:id => should return note with id === (:id)', async () => {
     // execute query
     const res = await apiLink
-      .get(`/tags/${mockTags.id}`);
+      .get(`/notes/${mockNotes.id}`);
 
     // check response
     expect(res.status).to.equal(200, 'res.status');
     expect(res.body).to.have.property('data');
   });
 
-  it('PATCH /tags/:id => should update tag with id === (:id)', async () => {
+  it('(token) PATCH /notes/:id => should update note with id === (:id)', async () => {
     // execute query
     const res = await apiLink
-      .patch(`/tags/${mockTags.id}`)
-      .send(mockTags.dataForUpdating);
+      .patch(`/notes/${mockNotes.id}`)
+      .set({ Authorization: globalStorage.token })
+      .send(mockNotes.dataForUpdating);
 
-    // check response
     expect(res.status).to.equal(200, 'res.status');
     expect(res.body).to.have.property('message');
-    expect(res.body.message).to.equal('tag is updated !');
+    expect(res.body.message).to.equal('note is updated !');
   });
 
-  it('DELETE /tags/:id => should delete tag with id === (:id)', async () => {
-    // execute query
-    const res = await apiLink
-      .delete(`/tags/${mockTags.id}`);
-
-    // check response
-    expect(res.status).to.equal(200, 'res.status');
-    expect(res.body).to.have.property('message');
-    expect(res.body.message).to.equal('tag is deleted !');
-  });
-});
-
-describe('< delete useless data >', () => {
-  it('=> delete useless note', async () => {
+  it('DELETE /notes/:id => should delete note with id === (:id)', async () => {
     // execute query
     const res = await apiLink
       .delete(`/notes/${mockNotes.id}`);
@@ -123,7 +97,9 @@ describe('< delete useless data >', () => {
     expect(res.body).to.have.property('message');
     expect(res.body.message).to.equal('note is deleted !');
   });
+});
 
+describe('< delete useless data >', () => {
   it('=> delete useless user', async () => {
     // execute query
     const res = await apiLink

@@ -1,26 +1,25 @@
-const handlerFor = require('./../../../shared/handlers');
-
+const handlerFor = require('./../../shared/handlers');
 const { db } = require('@db-sqlite/sqlite.init');
-const { TagsModel } = require('./../../../../db/sqlite/models');
+const { NotesModel } = require('./../../../db/sqlite/models');
 
-const tableTags = new TagsModel(db);
+const tableNotes = new NotesModel(db);
 
-module.exports = (req, res, next) => {
+module.exports.checkId = (req, res, next) => {
   const searchId = parseInt(req.params.id);
 
   if (isNaN(searchId)) {
     return handlerFor.ERROR_ON_VALIDATION(res, 'this `id` is invalid !');
   }
 
-  tableTags
+  tableNotes
     .checkId(req.params.id)
 
-    .then(tagObj => {
-      if (tagObj) {
+    .then(noteObj => {
+      if (noteObj) {
         req.params.id = searchId;
         next();
       } else {
-        return handlerFor.ERROR_NOT_FOUND(res, 'tag with this `id` not found !');
+        return handlerFor.ERROR_NOT_FOUND(res, 'note with this `id` not found !');
       }
     })
 

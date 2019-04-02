@@ -6,8 +6,8 @@
   "main": "bin/www.js",
   ">>> PART #2 <<<": "========================= SCRIPTS ============================",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=dev && npm run db:dev:restart && nodemon bin/www.js",
-    "start:test": "cross-env NODE_ENV=test && npm run db:test:restart && nodemon bin/www.js",
+    "start:dev": "npm run db:dev:restart && cross-env NODE_ENV=dev nodemon bin/www.js",
+    "start:test": "npm run db:test:restart && cross-env NODE_ENV=test nodemon bin/www.js",
     "-------------------------------": "------------------------------",
     "test": "mocha test/",
     "lint": "eslint .",

@@ -10,7 +10,7 @@ const { apiV1 } = require('./api.route');
 
 // AUTH {
 const passport = require('passport');
-const authMiddleware = require('./auth/middleware');
+const authMiddleware = require('./auth/auth.middleware');
 // } AUTH
 
 module.exports = function initialize (app) {
@@ -26,8 +26,8 @@ module.exports = function initialize (app) {
   // } AUTH: config
 
   // API: routes {
-  app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  app.use('/api/v1', apiV1);
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.use('/api', apiV1);
   // } API: routes
 
   console.log('* app => server API initialized');
